@@ -1,0 +1,22 @@
+version: 3
+
+tasks:
+  dart:init:
+    cmds:
+      - cd ./packages/dart_frog_cli && dart pub get
+      - cd ./bricks/create_dart_frog/hooks && dart pub get
+    silent: true
+
+  mason:bundle:templates:
+    cmds:
+      # bundle templates
+      - >
+        mason bundle \
+          -s git git@github.com:abes140377/yade-project-generator-cli \
+          --git-path bricks/create_dart_frog \
+          -t dart \
+          -o packages/dart_frog_cli/lib/src/commands/create/templates
+      # format
+      - dart format ./packages/dart_frog_cli
+    silent: true
+

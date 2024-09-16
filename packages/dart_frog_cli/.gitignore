@@ -1,0 +1,14 @@
+# See https://www.dartlang.org/guides/libraries/private-files
+
+# Files and directories created by pub
+.dart_tool/
+.packages
+pubspec.lock
+
+# Test related files
+coverage/
+
+build
+
+!lib/src/commands/build/
+!test/src/commands/build/
