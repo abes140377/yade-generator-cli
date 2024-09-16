@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
-import 'package:yade_cli/src/commands/commands.dart';
 import 'package:mason/mason.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
+import 'package:yade_cli/src/commands/commands.dart';
 
 class _MockArgResults extends Mock implements ArgResults {}
 

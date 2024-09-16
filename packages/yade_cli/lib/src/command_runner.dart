@@ -3,11 +3,10 @@ import 'dart:io' as io;
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:cli_completion/cli_completion.dart';
-import 'package:yade_cli/src/commands/commands.dart';
-import 'package:yade_cli/src/commands/update/update.dart';
-import 'package:yade_cli/src/version.dart';
 import 'package:mason/mason.dart' hide packageVersion;
 import 'package:pub_updater/pub_updater.dart';
+import 'package:yade_cli/src/commands/commands.dart';
+import 'package:yade_cli/src/version.dart';
 
 /// Typedef for [io.exit].
 typedef Exit = dynamic Function(int exitCode);
@@ -25,9 +24,9 @@ const executableDescription =
 /// {@template yade_command_runner}
 /// A [CommandRunner] for the YADE CLI.
 /// {@endtemplate}
-class DartFrogCommandRunner extends CompletionCommandRunner<int> {
+class YadeCommandRunner extends CompletionCommandRunner<int> {
   /// {@macro yade_command_runner}
-  DartFrogCommandRunner({
+  YadeCommandRunner({
     Logger? logger,
     PubUpdater? pubUpdater,
     io.ProcessSignal? sigint,

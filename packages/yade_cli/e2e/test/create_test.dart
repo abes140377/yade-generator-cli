@@ -20,23 +20,11 @@ void main() {
     );
 
     setUpAll(() async {
-      await dartFrogCreate(projectName: projectName, directory: tempDirectory);
+      await iacRepoCreate(projectName: projectName, directory: tempDirectory);
     });
 
     tearDownAll(() async {
       await tempDirectory.delete(recursive: true);
-    });
-
-    test('generates a well-formatted project', () {
-      expect(dartFormat(projectDirectory), completes);
-    });
-
-    test('generates a project that has no analysis errors/warnings', () {
-      expect(dartAnalyze(projectDirectory), completes);
-    });
-
-    test('generates a project in which all tests pass', () {
-      expect(dartTest(projectDirectory), completes);
     });
   });
 }

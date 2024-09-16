@@ -9,9 +9,9 @@ import 'package:meta/meta.dart';
 /// {@template yade_command}
 /// The base class for all yade_cli executable commands.
 /// {@endtemplate}
-abstract class DartFrogCommand extends Command<int> {
+abstract class YadeCommand extends Command<int> {
   /// {@macro yade_command}
-  DartFrogCommand({Logger? logger}) : _logger = logger;
+  YadeCommand({Logger? logger}) : _logger = logger;
 
   /// [ArgResults] used for testing purposes only.
   @visibleForTesting
@@ -28,7 +28,7 @@ abstract class DartFrogCommand extends Command<int> {
   Stdin? testStdin;
 
   /// The [Stdin] instance to be used by the commands.
-  Stdin get stdin => testStdin ?? (runner as DartFrogCommandRunner?)!.stdin;
+  Stdin get stdin => testStdin ?? (runner as YadeCommandRunner?)!.stdin;
 
   /// [ArgResults] for the current command.
   ArgResults get results => testArgResults ?? argResults!;

@@ -1,15 +1,15 @@
 import 'dart:io';
 
+import 'package:mason/mason.dart' hide packageVersion;
+import 'package:pub_updater/pub_updater.dart';
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/command_runner.dart';
 import 'package:yade_cli/src/version.dart';
-import 'package:mason/mason.dart' hide packageVersion;
-import 'package:pub_updater/pub_updater.dart';
 
 /// {@template update_command}
 /// `yade update` command which updates the yade_cli.
 /// {@endtemplate}
-class UpdateCommand extends DartFrogCommand {
+class UpdateCommand extends YadeCommand {
   /// {@macro update_command}
   UpdateCommand({
     required Logger logger,

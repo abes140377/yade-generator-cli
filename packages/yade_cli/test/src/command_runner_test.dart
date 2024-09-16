@@ -2,12 +2,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:yade_cli/src/command_runner.dart';
-import 'package:yade_cli/src/version.dart';
 import 'package:mason/mason.dart' hide packageVersion;
 import 'package:mocktail/mocktail.dart';
 import 'package:pub_updater/pub_updater.dart';
 import 'package:test/test.dart';
+import 'package:yade_cli/src/command_runner.dart';
+import 'package:yade_cli/src/version.dart';
 
 import '../helpers/helpers.dart';
 
@@ -52,10 +52,10 @@ ${lightYellow.wrap('Changelog:')} $changelogLink
 Run ${lightCyan.wrap('$executableName update')} to update''';
 
 void main() {
-  group('DartFrogCommandRunner', () {
+  group('YadeCommandRunner', () {
     late Logger logger;
     late PubUpdater pubUpdater;
-    late DartFrogCommandRunner commandRunner;
+    late YadeCommandRunner commandRunner;
     late ProcessSignal sigint;
 
     setUp(() {
@@ -69,7 +69,7 @@ void main() {
 
       when(() => sigint.watch()).thenAnswer((_) => const Stream.empty());
 
-      commandRunner = DartFrogCommandRunner(
+      commandRunner = YadeCommandRunner(
         logger: logger,
         pubUpdater: pubUpdater,
         exit: (_) {},
@@ -79,7 +79,7 @@ void main() {
     });
 
     test('can be instantiated without any explicit parameters', () {
-      final commandRunner = DartFrogCommandRunner();
+      final commandRunner = YadeCommandRunner();
       expect(commandRunner, isNotNull);
     });
 
@@ -106,7 +106,7 @@ void main() {
 
       test('checks for updates on sigint', () async {
         final exitCalls = <int>[];
-        commandRunner = DartFrogCommandRunner(
+        commandRunner = YadeCommandRunner(
           logger: logger,
           pubUpdater: pubUpdater,
           exit: exitCalls.add,

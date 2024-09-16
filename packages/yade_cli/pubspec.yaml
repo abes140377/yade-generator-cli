@@ -1,15 +1,15 @@
 name: yade_cli
 description: The official command line interface for YADE. Built by Very Good Ventures.
 version: 1.2.3
-homepage: https://dartfrog.vgv.dev
-repository: https://github.com/VeryGoodOpenSource/yade
+homepage: https://yade.io
+repository: https://github.com/yadeio/yade
 issue_tracker: https://github.com/VeryGoodOpenSource/yade/issues
-documentation: https://dartfrog.vgv.dev/docs/overview
-topics: [server, backend, shelf, dart-frog, cli]
+documentation: https://yade.io/docs/overview
+topics: [yade, cli]
 
-screenshots:
-  - description: 'YADE logo.'
-    path: assets/logo.png
+#screenshots:
+#  - description: 'YADE logo.'
+#    path: assets/logo.png
 
 environment:
   sdk: ^3.5.0
@@ -17,7 +17,6 @@ environment:
 dependencies:
   args: ^2.5.0
   cli_completion: ^0.5.1
-  # dart_frog_gen: ^2.0.0
   equatable: ^2.0.5
   mason: 0.1.0-dev.60
   meta: ^1.15.0

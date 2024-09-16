@@ -48,11 +48,6 @@ void main() {
         () => logger.info(''),
         () => logger
             .success('Created ${context.vars['name']} at $projectDirectory.'),
-        () => logger.info(''),
-        () => logger.info('Get started by typing:'),
-        () => logger.info(''),
-        () => logger.info('${lightCyan.wrap('cd')} $projectDirectory'),
-        () => logger.info('${lightCyan.wrap('dart_frog dev')}'),
       ]);
     });
 

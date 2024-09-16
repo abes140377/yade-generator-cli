@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:mason/mason.dart';
+import 'package:path/path.dart' as path;
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/commands/commands.dart';
 import 'package:yade_cli/src/commands/create/templates/create_iac_repo_bundle.dart';
-import 'package:mason/mason.dart';
-import 'package:path/path.dart' as path;
 
 // A valid Dart identifier that can be used for a package, i.e. no
 // capital letters.
@@ -15,7 +15,7 @@ final RegExp _identifierRegExp = RegExp('[a-z_][a-z0-9_]*');
 /// {@template create_command}
 /// `yade create` command which creates a new application.`.
 /// {@endtemplate}
-class CreateCommand extends DartFrogCommand {
+class CreateCommand extends YadeCommand {
   /// {@macro create_command}
   CreateCommand({
     super.logger,

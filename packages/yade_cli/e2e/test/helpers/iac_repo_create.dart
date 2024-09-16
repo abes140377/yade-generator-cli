@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'run_process.dart';
 
-Future<void> dartFrogCreate({
+Future<void> iacRepoCreate({
   required String projectName,
   required Directory directory,
 }) async {

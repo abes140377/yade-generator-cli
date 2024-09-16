@@ -6,8 +6,8 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dev_dependencies:
-  yade:
-    path: ../../yade
+#  yade:
+#    path: ../../yade
   yade_cli:
     path: ..
   http: ^1.1.0

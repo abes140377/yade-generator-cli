@@ -3,13 +3,13 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:yade_cli/src/command_runner.dart';
-import 'package:yade_cli/src/commands/update/update.dart';
-import 'package:yade_cli/src/version.dart';
 import 'package:mason/mason.dart' hide packageVersion;
 import 'package:mocktail/mocktail.dart';
 import 'package:pub_updater/pub_updater.dart';
 import 'package:test/test.dart';
+import 'package:yade_cli/src/command_runner.dart';
+import 'package:yade_cli/src/commands/update/update.dart';
+import 'package:yade_cli/src/version.dart';
 
 import '../../../helpers/helpers.dart';
 
@@ -47,7 +47,7 @@ void main() {
     late PubUpdater pubUpdater;
     late UpdateCommand command;
     late ArgResults argResults;
-    late DartFrogCommandRunner commandRunner;
+    late YadeCommandRunner commandRunner;
 
     setUp(() {
       logger = _MockLogger();
@@ -73,7 +73,7 @@ void main() {
       final sigint = _MockProcessSignal();
       when(sigint.watch).thenAnswer((_) => const Stream.empty());
 
-      commandRunner = DartFrogCommandRunner(
+      commandRunner = YadeCommandRunner(
         logger: logger,
         pubUpdater: _MockPubUpdater(),
         exit: (_) {},
