@@ -1,0 +1,13 @@
+name: create_iac_repository
+description: A YADE Infrastructure As Code template
+version: 0.1.0+1
+
+environment:
+  mason: ">=0.1.0-dev <0.1.0"
+
+vars:
+  name:
+    type: string
+    description: Your application name
+    default: example
+    prompt: What is the application to create the iac repository for?
