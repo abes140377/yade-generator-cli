@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/commands/commands.dart';
-import 'package:yade_cli/src/commands/create/templates/create_iac_repository_bundle.dart';
+import 'package:yade_cli/src/commands/create/templates/create_iac_repo_bundle.dart';
 import 'package:mason/mason.dart';
 import 'package:path/path.dart' as path;
 
@@ -40,7 +40,7 @@ class CreateCommand extends DartFrogCommand {
   Future<int> run() async {
     final outputDirectory = _outputDirectory;
     final projectName = _projectName;
-    final generator = await _generator(createDartFrogBundle);
+    final generator = await _generator(createIacRepoBundle);
     final generateProgress = logger.progress('Creating $projectName');
     final vars = <String, dynamic>{
       'name': projectName,

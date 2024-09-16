@@ -10,7 +10,7 @@ tasks:
   dart:init:
     cmds:
       - cd ./packages/yade_cli && dart pub get
-      - cd ./bricks/create_iac_repository/hooks && dart pub get
+      - cd ./bricks/create_iac_repo/hooks && dart pub get
     silent: true
 
   mason:bundle:templates:
@@ -19,7 +19,7 @@ tasks:
       - >
         mason bundle \
           -s git git@github.com:abes140377/yade-project-generator-cli \
-          --git-path bricks/create_iac_repository \
+          --git-path bricks/create_iac_repo \
           -t dart \
           -o packages/yade_cli/lib/src/commands/create/templates
       # format
