@@ -31,7 +31,8 @@ class CreateCommand extends YadeCommand {
   final GeneratorBuilder _generator;
 
   @override
-  final String description = 'Creates a new YADE Infrastructure As Code repository.';
+  final String description =
+      'Creates a new YADE Infrastructure As Code repository.';
 
   @override
   final String name = 'create';
