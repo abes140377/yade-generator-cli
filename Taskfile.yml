@@ -25,4 +25,3 @@ tasks:
       # format
       - dart format ./packages/yade_cli
     silent: true
-
