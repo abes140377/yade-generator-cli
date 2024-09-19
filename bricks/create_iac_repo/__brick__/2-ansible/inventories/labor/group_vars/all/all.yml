@@ -1,0 +1,34 @@
+---
+env: staging
+
+ldap_label: "INTINF"
+ldap_host: "intinf.dvvbw.net"
+ldap_port: 636
+ldap_bind_dn: "CN=itas000053,OU=Systemkonten,OU=Administration,OU=ITEOS,DC=intinf,DC=dvvbw,DC=net"
+ldap_password: "TSArHDGNx$y21B5cz&RWJK_nu"
+ldap_base: "dc=intinf,dc=dvvbw,dc=net"
+ldap_uid: "sAMAccountName"
+ldap_encryption: "simple_tls"
+# use strings for boolean values
+ldap_verify_certificates: "false"
+ldap_active_directory: "true"
+
+# gitlab_structure:
+#   groups:
+#     - name: "group1"
+#       path: "group1"
+#       description: "group1 group description"
+#       visibility: "private"
+#     - name: "group2"
+#       path: "group2"
+#       description: "group2 group description"
+#       visibility: "private"
+#   projects:
+#     - name: "project1"
+#       group: "group1"
+#       description: "project1 project description"
+#       visibility: "private"
+#     - name: "project2"
+#       group: "group2"
+#       description: "project2 project description"
+#       visibility: "private"

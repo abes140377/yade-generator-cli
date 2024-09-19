@@ -37,19 +37,6 @@ tasks:
       # - dart format ./packages/yade_cli
     silent: true
 
-  # mason:bundle:templates:git:
-  #   cmds:
-  #     # bundle templates
-  #     - >
-  #       mason bundle \
-  #         -s git git@github.com:abes140377/yade-project-generator-cli \
-  #         --git-path bricks/create_iac_repo \
-  #         -t dart \
-  #         -o packages/yade_cli/lib/src/commands/create/templates
-  #     # format
-  #     - dart format ./packages/yade_cli
-  #   silent: true
-
 #  cli:install:local:
 #    cmds:
 #      - dart pub global activate --source path ./packages/yade_cli
@@ -60,7 +47,7 @@ tasks:
     deps:
       - mason:bundle:templates:local
     cmds:
-      - rm -rf test
+      - rm -rf test-mgm
       - |
         dart yade-project-generator-cli/packages/yade_cli/bin/yade.dart create \
           --environment=mgm \
