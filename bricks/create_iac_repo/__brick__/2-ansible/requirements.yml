@@ -1,0 +1,4 @@
+collections:
+{{#ansible_collections}}  - name: {{name}}
+    version: {{version}}
+{{/ansible_collections}}

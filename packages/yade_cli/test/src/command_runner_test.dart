@@ -30,7 +30,7 @@ const expectedUsage = [
       '    --verbose    Output additional logs.\n'
       '\n'
       'Available commands:\n'
-      '  create      Creates a new YADE Infrastructure As Code repository.\n'
+      '  create      Creates a new Infrastructure As Code repository.\n'
       '  update      Update the YADE CLI.\n'
       '\n'
       'Run "yade help <command>" for more information about a command.'

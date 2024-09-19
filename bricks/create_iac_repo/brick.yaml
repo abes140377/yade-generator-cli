@@ -16,13 +16,8 @@ vars:
     description: The name of the environment to create the iac repository for
     default: mgm
     prompt: What is the environment name to create the iac repository for?
-  stages:
-    type: list
-    description: The stages
-    default: ["sandbox", "labor", "production"]
-    prompt: What are the stages?
-  has_parameters:
-    type: boolean
-    description: Define if the module has parameters to send to backend
-    default: true
-    prompt: Send parameter to backend?
+  hostname:
+    type: string
+    description: The hostname of the host you want to bootrap on vShere
+    default: viicasmgm666s
+    prompt: What is the hostname of the host you want to bootrap on vShere?

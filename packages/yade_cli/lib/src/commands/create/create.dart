@@ -1,16 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:mason/mason.dart';
-import 'package:path/path.dart' as path;
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/commands/commands.dart';
 import 'package:yade_cli/src/commands/create/templates/create_iac_repo_bundle.dart';
-
-// A valid Dart identifier that can be used for a package, i.e. no
-// capital letters.
-// https://dart.dev/guides/language/language-tour#important-concepts
-final RegExp _identifierRegExp = RegExp('[a-z_][a-z0-9_]*');
 
 /// {@template create_command}
 /// `yade create` command which creates a new application.`.
@@ -21,24 +16,29 @@ class CreateCommand extends YadeCommand {
     super.logger,
     GeneratorBuilder? generator,
   }) : _generator = generator ?? MasonGenerator.fromBundle {
-    argParser.addOption(
-      'environment',
-      help: 'The name of the environment',
-      mandatory: true,
-    );
-
-    argParser.addOption(
-      'stages',
-      help: 'The stages',
-      mandatory: true,
-    );
+    argParser
+      ..addOption(
+        'environment',
+        help: 'The name of the environment',
+        mandatory: true,
+      )
+      ..addOption(
+        'hostname',
+        help: 'The hostname',
+        mandatory: true,
+      )
+      ..addOption(
+        'ansible_collections',
+        help: 'The ansible collections to use. E.g.: '
+            'adfinis.gitlab:1.0.1,community.general',
+        mandatory: true,
+      );
   }
 
   final GeneratorBuilder _generator;
 
   @override
-  final String description =
-      'Creates a new YADE Infrastructure As Code repository.';
+  final String description = 'Creates a new Infrastructure As Code repository.';
 
   @override
   final String name = 'create';
@@ -47,13 +47,17 @@ class CreateCommand extends YadeCommand {
   Future<int> run() async {
     final applicationName = _applicationName;
     final environment = _environment;
-    final stages = _stages;
+    final hostname = _hostname;
+    const stages = 'sandbox,labor,production';
+    final ansibleCollections = _ansibleCollections;
 
     final outputDirectory = Directory('$applicationName-$environment');
 
     print('applicationName: $applicationName');
     print('environment: $environment');
     print('outputDirectory: ${outputDirectory.path}');
+    print('hostname: $hostname');
+    print('ansibleCollections: $ansibleCollections');
 
     final generator = await _generator(createIacRepoBundle);
     final generateProgress = logger
@@ -63,7 +67,9 @@ class CreateCommand extends YadeCommand {
       'name': applicationName,
       'environment': environment,
       'stages': stages,
+      'hostname': hostname,
       'output_directory': outputDirectory.absolute.path,
+      'ansible_collections': ansibleCollections,
       'has_parameters': true,
     };
 
@@ -73,6 +79,9 @@ class CreateCommand extends YadeCommand {
       vars: vars,
     );
     generateProgress.complete();
+
+    logger.detail('[codegen] running post-gen...');
+    await generator.hooks.postGen(vars: vars, workingDirectory: cwd.path);
 
     logger.detail('[codegen] complete.');
 
@@ -95,16 +104,25 @@ class CreateCommand extends YadeCommand {
     return environment;
   }
 
-  List<String> get _stages {
-    final stagesStr = results['stages'] as String;
+  String get _hostname {
+    final hostname = results['hostname'] as String;
 
-    return stagesStr.split(',');
+    return hostname;
   }
 
-  // Directory get _outputDirectory {
-  //   final rest = results.rest;
-  //   final environment = results['environment'] as String?;
-  //
-  //   return Directory('${rest.first}-$environment');
-  // }
+  List<Map<String, String>> get _ansibleCollections {
+    final ansibleCollectionsStr = results['ansible_collections'] as String;
+
+    // Split the string by comma and then by colon and create a List of Map
+    final ansibleCollections = ansibleCollectionsStr
+        .split(',')
+        .map((e) => e.split(':'))
+        .map((e) => {
+              'name': e[0],
+              'version': e[1],
+            })
+        .toList();
+
+    return ansibleCollections;
+  }
 }

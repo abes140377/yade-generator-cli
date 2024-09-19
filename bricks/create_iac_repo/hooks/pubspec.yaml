@@ -1,0 +1,11 @@
+name: create_iac_repo_hooks
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  mason: 0.1.0-dev.60
+  path: ^1.8.1
+
+dev_dependencies:
+  very_good_analysis: ^6.0.0
