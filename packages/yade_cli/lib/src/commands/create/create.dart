@@ -22,9 +22,15 @@ class CreateCommand extends YadeCommand {
     GeneratorBuilder? generator,
   }) : _generator = generator ?? MasonGenerator.fromBundle {
     argParser.addOption(
-      'project-name',
-      help: 'The project name for this new project. '
-          'This must be a valid dart package name.',
+      'environment',
+      help: 'The name of the environment',
+      mandatory: true,
+    );
+
+    argParser.addOption(
+      'stages',
+      help: 'The stages',
+      mandatory: true,
     );
   }
 
@@ -39,13 +45,26 @@ class CreateCommand extends YadeCommand {
 
   @override
   Future<int> run() async {
-    final outputDirectory = _outputDirectory;
-    final projectName = _projectName;
+    final applicationName = _applicationName;
+    final environment = _environment;
+    final stages = _stages;
+
+    final outputDirectory = Directory('$applicationName-$environment');
+
+    print('applicationName: $applicationName');
+    print('environment: $environment');
+    print('outputDirectory: ${outputDirectory.path}');
+
     final generator = await _generator(createIacRepoBundle);
-    final generateProgress = logger.progress('Creating $projectName');
+    final generateProgress = logger
+        .progress('Creating IAC Repository for application $applicationName');
+
     final vars = <String, dynamic>{
-      'name': projectName,
+      'name': applicationName,
+      'environment': environment,
+      'stages': stages,
       'output_directory': outputDirectory.absolute.path,
+      'has_parameters': true,
     };
 
     logger.detail('[codegen] running generate...');
@@ -55,10 +74,8 @@ class CreateCommand extends YadeCommand {
     );
     generateProgress.complete();
 
-    logger.detail('[codegen] running post-gen...');
-    await generator.hooks.postGen(vars: vars, workingDirectory: cwd.path);
-
     logger.detail('[codegen] complete.');
+
     return ExitCode.success.code;
   }
 
@@ -66,48 +83,28 @@ class CreateCommand extends YadeCommand {
   ///
   /// Uses the current directory path name
   /// if the `--project-name` option is not explicitly specified.
-  String get _projectName {
-    final projectName = results['project-name'] as String? ??
-        path.basename(path.normalize(_outputDirectory.absolute.path));
-    _validateProjectName(projectName);
-    return projectName;
-  }
-
-  Directory get _outputDirectory {
+  String get _applicationName {
     final rest = results.rest;
-    _validateOutputDirectoryArg(rest);
-    return Directory(rest.first);
+
+    return rest.first;
   }
 
-  void _validateOutputDirectoryArg(List<String> args) {
-    if (args.isEmpty) {
-      throw UsageException(
-        'No option specified for the output directory.',
-        usageString,
-      );
-    }
+  String get _environment {
+    final environment = results['environment'] as String;
 
-    if (args.length > 1) {
-      throw UsageException(
-        'Multiple output directories specified.',
-        usageString,
-      );
-    }
+    return environment;
   }
 
-  void _validateProjectName(String name) {
-    final isValidProjectName = _isValidPackageName(name);
-    if (!isValidProjectName) {
-      throw UsageException(
-        '"$name" is not a valid package name.\n\n'
-        'See https://dart.dev/tools/pub/pubspec#name for more information.',
-        usageString,
-      );
-    }
+  List<String> get _stages {
+    final stagesStr = results['stages'] as String;
+
+    return stagesStr.split(',');
   }
 
-  bool _isValidPackageName(String name) {
-    final match = _identifierRegExp.matchAsPrefix(name);
-    return match != null && match.end == name.length;
-  }
+  // Directory get _outputDirectory {
+  //   final rest = results.rest;
+  //   final environment = results['environment'] as String?;
+  //
+  //   return Directory('${rest.first}-$environment');
+  // }
 }

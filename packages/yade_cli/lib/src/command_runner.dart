@@ -19,7 +19,7 @@ const executableName = 'yade';
 
 /// The executable description.
 const executableDescription =
-    'A fast, minimalistic backend framework for Dart.';
+    'The YADE - Yet Another Development Environment CLI.';
 
 /// {@template yade_command_runner}
 /// A [CommandRunner] for the YADE CLI.

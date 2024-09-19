@@ -8,6 +8,21 @@ environment:
 vars:
   name:
     type: string
-    description: Your application name
+    description: The name of the application to create the iac repository for
     default: example
-    prompt: What is the application to create the iac repository for?
+    prompt: What is the application name to create the iac repository for?
+  environment:
+    type: string
+    description: The name of the environment to create the iac repository for
+    default: mgm
+    prompt: What is the environment name to create the iac repository for?
+  stages:
+    type: list
+    description: The stages
+    default: ["sandbox", "labor", "production"]
+    prompt: What are the stages?
+  has_parameters:
+    type: boolean
+    description: Define if the module has parameters to send to backend
+    default: true
+    prompt: Send parameter to backend?

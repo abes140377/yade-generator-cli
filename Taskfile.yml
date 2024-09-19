@@ -13,7 +13,19 @@ tasks:
       - cd ./bricks/create_iac_repo/hooks && dart pub get
     silent: true
 
-  mason:bundle:templates:
+  mason:bundle:templates:local:
+    cmds:
+      # bundle templates
+      - >
+        mason bundle \
+          -s path /Users/seba/projects/cas-yade/src/yade-project-generator-cli/bricks/create_iac_repo \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/create/templates
+      # format
+      - dart format ./packages/yade_cli
+    silent: true
+
+  mason:bundle:templates:git:
     cmds:
       # bundle templates
       - >
@@ -24,4 +36,22 @@ tasks:
           -o packages/yade_cli/lib/src/commands/create/templates
       # format
       - dart format ./packages/yade_cli
+    silent: true
+
+#  cli:install:local:
+#    cmds:
+#      - dart pub global activate --source path ./packages/yade_cli
+#    silent: true
+
+  yade:create:test:
+    dir: "{{.HOME}}/projects/cas-yade/src"
+    deps:
+      - mason:bundle:templates:local
+    cmds:
+      - rm -rf test
+      - |
+        dart yade-project-generator-cli/packages/yade_cli/bin/yade.dart create \
+          --environment=mgm \
+          --stages=sandbox,labor,production \
+          test
     silent: true
