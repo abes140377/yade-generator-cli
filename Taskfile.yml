@@ -74,11 +74,24 @@ tasks:
     cmds:
       - rm -rf {{.HOME}}/projects/cas-yade/src/test-mgm
       - clear
-      - yade-project-generator-cli/build/yade --version
-#      - |
-#        yade-project-generator-cli/build/yade create \
-#          --environment=mgm \
-#          --hostname=viicasmgm666 \
-#          --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
-#          test
+      # - yade-project-generator-cli/build/yade --version
+      - |
+        yade-project-generator-cli/build/yade create \
+          --environment=mgm \
+          --hostname=viicasmgm666 \
+          --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
+          test
+    silent: true
+
+  yade:install:github:
+    cmds:
+      - rm -rf {{.HOME}}/projects/cas-yade/src/test-mgm
+      - clear
+      # - yade-project-generator-cli/build/yade --version
+      - |
+        yade-project-generator-cli/build/yade create \
+          --environment=mgm \
+          --hostname=viicasmgm666 \
+          --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
+          test
     silent: true
