@@ -5,11 +5,16 @@
 
 name: Dart
 
+#on:
+#  push:
+#    branches: [ "develop" ]
+#  pull_request:
+#    branches: [ "develop" ]
+
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+    tags:
+      - '*'
 
 jobs:
   build:
