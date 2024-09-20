@@ -5,4 +5,4 @@
 # FVM Version Cache
 .fvm/
 
-packages/yade_cli/yade
+build/
