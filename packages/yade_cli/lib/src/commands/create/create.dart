@@ -1,16 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:mason/mason.dart';
-import 'package:path/path.dart' as path;
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/commands/commands.dart';
 import 'package:yade_cli/src/commands/create/templates/create_iac_repo_bundle.dart';
-
-// A valid Dart identifier that can be used for a package, i.e. no
-// capital letters.
-// https://dart.dev/guides/language/language-tour#important-concepts
-final RegExp _identifierRegExp = RegExp('[a-z_][a-z0-9_]*');
 
 /// {@template create_command}
 /// `yade create` command which creates a new application.`.
@@ -21,44 +16,77 @@ class CreateCommand extends YadeCommand {
     super.logger,
     GeneratorBuilder? generator,
   }) : _generator = generator ?? MasonGenerator.fromBundle {
-    argParser.addOption(
-      'project-name',
-      help: 'The project name for this new project. '
-          'This must be a valid dart package name.',
-    );
+    argParser
+      ..addOption(
+        'environment',
+        help: 'The name of the environment',
+        mandatory: true,
+      )
+      ..addOption(
+        'hostname',
+        help: 'The hostname',
+        mandatory: true,
+      )
+      ..addOption(
+        'ansible_collections',
+        help: 'The ansible collections to use. E.g.: '
+            'adfinis.gitlab:1.0.1,community.general',
+        mandatory: true,
+      );
   }
 
   final GeneratorBuilder _generator;
 
   @override
-  final String description =
-      'Creates a new YADE Infrastructure As Code repository.';
+  final String description = 'Creates a new Infrastructure As Code repository.';
 
   @override
   final String name = 'create';
 
   @override
   Future<int> run() async {
-    final outputDirectory = _outputDirectory;
-    final projectName = _projectName;
+    final applicationName = _applicationName;
+    final environment = _environment;
+    const stages = 'sandbox,labor,production';
+    final hostname = _hostname;
+    final ansibleCollections = _ansibleCollections;
+
+    final outputDirectory = Directory('$applicationName-$environment');
+
+    // print('applicationName: $applicationName');
+    // print('environment: $environment');
+    // print('outputDirectory: ${outputDirectory.path}');
+    // print('hostname: $hostname');
+    // print('ansibleCollections: $ansibleCollections');
+
     final generator = await _generator(createIacRepoBundle);
-    final generateProgress = logger.progress('Creating $projectName');
+
+    final generateProgress =
+        logger.progress('IAC Repository for application $applicationName '
+            'created successfully.');
+
     final vars = <String, dynamic>{
-      'name': projectName,
+      'applicationName': applicationName,
+      'environment': environment,
+      'stages': stages,
+      'hostname': hostname,
+      'ansibleCollections': ansibleCollections,
       'output_directory': outputDirectory.absolute.path,
+      'has_parameters': true,
     };
 
-    logger.detail('[codegen] running generate...');
     await generator.generate(
       DirectoryGeneratorTarget(outputDirectory),
       vars: vars,
     );
     generateProgress.complete();
 
-    logger.detail('[codegen] running post-gen...');
+    // final postGenProgress = logger.progress('Executing Post Generation Steps');
+
     await generator.hooks.postGen(vars: vars, workingDirectory: cwd.path);
 
-    logger.detail('[codegen] complete.');
+    // postGenProgress.complete();
+
     return ExitCode.success.code;
   }
 
@@ -66,48 +94,39 @@ class CreateCommand extends YadeCommand {
   ///
   /// Uses the current directory path name
   /// if the `--project-name` option is not explicitly specified.
-  String get _projectName {
-    final projectName = results['project-name'] as String? ??
-        path.basename(path.normalize(_outputDirectory.absolute.path));
-    _validateProjectName(projectName);
-    return projectName;
-  }
-
-  Directory get _outputDirectory {
+  String get _applicationName {
     final rest = results.rest;
-    _validateOutputDirectoryArg(rest);
-    return Directory(rest.first);
+
+    return rest.first;
   }
 
-  void _validateOutputDirectoryArg(List<String> args) {
-    if (args.isEmpty) {
-      throw UsageException(
-        'No option specified for the output directory.',
-        usageString,
-      );
-    }
+  String get _environment {
+    final environment = results['environment'] as String;
 
-    if (args.length > 1) {
-      throw UsageException(
-        'Multiple output directories specified.',
-        usageString,
-      );
-    }
+    return environment;
   }
 
-  void _validateProjectName(String name) {
-    final isValidProjectName = _isValidPackageName(name);
-    if (!isValidProjectName) {
-      throw UsageException(
-        '"$name" is not a valid package name.\n\n'
-        'See https://dart.dev/tools/pub/pubspec#name for more information.',
-        usageString,
-      );
-    }
+  String get _hostname {
+    final hostname = results['hostname'] as String;
+
+    return hostname;
   }
 
-  bool _isValidPackageName(String name) {
-    final match = _identifierRegExp.matchAsPrefix(name);
-    return match != null && match.end == name.length;
+  List<Map<String, String>> get _ansibleCollections {
+    final ansibleCollectionsStr = results['ansible_collections'] as String;
+
+    // Split the string by comma and then by colon and create a List of Map
+    final ansibleCollections = ansibleCollectionsStr
+        .split(',')
+        .map((e) => e.split(':'))
+        .map(
+          (e) => {
+            'name': e[0],
+            'version': e[1],
+          },
+        )
+        .toList();
+
+    return ansibleCollections;
   }
 }

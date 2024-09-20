@@ -12,3 +12,6 @@ build
 
 !lib/src/commands/build/
 !test/src/commands/build/
+
+# FVM Version Cache
+.fvm/

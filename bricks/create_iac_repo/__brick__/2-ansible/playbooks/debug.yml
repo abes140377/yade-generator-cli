@@ -1,0 +1,26 @@
+---
+- name: Debug show variable values
+  hosts: all
+  remote_user: ubuntu
+  become: true
+
+  vars:
+    test_file_path: "/tmp/testfile.md"
+
+  tasks:
+    - name: Show variable values, just to see what got loaded
+      ansible.builtin.debug:
+        var: "{{ item }}"
+      with_items:
+        - stage
+    - name: Creating test file
+      ansible.builtin.file:
+        path: "{{ test_file_path }}"
+        state: touch
+        mode: '0644'
+    - name: Add content
+      ansible.builtin.copy:
+        dest: "{{ test_file_path }}"
+        mode: '0644'
+        content: |
+          stage: {{ stage }}

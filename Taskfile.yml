@@ -13,16 +13,64 @@ tasks:
       - cd ./bricks/create_iac_repo/hooks && dart pub get
     silent: true
 
-  mason:bundle:templates:
+  mason:bundle:templates:local:
     cmds:
       # bundle templates
       - >
         mason bundle \
-          -s git git@github.com:abes140377/yade-project-generator-cli \
-          --git-path bricks/create_iac_repo \
+          -s path ./bricks/create_iac_repo \
           -t dart \
           -o packages/yade_cli/lib/src/commands/create/templates
       # format
       - dart format ./packages/yade_cli
     silent: true
 
+  mason:bundle:templates:git:
+    cmds:
+      # bundle templates
+      - >
+        mason bundle \
+          -s path __bricks__/create_iac_repo/ \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/create/templates
+      # format
+      # - dart format ./packages/yade_cli
+    silent: true
+
+  yade:create:test:
+    dir: "{{.HOME}}/projects/cas-yade/src"
+    deps:
+      - mason:bundle:templates:local
+    cmds:
+      - rm -rf test-mgm
+      - clear
+      - |
+        dart yade-project-generator-cli/packages/yade_cli/bin/yade.dart create \
+          --environment=mgm \
+          --hostname=viicasmgm666 \
+          --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
+          test
+    silent: true
+
+  yade:compile:
+    dir: "{{.HOME}}/projects/cas-yade/src/yade-project-generator-cli/packages/yade_cli"
+    deps:
+      - mason:bundle:templates:local
+    cmds:
+      - rm -rf yade
+      - dart compile exe bin/yade.dart -o ../../build/yade
+    silent: true
+
+  yade:compile:create:test:
+    dir: "{{.HOME}}/projects/cas-yade/src/"
+    cmds:
+      - rm -rf {{.HOME}}/projects/cas-yade/src/test-mgm
+      - clear
+      - yade-project-generator-cli/build/yade --version
+#      - |
+#        yade-project-generator-cli/build/yade create \
+#          --environment=mgm \
+#          --hostname=viicasmgm666 \
+#          --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
+#          test
+    silent: true

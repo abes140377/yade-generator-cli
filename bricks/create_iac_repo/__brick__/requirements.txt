@@ -1,0 +1,2 @@
+pre-commit==3.8.0
+ansible-lint==24.7.0
