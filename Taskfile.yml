@@ -58,7 +58,7 @@ tasks:
       - mason:bundle:templates:local
     cmds:
       - rm -rf yade
-      - dart compile exe bin/yade.dart -o yade
+      - dart compile exe bin/yade.dart -o build/yade
     silent: true
 
   yade:compile:create:test:
@@ -68,7 +68,7 @@ tasks:
       - clear
       # - yade-project-generator-cli/packages/yade_cli/yade --help
       - |
-        yade-project-generator-cli/packages/yade_cli/yade create \
+        yade-project-generator-cli/packages/yade_cli/build/yade create \
           --environment=mgm \
           --hostname=viicasmgm666 \
           --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \

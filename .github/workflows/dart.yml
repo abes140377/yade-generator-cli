@@ -42,9 +42,12 @@ jobs:
             -t dart \
             -o packages/yade_cli/lib/src/commands/create/templates
 
+      - name: Create build directory
+        run: mkdir -p ../../build
+
       - name: Compile YADE CLI
         working-directory: ./packages/yade_cli
-        run: dart compile exe bin/yade.dart -o build/yade
+        run: dart compile exe bin/yade.dart -o ../../build
 
       # Uncomment this step to verify the use of 'dart format' on each commit.
       # - name: Verify formatting
