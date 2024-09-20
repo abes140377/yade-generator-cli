@@ -15,3 +15,6 @@ curl -L "https://github.com/$REPO/releases/download/$LATEST_RELEASE/yade" -o /us
 chmod +x /usr/local/bin/yade
 
 echo "Installation complete! Run 'yade' to start."
+
+REPO="abes140377/yade-project-generator-cli"
+curl -s https://raw.githubusercontent.com/$REPO/main/scripts/install.sh | sudo bash
