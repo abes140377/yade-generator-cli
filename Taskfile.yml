@@ -25,6 +25,12 @@ tasks:
       - dart format ./packages/yade_cli
     silent: true
 
+  dart:run:build_runner:
+    dir: packages/yade_cli
+    cmds:
+      - dart run build_runner build --delete-conflicting-outputs
+    silent: true
+
   mason:bundle:templates:git:
     cmds:
       # bundle templates
@@ -41,6 +47,7 @@ tasks:
     dir: "{{.HOME}}/projects/cas-yade/src"
     deps:
       - mason:bundle:templates:local
+      - dart:run:build_runner
     cmds:
       - rm -rf test-mgm
       - clear
@@ -56,6 +63,7 @@ tasks:
     dir: "{{.HOME}}/projects/cas-yade/src/yade-project-generator-cli/packages/yade_cli"
     deps:
       - mason:bundle:templates:local
+      - dart:run:build_runner
     cmds:
       - rm -rf yade
       - dart compile exe bin/yade.dart -o ../../build/yade
