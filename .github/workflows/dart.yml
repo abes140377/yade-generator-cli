@@ -47,6 +47,10 @@ jobs:
             -t dart \
             -o packages/yade_cli/lib/src/commands/create/templates
 
+      - name: Dart run build_runner build
+        working-directory: ./packages/yade_cli
+        run: dart run build_runner build --delete-conflicting-outputs
+
       - name: Create build directory
         run: mkdir -p build
 
