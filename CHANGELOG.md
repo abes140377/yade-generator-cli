@@ -1,3 +1,5 @@
-# Verion v0.1.0
+# Verion v0.1.1
 
-## Initial Release
+## Features
+
+- Add scripts/install.sh to install the cli with curl
