@@ -18,15 +18,15 @@ An example iac repository built with yade
 task: Available tasks for this project:
 * default:                                  Print some usefull information
 * core:setup:                               Top Level Task to Setup Core
-* {{name}}:install:labor:                     Top Level Task to Install Gitlab Labor
-* {{name}}:install:production:                Top Level Task to Install Gitlab Production
-* {{name}}:install:sandbox:                   Top Level Task to Install Gitlab Sandbox
-* {{name}}:reinstall:labor:                   Top Level Task to Re-Install Gitlab Labor
-* {{name}}:reinstall:production:              Top Level Task to Re-Install Gitlab Production
-* {{name}}:reinstall:sandbox:                 Top Level Task to Re-Install Gitlab Sandbox
-* {{name}}:uninstall:labor:                   Top Level Task to Uninstall Gitlab Labor
-* {{name}}:uninstall:production:              Top Level Task to Uninstall Gitlab Production
-* {{name}}:uninstall:sandbox:                 Top Level Task to Uninstall Gitlab Sandbox
+* {{applicationName}}:install:labor:                   Top Level Task to Install {{applicationName.pascalCase()}} Labor
+* {{applicationName}}:install:production:              Top Level Task to Install {{applicationName.pascalCase()}} Production
+* {{applicationName}}:install:sandbox:                 Top Level Task to Install {{applicationName.pascalCase()}} Sandbox
+* {{applicationName}}:reinstall:labor:                 Top Level Task to Re-Install {{applicationName.pascalCase()}} Labor
+* {{applicationName}}:reinstall:production:            Top Level Task to Re-Install {{applicationName.pascalCase()}} Production
+* {{applicationName}}:reinstall:sandbox:               Top Level Task to Re-Install {{applicationName.pascalCase()}} Sandbox
+* {{applicationName}}:uninstall:labor:                 Top Level Task to Uninstall {{applicationName.pascalCase()}} Labor
+* {{applicationName}}:uninstall:production:            Top Level Task to Uninstall {{applicationName.pascalCase()}} Production
+* {{applicationName}}:uninstall:sandbox:               Top Level Task to Uninstall {{applicationName.pascalCase()}} Sandbox
 
 ansible tasks:
 * ansible:generate:docs:                    Generate documentation for Ansible

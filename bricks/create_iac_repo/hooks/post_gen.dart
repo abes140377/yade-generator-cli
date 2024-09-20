@@ -6,7 +6,7 @@ Future<void> run(HookContext context) async {
   final projectDirectory = path.canonicalize(
     context.vars['output_directory'] as String? ?? Directory.current.path,
   );
-  final applicationName = context.vars['name'] as String;
+  final applicationName = context.vars['applicationName'] as String;
   final hostname = context.vars['hostname'] as String;
 
   final taskfile = File('$projectDirectory/Taskfile.yml');

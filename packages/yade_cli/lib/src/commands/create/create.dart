@@ -47,8 +47,8 @@ class CreateCommand extends YadeCommand {
   Future<int> run() async {
     final applicationName = _applicationName;
     final environment = _environment;
-    final hostname = _hostname;
     const stages = 'sandbox,labor,production';
+    final hostname = _hostname;
     final ansibleCollections = _ansibleCollections;
 
     final outputDirectory = Directory('$applicationName-$environment');
@@ -64,12 +64,12 @@ class CreateCommand extends YadeCommand {
         .progress('Creating IAC Repository for application $applicationName');
 
     final vars = <String, dynamic>{
-      'name': applicationName,
+      'applicationName': applicationName,
       'environment': environment,
       'stages': stages,
       'hostname': hostname,
+      'ansibleCollections': ansibleCollections,
       'output_directory': outputDirectory.absolute.path,
-      'ansible_collections': ansibleCollections,
       'has_parameters': true,
     };
 
@@ -117,10 +117,12 @@ class CreateCommand extends YadeCommand {
     final ansibleCollections = ansibleCollectionsStr
         .split(',')
         .map((e) => e.split(':'))
-        .map((e) => {
-              'name': e[0],
-              'version': e[1],
-            })
+        .map(
+          (e) => {
+            'name': e[0],
+            'version': e[1],
+          },
+        )
         .toList();
 
     return ansibleCollections;

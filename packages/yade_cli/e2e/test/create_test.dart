@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import 'helpers/helpers.dart';
@@ -15,9 +14,9 @@ void main() {
   group('yade create', () {
     const projectName = 'example';
     final tempDirectory = Directory.systemTemp.createTempSync();
-    final projectDirectory = Directory(
-      path.join(tempDirectory.path, projectName),
-    );
+    // final projectDirectory = Directory(
+    //   path.join(tempDirectory.path, projectName),
+    // );
 
     setUpAll(() async {
       await iacRepoCreate(projectName: projectName, directory: tempDirectory);

@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
-import 'package:yade_cli/src/command_runner.dart';
 import 'package:mason/mason.dart';
 import 'package:meta/meta.dart';
+import 'package:yade_cli/src/command_runner.dart';
 
 /// {@template yade_command}
 /// The base class for all yade_cli executable commands.
