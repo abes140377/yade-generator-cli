@@ -35,6 +35,13 @@ jobs:
         working-directory: ./bricks/create_iac_repo/hooks
         run: dart pub get
 
+      - name: Bundle mason templates
+        run: >
+          mason bundle \
+            -s path ./bricks/create_iac_repo \
+            -t dart \
+            -o packages/yade_cli/lib/src/commands/create/templates
+
       # Uncomment this step to verify the use of 'dart format' on each commit.
       # - name: Verify formatting
       #   run: dart format --output=none --set-exit-if-changed .
