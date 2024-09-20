@@ -49,6 +49,16 @@ jobs:
         working-directory: ./packages/yade_cli
         run: dart compile exe bin/yade.dart -o ../../build/yade
 
+      - name: upload linux artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./../build/yade
+          asset_name: yade
+          asset_content_type: application/x-binary
+
       # Uncomment this step to verify the use of 'dart format' on each commit.
       # - name: Verify formatting
       #   run: dart format --output=none --set-exit-if-changed .
