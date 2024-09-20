@@ -85,13 +85,6 @@ tasks:
 
   yade:install:github:
     cmds:
-      - rm -rf {{.HOME}}/projects/cas-yade/src/test-mgm
-      - clear
-      # - yade-project-generator-cli/build/yade --version
-      - |
-        yade-project-generator-cli/build/yade create \
-          --environment=mgm \
-          --hostname=viicasmgm666 \
-          --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
-          test
+      - sudo rm -rf /usr/local/bin/yade
+      - curl -s https://raw.githubusercontent.com/abes140377/yade-project-generator-cli/main/scripts/install.sh | sudo bash
     silent: true
