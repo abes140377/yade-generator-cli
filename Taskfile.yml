@@ -37,17 +37,13 @@ tasks:
       # - dart format ./packages/yade_cli
     silent: true
 
-#  cli:install:local:
-#    cmds:
-#      - dart pub global activate --source path ./packages/yade_cli
-#    silent: true
-
   yade:create:test:
     dir: "{{.HOME}}/projects/cas-yade/src"
     deps:
       - mason:bundle:templates:local
     cmds:
       - rm -rf test-mgm
+      - clear
       - |
         dart yade-project-generator-cli/packages/yade_cli/bin/yade.dart create \
           --environment=mgm \
@@ -63,4 +59,18 @@ tasks:
     cmds:
       - rm -rf yade
       - dart compile exe bin/yade.dart -o yade
+    silent: true
+
+  yade:compile:create:test:
+    dir: "{{.HOME}}/projects/cas-yade/src/"
+    cmds:
+      - rm -rf {{.HOME}}/projects/cas-yade/src/test-mgm
+      - clear
+      # - yade-project-generator-cli/packages/yade_cli/yade --help
+      - |
+        yade-project-generator-cli/packages/yade_cli/yade create \
+          --environment=mgm \
+          --hostname=viicasmgm666 \
+          --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
+          test
     silent: true

@@ -65,6 +65,7 @@ class YadeCommandRunner extends CompletionCommandRunner<int> {
 
     late final int exitCode;
     try {
+      _logger.info(getAsciiArtContent());
       exitCode = await runCommand(argResults) ?? ExitCode.success.code;
     } catch (error) {
       _logger.err('$error');
@@ -77,6 +78,17 @@ class YadeCommandRunner extends CompletionCommandRunner<int> {
     }
 
     return exitCode;
+  }
+
+  ///
+  String getAsciiArtContent() {
+    return '''
+__  _____    ____  ______   ________    ____
+\\ \\/ /   |  / __ \\/ ____/  / ____/ /   /  _/
+ \\  / /| | / / / / __/    / /   / /    / /  
+ / / ___ |/ /_/ / /___   / /___/ /____/ /   
+/_/_/  |_/_____/_____/   \\____/_____/___/   
+  ''';
   }
 
   Future<void> _onSigint(io.ProcessSignal signal) async {

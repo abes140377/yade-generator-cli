@@ -53,15 +53,17 @@ class CreateCommand extends YadeCommand {
 
     final outputDirectory = Directory('$applicationName-$environment');
 
-    print('applicationName: $applicationName');
-    print('environment: $environment');
-    print('outputDirectory: ${outputDirectory.path}');
-    print('hostname: $hostname');
-    print('ansibleCollections: $ansibleCollections');
+    // print('applicationName: $applicationName');
+    // print('environment: $environment');
+    // print('outputDirectory: ${outputDirectory.path}');
+    // print('hostname: $hostname');
+    // print('ansibleCollections: $ansibleCollections');
 
     final generator = await _generator(createIacRepoBundle);
-    final generateProgress = logger
-        .progress('Creating IAC Repository for application $applicationName');
+
+    final generateProgress =
+        logger.progress('IAC Repository for application $applicationName '
+            'created successfully.');
 
     final vars = <String, dynamic>{
       'applicationName': applicationName,
@@ -73,17 +75,17 @@ class CreateCommand extends YadeCommand {
       'has_parameters': true,
     };
 
-    logger.detail('[codegen] running generate...');
     await generator.generate(
       DirectoryGeneratorTarget(outputDirectory),
       vars: vars,
     );
     generateProgress.complete();
 
-    logger.detail('[codegen] running post-gen...');
+    // final postGenProgress = logger.progress('Executing Post Generation Steps');
+
     await generator.hooks.postGen(vars: vars, workingDirectory: cwd.path);
 
-    logger.detail('[codegen] complete.');
+    // postGenProgress.complete();
 
     return ExitCode.success.code;
   }
