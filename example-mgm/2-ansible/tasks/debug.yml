@@ -1,0 +1,8 @@
+- name: Debug multiple variables
+  ansible.builtin.debug:
+    msg: "Variable : "
+  with_items:
+    - { name: "webproxy_http_proxy", value: "" } # check var from inventory/group_vars/all.yml
+    - { name: "env", value: "" } # check var from inventory/host_vars/gitlab-mgm-<env>.yml
+    - { name: "gitlab_version", value: "" }  # check var from inventory/group_vars/gitlab_servers.yml
+    - { name: "gitlab_seed_config", value: "" }

@@ -20,10 +20,8 @@ tasks:
 
   mason:bundle:templates:local:
     desc: Bundle templates locally
-    dir: "{{.HOME}}/projects/cas-yade/src/yade-project-generator-cli"
     cmds:
       # bundle templates
-      - pwd
       - >
         mason bundle \
           -s path ./bricks/create_iac_repo \
@@ -44,27 +42,28 @@ tasks:
           -t dart \
           -o packages/yade_cli/lib/src/commands/create/templates
       # format
-      # - dart format ./packages/yade_cli
+      - dart format ./packages/yade_cli
     silent: true
 
   dart:run:build_runner:
     desc: Run dart build_runner build to generate version.dart file
-    dir: "{{.HOME}}/projects/cas-yade/src/yade-project-generator-cli/packages/yade_cli"
+    dir: packages/yade_cli
     cmds:
       - dart run build_runner build --delete-conflicting-outputs
     silent: true
 
   yade:create:test:
     desc: Create a test repository using the dart cli tool
-    dir: "{{.HOME}}/projects/cas-yade/src"
+    dir: ../
     deps:
       - mason:bundle:templates:local
       - dart:run:build_runner
     cmds:
-      # - rm -rf test-mgm
+      - rm -rf {{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       - |
-        dart yade-project-generator-cli/packages/yade_cli/bin/yade.dart create \
+        dart ./yade-project-generator-cli/packages/yade_cli/bin/yade.dart create \
+          --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm666 \
           --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
@@ -73,25 +72,27 @@ tasks:
 
   yade:compile:
     desc: Compile the dart cli tool to a binary
-    dir: "{{.HOME}}/projects/cas-yade/src/yade-project-generator-cli/packages/yade_cli"
     deps:
       - mason:bundle:templates:local
       - dart:run:build_runner
     cmds:
-      - rm -rf ../../build/yade
-      - mkdir -p ../../build
-      - dart compile exe bin/yade.dart -o ../../build/yade
+      - rm -rf build/yade
+      - mkdir -p build
+      - dart compile exe ./packages/yade_cli/bin/yade.dart -o ./build/yade
     silent: true
 
   yade:create:test:compiled:
     desc: Create a test repository using the compiled dart cli tool
+    deps:
+      - yade:compile
     dir: "{{.HOME}}/projects/cas-yade/src/"
     cmds:
-      # - rm -rf {{.HOME}}/projects/cas-yade/src/test-mgm
+      - rm -rf example-mgm
       - clear
       # - yade-project-generator-cli/build/yade --version
       - |
         yade-project-generator-cli/build/yade create \
+          --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm666 \
           --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \

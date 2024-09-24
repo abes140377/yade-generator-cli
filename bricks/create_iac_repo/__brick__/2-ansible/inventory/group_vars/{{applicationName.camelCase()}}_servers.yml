@@ -1,0 +1,5 @@
+---
+# ==================
+# ===== GitLab =====
+# ==================
+{{applicationName.camelCase()}}_version: "1.0.0"

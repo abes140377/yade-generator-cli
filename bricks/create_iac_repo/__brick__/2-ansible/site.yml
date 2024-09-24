@@ -1,0 +1,15 @@
+---
+- name: {{applicationName.pascalCase()}} {{environment.camelCase()}} site playbook
+  hosts: {{applicationName.camelCase()}}_servers
+  become: true
+  environment:
+    {{=<% %>=}}http_proxy: "{{ webproxy_http_proxy }}"
+    https_proxy: "{{ webproxy_https_proxy }}"
+    no_proxy: "{{ webproxy_no_proxy }}"<%={{ }}=%>
+  tasks:
+    - name: Include tasks from file tasks/debug.yml
+      ansible.builtin.include_tasks: tasks/debug.yml
+
+    - name: Import role cas.{{applicationName.camelCase()}}.install
+      ansible.builtin.import_role:
+        name: cas.{{applicationName.camelCase()}}.install

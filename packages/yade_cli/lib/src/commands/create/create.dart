@@ -18,6 +18,11 @@ class CreateCommand extends YadeCommand {
   }) : _generator = generator ?? MasonGenerator.fromBundle {
     argParser
       ..addOption(
+        'organization',
+        help: 'The name of the organization',
+        mandatory: true,
+      )
+      ..addOption(
         'environment',
         help: 'The name of the environment',
         mandatory: true,
@@ -46,6 +51,7 @@ class CreateCommand extends YadeCommand {
   @override
   Future<int> run() async {
     final applicationName = _applicationName;
+    final organization = _organization;
     final environment = _environment;
     const stages = 'sandbox,labor,production';
     final hostname = _hostname;
@@ -53,39 +59,42 @@ class CreateCommand extends YadeCommand {
 
     final outputDirectory = Directory('$applicationName-$environment');
 
-    // print('applicationName: $applicationName');
-    // print('environment: $environment');
-    // print('outputDirectory: ${outputDirectory.path}');
-    // print('hostname: $hostname');
-    // print('ansibleCollections: $ansibleCollections');
+    // logger
+    //   ..info('Available variables:')
+    //   ..info('  applicationName: $applicationName')
+    //   ..info('  organization: $organization')
+    //   ..info('  environment: $environment')
+    //   ..info('  stages: $stages')
+    //   ..info('  hostname: $hostname')
+    //   ..info('  outputDirectory: ${outputDirectory.path}')
+    //   ..info('  ansibleCollections: $ansibleCollections')
+    //   ..info('');
 
     final generator = await _generator(createIacRepoBundle);
 
-    final generateProgress =
-        logger.progress('IAC Repository for application $applicationName '
-            'created successfully.');
-
     final vars = <String, dynamic>{
       'applicationName': applicationName,
+      'organization': organization,
       'environment': environment,
       'stages': stages,
       'hostname': hostname,
       'ansibleCollections': ansibleCollections,
-      'output_directory': outputDirectory.absolute.path,
-      'has_parameters': true,
+      'outputDirectory': outputDirectory.absolute.path,
     };
 
     await generator.generate(
       DirectoryGeneratorTarget(outputDirectory),
       vars: vars,
+      logger: logger,
     );
-    generateProgress.complete();
-
-    // final postGenProgress = logger.progress('Executing Post Generation Steps');
 
     await generator.hooks.postGen(vars: vars, workingDirectory: cwd.path);
 
-    // postGenProgress.complete();
+    logger.info('');
+    logger
+        .progress('IAC Repository for application $applicationName '
+            'created successfully (${outputDirectory.absolute.path})')
+        .complete();
 
     return ExitCode.success.code;
   }
@@ -98,6 +107,12 @@ class CreateCommand extends YadeCommand {
     final rest = results.rest;
 
     return rest.first;
+  }
+
+  String get _organization {
+    final organization = results['organization'] as String;
+
+    return organization;
   }
 
   String get _environment {

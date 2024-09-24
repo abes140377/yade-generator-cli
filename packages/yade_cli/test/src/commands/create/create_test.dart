@@ -93,7 +93,7 @@ void main() {
       verify(
         () => generator.generate(
           any(),
-          vars: {'name': 'yade_cli', 'output_directory': directory},
+          vars: {'name': 'yade_cli', 'outputDirectory': directory},
         ),
       ).called(1);
     });
@@ -119,7 +119,7 @@ void main() {
       verify(
         () => generator.generate(
           any(),
-          vars: {'name': projectName, 'output_directory': directory},
+          vars: {'name': projectName, 'outputDirectory': directory},
         ),
       ).called(1);
     });
