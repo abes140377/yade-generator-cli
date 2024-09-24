@@ -1,0 +1,12 @@
+---
+gitlab_dependencies:
+  - apt-transport-https
+  - curl
+  - gnupg
+  - openssh-server
+  - openssl
+  - tzdata
+  - ca-certificates
+gitlab_repo_url: "https://packages.gitlab.com/gitlab//ubuntu/"
+gitlab_package_name: ""
+gitlab_gpg_keyring_path: "/etc/apt/trusted.gpg.d/trusted.gpg"

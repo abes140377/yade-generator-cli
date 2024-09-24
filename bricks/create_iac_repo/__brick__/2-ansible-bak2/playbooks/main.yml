@@ -1,3 +1,0 @@
----
-- name: Run the debug playbook
-  import_playbook: debug.yml

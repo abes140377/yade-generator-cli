@@ -1,0 +1,7 @@
+collections:
+  - name: https://github.com/abes140377/ansible-collection-gitlab.git
+    type: git
+    version: feature/fix_keyring_path
+  # - name: adfinis.gitlab
+  #   version: 1.0.1
+  - name: community.general

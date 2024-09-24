@@ -1,0 +1,25 @@
+---
+env: sandbox
+
+gitlab_seed_config:
+  groups:
+    - name: "group1"
+      path: "group1"
+      description: "Example group1 created by ansible declared in configuration"
+      visibility: "internal"
+      members: [
+        {"username": "itag001202", "access_level": 40},
+      ]
+    - name: "group2"
+      path: "group2"
+      description: "Example group2 created by ansible declared in configuration"
+      visibility: "internal"
+  # projects:
+  #   - name: "project1"
+  #     group: "group1"
+  #     description: "project1 project description"
+  #     visibility: "private"
+  #   - name: "project2"
+  #     group: "group2"
+  #     description: "project2 project description"
+  #     visibility: "private"

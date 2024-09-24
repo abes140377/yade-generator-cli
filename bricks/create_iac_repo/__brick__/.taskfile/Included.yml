@@ -1,0 +1,119 @@
+version: 3
+
+tasks:
+  # =================
+  # === TERRAFORM ===
+  # =================
+  terraform:init:
+    desc: "Initialize terraform"
+    vars:
+      STAGE: '{{default "" .STAGE}}'
+    dir: '{{.USER_WORKING_DIR}}/1-terraform/{{.STAGE}}'
+    cmds:
+      - pwd
+      - echo "terraform init"
+    silent: true
+
+  terraform:plan:
+    desc: "Initialize terraform"
+    vars:
+      STAGE: '{{default "" .STAGE}}'
+    dir: '{{.USER_WORKING_DIR}}/1-terraform/{{.STAGE}}'
+    cmds:
+      - pwd
+      - echo "terraform plan"
+    silent: true
+
+  terraform:apply:
+    desc: "Initialize terraform"
+    vars:
+      STAGE: '{{default "" .STAGE}}'
+    dir: '{{.USER_WORKING_DIR}}/1-terraform/{{.STAGE}}'
+    cmds:
+      - pwd
+      - echo "terraform apply -auto-approve"
+    silent: true
+
+  # =============
+  # === SSH ===
+  # =============
+  ssh:test:connectivity:
+    desc: "Test SSH Connectivity to a VM"
+    dir: '{{.USER_WORKING_DIR}}'
+    vars:
+      USERNAME: '{{default "ansible" .USERNAME}}'
+      PORT: '{{default "22022" .PORT}}'
+    cmds:
+      - pwd
+      - echo "VM_NAME - {{.VM_NAME}}"
+      - echo "VM_FQDN - {{.VM_FQDN}}"
+      - echo "USERNAME - {{.USERNAME}}"
+      - echo "PORT - {{.PORT}}"
+      - echo "ssh -o StrictHostKeyChecking=no -p {{.PORT}} -i ./ssh/{{.VM_NAME}}_ansible_ed25519 {{.USERNAME}}@{{.VM_FQDN}} \"date\""
+    requires:
+      vars: [ VM_NAME, VM_FQDN ]
+    silent: true
+
+  ssh:connect:
+    desc: "Connect to a VM via SSH"
+    dir: '{{.USER_WORKING_DIR}}'
+    vars:
+      PORT: '{{default "22022" .PORT}}'
+    cmds:
+      - pwd
+      - echo "ssh -o StrictHostKeyChecking=no -p {{.PORT}} -i ./ssh/{{.VM_NAME}}_ansible_ed25519 ansible@{{.VM_FQDN}}"
+    requires:
+      vars: [ VM_NAME, VM_FQDN ]
+    silent: true
+
+  # =============
+  # === VAULT ===
+  # =============
+  vault:get:private_key:
+    desc: "Read private key for a VM from vault and store it in the root directory to be used by ansible"
+    dir: '{{.USER_WORKING_DIR}}'
+    vars:
+      PORT: '{{default "22022" .PORT}}'
+    cmds:
+      - pwd
+      - echo "VM_NAME - {{.VM_NAME}}"
+      - echo "VM_FQDN - {{.VM_FQDN}}"
+      - echo "MOUNT_PATH - {{.MOUNT_PATH}}"
+      # download from vault
+      - echo "vault kv get -field=openssh_private -mount={{.MOUNT_PATH}} {{.VM_NAME}}/ssh_ansible > ./ssh/{{.VM_NAME}}_ansible_ed25519"
+      # make executable
+      - echo "chmod 600 ./ssh/{{.VM_NAME}}_ansible_ed25519"
+      # remove from known_hosts
+      - echo "ssh-keygen -f \"{{.HOME}}/.ssh/known_hosts\" -R \"[{{.VM_FQDN}}]:{{.PORT}}\""
+    requires:
+      vars: [ VM_NAME, VM_FQDN, MOUNT_PATH ]
+    silent: true
+
+  # ===============
+  # === ANSIBLE ===
+  # ===============
+  ansible:test:connectivity:
+    dir: '{{.USER_WORKING_DIR}}/2-ansible'
+    cmds:
+      - pwd
+      - echo "STAGE - {{.STAGE}}"
+      - echo "HOST - {{.HOST}}"
+    requires:
+      vars: [ STAGE, HOST ]
+    silent: true
+
+  ansible:playbook:site:
+    dir: '{{.USER_WORKING_DIR}}/2-ansible'
+    cmds:
+      - pwd
+      - echo "ansible-playbook -i inventory/hosts_{{.STAGE}}.yml site.yml"
+    requires:
+      vars: [ STAGE ]
+    silent: true
+
+#  greet:
+#    vars:
+#      MESSAGE: '{{default "Hello World!" .MESSAGE}}'
+#    cmds:
+#      - echo "{{.MESSAGE}}"
+#    silent: true
