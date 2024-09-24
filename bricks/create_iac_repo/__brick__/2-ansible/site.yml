@@ -1,0 +1,5 @@
+---
+- name: {{applicationName.pascalCase()}} playbook
+  hosts: localhost
+  roles:
+    - role: cas.{{applicationName.camelCase()}}.run

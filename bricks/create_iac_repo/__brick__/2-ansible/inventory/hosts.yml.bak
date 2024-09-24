@@ -1,0 +1,23 @@
+---
+all:
+  hosts:
+    cas-{{applicationName.camelCase()}}-sandbox:
+      ansible_host: {{hostname}}s.vm.cas.kvnbw.net
+      ansible_ssh_private_key_file: ./ssh/{{hostname}}s_ansible_ed25519
+    cas-{{applicationName.camelCase()}}-labor:
+      ansible_host: {{hostname}}l.vm.cas.kvnbw.net
+      ansible_ssh_private_key_file: ./ssh/{{hostname}}l_ansible_ed25519
+    cas-{{applicationName.camelCase()}}-production:
+      ansible_host: {{hostname}}p.vm.cas.kvnbw.net
+      ansible_ssh_private_key_file: ./ssh/{{hostname}}p_ansible_ed25519
+  
+  children:
+    {{applicationName.camelCase()}}_servers_sandbox:
+      hosts:
+        cas-{{applicationName.camelCase()}}-sandbox:
+    {{applicationName.camelCase()}}_servers_labor:
+      hosts:
+        cas-{{applicationName.camelCase()}}-labor:
+    {{applicationName.camelCase()}}_servers_production:
+      hosts:
+        cas-{{applicationName.camelCase()}}-production:

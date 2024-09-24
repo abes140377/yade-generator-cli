@@ -8,7 +8,7 @@ variable "location" {
 }
 
 variable "stage" {
-  description = "The stage to deploy to: sbox, labor, production"
+  description = "The stage to deploy to: sbox, labor, prod"
   type        = string
   default     = "sbox"
 }
@@ -26,7 +26,7 @@ variable "hostname" {
 variable "network" {
   description = "The network to get the ip for the vm"
   type        = string
-  default     = "TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_L"  # labor
+  default     = "TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_T"  # labor (T stands for test)
 }
 
 variable "folder" {
@@ -38,7 +38,7 @@ variable "folder" {
 variable "vsphere_name" {
     description = "The hostname of the vsphere to use"
     type        = string
-    default     = "viinfvc00004p" # labor (same as production)
+    default     = "viinfvc00004p" # labor (same as prod)
 }
 
 # ==================================

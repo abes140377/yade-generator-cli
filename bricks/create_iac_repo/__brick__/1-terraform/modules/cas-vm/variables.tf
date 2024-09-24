@@ -4,11 +4,11 @@ variable "location" {
 }
 
 variable "stage" {
-    description = "The stage to deploy to: sbox, labor, production"
+    description = "The stage to deploy to: sbox, labor, prod"
     type        = string
     validation {
-        condition     = contains(["sbox", "labor", "production"], var.stage)
-        error_message = "Valid values for var: stage are (sbox, labor or production)."
+        condition     = contains(["sbox", "labor", "prod"], var.stage)
+        error_message = "Valid values for var: stage are (sbox, labor or prod)."
     }
 }
 
@@ -54,8 +54,8 @@ variable "network" {
     description = "The network to get the ip for the vm"
     type        = string
     validation {
-        condition     = contains(["TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_SANDBOX", "TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_L", "TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_P"], var.network)
-        error_message = "Valid values for var: network are (TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_SANDBOX, TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_L or TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_P)."
+        condition     = contains(["TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_SANDBOX", "TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_T", "TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_P"], var.network)
+        error_message = "Valid values for var: network are (TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_SANDBOX, TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_T or TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_P)."
     }
 }
 
@@ -67,7 +67,7 @@ variable "folder" {
 variable "additional_domains" {
     description = "Additional Domains to set for the vm"
     type        = list(string)
-    default     = [ "gitlab-mgm" ]
+    default     = [ "{{applicationName}}-mgm" ]
 }
 
 variable "http_proxy" {

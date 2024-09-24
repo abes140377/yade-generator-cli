@@ -1,21 +1,29 @@
 version: 3
 
+env:
+  EXAMPLE_PROJECT_NAME: example
+
 tasks:
   dart:cleanup:
+    desc: Remove dart cache files like .dart_tool and pubspec.lock recursively
     cmds:
       - find . -type d -name ".dart_tool" -exec rm -r {} +
       - find . -name "pubspec.lock" -type f -delete
     silent: true
 
   dart:init:
+    desc: Initialize dart projects yade-project-generator-cli recursively
     cmds:
       - cd ./packages/yade_cli && dart pub get
       - cd ./bricks/create_iac_repo/hooks && dart pub get
     silent: true
 
   mason:bundle:templates:local:
+    desc: Bundle templates locally
+    dir: "{{.HOME}}/projects/cas-yade/src/yade-project-generator-cli"
     cmds:
       # bundle templates
+      - pwd
       - >
         mason bundle \
           -s path ./bricks/create_iac_repo \
@@ -25,54 +33,61 @@ tasks:
       - dart format ./packages/yade_cli
     silent: true
 
-  dart:run:build_runner:
-    dir: packages/yade_cli
-    cmds:
-      - dart run build_runner build --delete-conflicting-outputs
-    silent: true
-
   mason:bundle:templates:git:
+    desc: Bundle templates from git repo
     cmds:
       # bundle templates
       - >
         mason bundle \
-          -s path __bricks__/create_iac_repo/ \
+          -s git git@github.com:abes140377/yade-project-generator-cli.git \
+          --git-path bricks/create_iac_repo \
           -t dart \
           -o packages/yade_cli/lib/src/commands/create/templates
       # format
       # - dart format ./packages/yade_cli
     silent: true
 
+  dart:run:build_runner:
+    desc: Run dart build_runner build to generate version.dart file
+    dir: "{{.HOME}}/projects/cas-yade/src/yade-project-generator-cli/packages/yade_cli"
+    cmds:
+      - dart run build_runner build --delete-conflicting-outputs
+    silent: true
+
   yade:create:test:
+    desc: Create a test repository using the dart cli tool
     dir: "{{.HOME}}/projects/cas-yade/src"
     deps:
       - mason:bundle:templates:local
       - dart:run:build_runner
     cmds:
-      - rm -rf test-mgm
+      # - rm -rf test-mgm
       - clear
       - |
         dart yade-project-generator-cli/packages/yade_cli/bin/yade.dart create \
           --environment=mgm \
           --hostname=viicasmgm666 \
           --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
-          test
+          {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 
   yade:compile:
+    desc: Compile the dart cli tool to a binary
     dir: "{{.HOME}}/projects/cas-yade/src/yade-project-generator-cli/packages/yade_cli"
     deps:
       - mason:bundle:templates:local
       - dart:run:build_runner
     cmds:
-      - rm -rf yade
+      - rm -rf ../../build/yade
+      - mkdir -p ../../build
       - dart compile exe bin/yade.dart -o ../../build/yade
     silent: true
 
-  yade:compile:create:test:
+  yade:create:test:compiled:
+    desc: Create a test repository using the compiled dart cli tool
     dir: "{{.HOME}}/projects/cas-yade/src/"
     cmds:
-      - rm -rf {{.HOME}}/projects/cas-yade/src/test-mgm
+      # - rm -rf {{.HOME}}/projects/cas-yade/src/test-mgm
       - clear
       # - yade-project-generator-cli/build/yade --version
       - |
@@ -80,10 +95,11 @@ tasks:
           --environment=mgm \
           --hostname=viicasmgm666 \
           --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
-          test
+          {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 
   yade:install:github:
+    desc: Install yade cli tool by using the install.sh script from github
     cmds:
       - sudo rm -rf /usr/local/bin/yade
       - curl -s https://raw.githubusercontent.com/abes140377/yade-project-generator-cli/main/scripts/install.sh | sudo bash
