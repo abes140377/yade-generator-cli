@@ -1,3 +1,0 @@
----
-- name: Include tasks from file gitlab-seed.yml
-  ansible.builtin.include_tasks: gitlab-seed.yml

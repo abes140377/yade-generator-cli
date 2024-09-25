@@ -12,10 +12,13 @@ Future<void> run(HookContext context) async {
   final hostname = context.vars['hostname'] as String;
   final organization = context.vars['organization'] as String;
 
+  context.logger.info('');
+  context.logger.info('Generating additional files:');
+
   // 2-ansible/inventory/hosts_sandbox.yml
   final sandboxInventoryProgress = context.logger.progress('hosts_sandbox.yml '
       'created successfully.');
-  await Future.delayed(const Duration(milliseconds: sleepDuration));
+  await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
 
   final hostsSandbox =
       File('$projectDirectory/2-ansible/inventory/hosts_sandbox.yml');
@@ -33,7 +36,7 @@ Future<void> run(HookContext context) async {
   // 2-ansible/inventory/hosts_labor.yml
   final laborIventoryProgress = context.logger.progress('hosts_labor.yml '
       'created successfully.');
-  await Future.delayed(const Duration(milliseconds: sleepDuration));
+  await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
 
   final hostsLabor =
       File('$projectDirectory/2-ansible/inventory/hosts_labor.yml');
@@ -50,7 +53,7 @@ Future<void> run(HookContext context) async {
   // 2-ansible/inventory/hosts_prod.yml
   final prodIventoryProgress = context.logger.progress('hosts_labor.yml '
       'created successfully.');
-  await Future.delayed(const Duration(milliseconds: sleepDuration));
+  await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
 
   final hostsProduction =
       File('$projectDirectory/2-ansible/inventory/hosts_prod.yml');
@@ -67,7 +70,7 @@ Future<void> run(HookContext context) async {
   // Taskfile
   final taskfileProgress = context.logger.progress('Taskfile.yml '
       'created successfully.');
-  await Future.delayed(const Duration(milliseconds: sleepDuration));
+  await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
 
   final taskfile = File('$projectDirectory/Taskfile.yml');
 

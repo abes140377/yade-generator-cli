@@ -1,3 +1,0 @@
----
-- name: Include tasks from file system-upgrade.yml
-  ansible.builtin.include_tasks: system-upgrade.yml

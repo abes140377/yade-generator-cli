@@ -1,8 +1,0 @@
-# Alles ignorieren
-/*
-
-# Ausnahme: cas-Verzeichnis nicht ignorieren
-!cas/
-!cas/**/
-
-!.gitignore

@@ -35,7 +35,7 @@ class CreateCommand extends YadeCommand {
       ..addOption(
         'ansible_collections',
         help: 'The ansible collections to use. E.g.: '
-            'adfinis.gitlab:1.0.1,community.general',
+            'adfinis.gitlab:1.0.1,community.general:9.4.0',
         mandatory: true,
       );
   }
@@ -57,7 +57,8 @@ class CreateCommand extends YadeCommand {
     final hostname = _hostname;
     final ansibleCollections = _ansibleCollections;
 
-    final outputDirectory = Directory('$applicationName-$environment');
+    final outputDirectory =
+        Directory('$organization-$applicationName-$environment');
 
     // logger
     //   ..info('Available variables:')
@@ -92,9 +93,27 @@ class CreateCommand extends YadeCommand {
 
     logger.info('');
     logger
-        .progress('IAC Repository for application $applicationName '
-            'created successfully (${outputDirectory.absolute.path})')
+        .progress('The IAC Repository for application $applicationName '
+            'has been successfully created\n'
+            '  Path: ${outputDirectory.absolute.path}')
         .complete();
+
+    logger
+      ..info('')
+      ..info('Important next steps:')
+      ..info(
+          "  1. Open the '.env.private.example' file in the project directory.")
+      ..info('  2. Adjust the values in the file to match your environment.')
+      ..info("  3. Save the file as '.env.private'.")
+      ..info('')
+      ..info(
+          "Note: The '.env.private' file should contain sensitive information "
+          'such as credentials and should NOT be committed to version control')
+      ..info('')
+      ..info('🚀 You are ready to spin up your first vm.')
+      ..info('')
+      ..info('Tip: You can run the follwing command to start the sandbox vm:')
+      ..info('  task example:install:sandbox');
 
     return ExitCode.success.code;
   }

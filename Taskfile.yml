@@ -12,7 +12,7 @@ tasks:
     silent: true
 
   dart:init:
-    desc: Initialize dart projects yade-project-generator-cli recursively
+    desc: Initialize dart projects yade-generator-cli recursively
     cmds:
       - cd ./packages/yade_cli && dart pub get
       - cd ./bricks/create_iac_repo/hooks && dart pub get
@@ -37,7 +37,7 @@ tasks:
       # bundle templates
       - >
         mason bundle \
-          -s git git@github.com:abes140377/yade-project-generator-cli.git \
+          -s git git@github.com:abes140377/yade-generator-cli.git \
           --git-path bricks/create_iac_repo \
           -t dart \
           -o packages/yade_cli/lib/src/commands/create/templates
@@ -59,10 +59,11 @@ tasks:
       - mason:bundle:templates:local
       - dart:run:build_runner
     cmds:
+      - pwd
       - rm -rf {{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       - |
-        dart ./yade-project-generator-cli/packages/yade_cli/bin/yade.dart create \
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm666 \
@@ -89,9 +90,9 @@ tasks:
     cmds:
       - rm -rf example-mgm
       - clear
-      # - yade-project-generator-cli/build/yade --version
+      # - yade-generator-cli/build/yade --version
       - |
-        yade-project-generator-cli/build/yade create \
+        yade-generator-cli/build/yade create \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm666 \
@@ -103,5 +104,5 @@ tasks:
     desc: Install yade cli tool by using the install.sh script from github
     cmds:
       - sudo rm -rf /usr/local/bin/yade
-      - curl -s https://raw.githubusercontent.com/abes140377/yade-project-generator-cli/main/scripts/install.sh | sudo bash
+      - curl -s https://raw.githubusercontent.com/abes140377/yade-generator-cli/main/scripts/install.sh | sudo bash
     silent: true

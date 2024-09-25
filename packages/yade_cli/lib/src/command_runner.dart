@@ -83,12 +83,12 @@ class YadeCommandRunner extends CompletionCommandRunner<int> {
 
   ///
   String getAsciiArtContent() {
-    return '''
+    return r'''
 __  _____    ____  ______   ________    ____
-\\ \\/ /   |  / __ \\/ ____/  / ____/ /   /  _/
- \\  / /| | / / / / __/    / /   / /    / /  
+\ \/ /   |  / __ \/ ____/  / ____/ /   /  _/
+ \  / /| | / / / / __/    / /   / /    / /  
  / / ___ |/ /_/ / /___   / /___/ /____/ /   
-/_/_/  |_/_____/_____/   \\____/_____/___/   
+/_/_/  |_/_____/_____/   \____/_____/___/   
 Yet Another Development Environment CLI
   ''';
   }
