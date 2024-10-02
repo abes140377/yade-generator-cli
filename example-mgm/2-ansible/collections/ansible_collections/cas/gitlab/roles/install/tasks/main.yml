@@ -1,3 +1,0 @@
----
-- name: Include tasks from file ldap-ssl-install.yml
-  ansible.builtin.include_tasks: ldap-ssl-install.yml

@@ -1,16 +1,9 @@
-# Created by https://www.toptal.com/developers/gitignore/api/terraform,ansible
-# Edit at https://www.toptal.com/developers/gitignore?templates=terraform,ansible
-
-### Ansible ###
-*.retry
+# Created by https://www.toptal.com/developers/gitignore/api/terraform
+# Edit at https://www.toptal.com/developers/gitignore?templates=terraform
 
 ### Terraform ###
 # Local .terraform directories
 **/.terraform/*
-
-# .tfstate files
-*.tfstate
-*.tfstate.*
 
 # Crash log files
 crash.log
@@ -40,4 +33,4 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# End of https://www.toptal.com/developers/gitignore/api/terraform,ansible
+# End of https://www.toptal.com/developers/gitignore/api/terraform

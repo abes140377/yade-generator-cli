@@ -2,9 +2,10 @@
 # Stage specific variables
 # ========================
 
-variable "hostname" {
-  description = "Hostname of the vm to create"
+variable "group" {
+  description = "Name for the vm group"
   type        = string
+  default     = "{{applicationName.camelCase()}}"
 }
 
 variable "location" {
@@ -35,6 +36,19 @@ variable "network" {
   description = "The network to get the ip for the vm"
   type        = string
   default     = "TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_SANDBOX"  # sandbox
+}
+
+variable "vms" {
+  description = "ToDo"
+  type = list(object({
+    num_cpus = number
+    memory    = number
+    system_disk_size = number
+    
+    # network
+    # template
+    # additional_domains = list(string)
+  }))
 }
 
 variable "folder" {

@@ -1,4 +1,8 @@
 collections:
-{{#ansibleCollections}}   - name: {{name}}
-     version: {{version}}
+  - name: git@viicasapp003t.intinf.dvvbw.net:itag001202/ansible-collection-cas.git
+    type: git
+    version: main
+
+{{#ansibleCollections}}  - name: {{name}}
+    version: {{version}}
 {{/ansibleCollections}}
