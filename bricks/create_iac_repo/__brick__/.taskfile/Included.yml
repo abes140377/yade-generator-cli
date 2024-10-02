@@ -1,42 +1,58 @@
 version: 3
 
+silent: true
+{{=<% %>=}}
 tasks:
   # =================
   # === TERRAFORM ===
   # =================
   terraform:init:
     desc: "Initialize terraform"
-    vars:
-      STAGE: '{{default "" .STAGE}}'
-    dir: '{{.USER_WORKING_DIR}}/1-terraform/{{.STAGE}}'
+    dir: '{{.USER_WORKING_DIR}}/1-terraform/environment/{{.STAGE}}'
     cmds:
+      - echo ""
+      - echo "🚀 terraform:init [ STAGE - {{.STAGE}} ]"
       - pwd
-      - echo "terraform init"
-    silent: true
+      - terraform init
+    requires:
+      vars: [ STAGE ]
 
   terraform:plan:
     desc: "Initialize terraform"
-    vars:
-      STAGE: '{{default "" .STAGE}}'
-    dir: '{{.USER_WORKING_DIR}}/1-terraform/{{.STAGE}}'
+    dir: '{{.USER_WORKING_DIR}}/1-terraform/environment/{{.STAGE}}'
     cmds:
+      - echo ""
+      - echo "🚀 terraform:plan [ STAGE - {{.STAGE}} ]"
       - pwd
-      - echo "terraform plan"
-    silent: true
+      - terraform plan
+    requires:
+      vars: [ STAGE ]
 
   terraform:apply:
     desc: "Initialize terraform"
-    vars:
-      STAGE: '{{default "" .STAGE}}'
-    dir: '{{.USER_WORKING_DIR}}/1-terraform/{{.STAGE}}'
+    dir: '{{.USER_WORKING_DIR}}/1-terraform/environment/{{.STAGE}}'
     cmds:
+      - echo ""
+      - echo "🚀 terraform:apply [ STAGE - {{.STAGE}} ]"
       - pwd
-      - echo "terraform apply -auto-approve"
-    silent: true
+      - terraform apply -auto-approve
+    requires:
+      vars: [ STAGE ]
 
-  # =============
+  terraform:destroy:
+    desc: "Destroy terraform"
+    dir: '{{.USER_WORKING_DIR}}/1-terraform/environment/{{.STAGE}}'
+    cmds:
+      - echo ""
+      - echo "🚀 terraform:destroy [ STAGE - {{.STAGE}} ]"
+      - pwd
+      - terraform destroy -auto-approve
+    requires:
+      vars: [ STAGE ]
+
+  # ===========
   # === SSH ===
-  # =============
+  # ===========
   ssh:test:connectivity:
     desc: "Test SSH Connectivity to a VM"
     dir: '{{.USER_WORKING_DIR}}'
@@ -44,27 +60,26 @@ tasks:
       USERNAME: '{{default "ansible" .USERNAME}}'
       PORT: '{{default "22022" .PORT}}'
     cmds:
+      - echo ""
+      - echo "🚀 ssh:test:connectivity [ VM_FQDN - {{.VM_FQDN}}, KEY - {{.KEY}}, USERNAME - {{.USERNAME}}, PORT - {{.PORT}} ]"
       - pwd
-      - echo "VM_NAME - {{.VM_NAME}}"
-      - echo "VM_FQDN - {{.VM_FQDN}}"
-      - echo "USERNAME - {{.USERNAME}}"
-      - echo "PORT - {{.PORT}}"
-      - echo "ssh -o StrictHostKeyChecking=no -p {{.PORT}} -i ./ssh/{{.VM_NAME}}_ansible_ed25519 {{.USERNAME}}@{{.VM_FQDN}} \"date\""
+      - ssh -o StrictHostKeyChecking=no -p {{.PORT}} -i {{.KEY}} {{.USERNAME}}@{{.VM_FQDN}} "date"
     requires:
-      vars: [ VM_NAME, VM_FQDN ]
-    silent: true
+      vars: [ VM_FQDN, KEY ]
 
   ssh:connect:
     desc: "Connect to a VM via SSH"
     dir: '{{.USER_WORKING_DIR}}'
     vars:
+      USERNAME: '{{default "ansible" .USERNAME}}'
       PORT: '{{default "22022" .PORT}}'
     cmds:
+      - echo ""
+      - echo "🚀 ssh:connect [ VM_FQDN - {{.VM_FQDN}}, KEY - {{.KEY}}, USERNAME - {{.USERNAME}}, PORT - {{.PORT}} ]"
       - pwd
-      - echo "ssh -o StrictHostKeyChecking=no -p {{.PORT}} -i ./ssh/{{.VM_NAME}}_ansible_ed25519 ansible@{{.VM_FQDN}}"
+      - ssh -o StrictHostKeyChecking=no -p {{.PORT}} -i {{.KEY}} {{.USERNAME}}@{{.VM_FQDN}}
     requires:
-      vars: [ VM_NAME, VM_FQDN ]
-    silent: true
+      vars: [ VM_FQDN, KEY ]
 
   # =============
   # === VAULT ===
@@ -75,19 +90,19 @@ tasks:
     vars:
       PORT: '{{default "22022" .PORT}}'
     cmds:
+      - echo ""
+      - echo "🚀 vault:get:private_key [ VM_NAME - {{.VM_NAME}}, VM_FQDN - {{.VM_FQDN}}, MOUNT_PATH - {{.MOUNT_PATH}}, PORT - {{.PORT}} ]"
       - pwd
-      - echo "VM_NAME - {{.VM_NAME}}"
-      - echo "VM_FQDN - {{.VM_FQDN}}"
-      - echo "MOUNT_PATH - {{.MOUNT_PATH}}"
+      # create ssh directory
+      - mkdir -p ./ssh
       # download from vault
-      - echo "vault kv get -field=openssh_private -mount={{.MOUNT_PATH}} {{.VM_NAME}}/ssh_ansible > ./ssh/{{.VM_NAME}}_ansible_ed25519"
+      - vault kv get -field=openssh_private -mount={{.MOUNT_PATH}} {{.VM_NAME}}/ssh_ansible > ./ssh/{{.VM_NAME}}_ansible_ed25519
       # make executable
-      - echo "chmod 600 ./ssh/{{.VM_NAME}}_ansible_ed25519"
+      - chmod 600 ./ssh/{{.VM_NAME}}_ansible_ed25519
       # remove from known_hosts
-      - echo "ssh-keygen -f \"{{.HOME}}/.ssh/known_hosts\" -R \"[{{.VM_FQDN}}]:{{.PORT}}\""
+      - ssh-keygen -f "{{.HOME}}/.ssh/known_hosts" -R "[{{.VM_FQDN}}]:{{.PORT}}"
     requires:
       vars: [ VM_NAME, VM_FQDN, MOUNT_PATH ]
-    silent: true
 
   # ===============
   # === ANSIBLE ===
@@ -95,25 +110,33 @@ tasks:
   ansible:test:connectivity:
     dir: '{{.USER_WORKING_DIR}}/2-ansible'
     cmds:
+      - echo ""
+      - echo "🚀 ansible:test:connectivity [ STAGE - {{.STAGE}} ]"
       - pwd
-      - echo "STAGE - {{.STAGE}}"
-      - echo "HOST - {{.HOST}}"
+      - ansible -i inventory/hosts_{{.STAGE}}.yml -m ping all
     requires:
-      vars: [ STAGE, HOST ]
-    silent: true
+      vars: [ STAGE ]
+
+  ansible:inventory:print:
+    dir: '{{.USER_WORKING_DIR}}/2-ansible'
+    cmds:
+      - echo ""
+      - echo "🚀 ansible:inventory:print [ STAGE - {{.STAGE}} ]"
+      - pwd
+      - ansible-inventory -i inventory/hosts_{{.STAGE}}.yml --graph --vars
+    requires:
+      vars: [ STAGE ]
+
 
   ansible:playbook:site:
     dir: '{{.USER_WORKING_DIR}}/2-ansible'
+    vars:
+      PLAYBOOK: '{{default "site.yml" .PLAYBOOK}}'
     cmds:
+      - echo ""
+      - echo "🚀 ansible:playbook:site [ STAGE - {{.STAGE}}, PLAYBOOK - {{.PLAYBOOK}} ]"
       - pwd
-      - echo "ansible-playbook -i inventory/hosts_{{.STAGE}}.yml site.yml"
+      - ansible-playbook -i inventory/hosts_{{.STAGE}}.yml {{.PLAYBOOK}}
     requires:
       vars: [ STAGE ]
-    silent: true
-
-#  greet:
-#    vars:
-#      MESSAGE: '{{default "Hello World!" .MESSAGE}}'
-#    cmds:
-#      - echo "{{.MESSAGE}}"
-#    silent: true
+<%={{ }}=%>

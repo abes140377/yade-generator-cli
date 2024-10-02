@@ -1,3 +1,8 @@
+variable "group" {
+  description = "Name for the vm group"
+  type        = string
+}
+
 variable "location" {
     description = "The location of the datacenter to deploy to: Karlsruhe or Stuttgart"
     type        = string
@@ -25,35 +30,6 @@ variable "function" {
     }
 }
 
-variable "hostname" {
-    description = "Hostname of the vm to create"
-    type        = string
-}
-
-variable "memory" {
-    description = "The memory in MB assigned to the vm"
-    type        = number
-    default     = 8192
-}
-
-variable "num_cpus" {
-    description = "The nubmer of vCPU cores assigned to the vm"
-    type        = number
-    default     = 4
-}
-
-variable "system_disk_size" {
-    description = "(optional) Size of the system disk in GB"
-    type        = number
-    default     = 80
-}
-
-variable "template" {
-    description = "The template used to clone the vm from. Must be present on the vsphere host"
-    type        = string
-    default     = "ubuntu-jammy-22.04-cloudimg-20240221"
-}
-
 variable "network" {
     description = "The network to get the ip for the vm"
     type        = string
@@ -63,20 +39,10 @@ variable "network" {
     }
 }
 
-variable "folder" {
-    description = "The folder in vSphere to place the vm in"
+variable "template" {
+    description = "The template used to clone the vm from. Must be present on the vsphere host"
     type        = string
-}
-
-variable "additional_domains" {
-    description = "Additional Domains to set for the vm"
-    type        = list(string)
-}
-
-variable "domain_zone" {
-    description = "The domain zone to set for the additional_domains"
-    type        = string
-    default     = "cas.kvnbw.net"
+    default     = "ubuntu-jammy-22.04-cloudimg-20240221"
 }
 
 variable "http_proxy" {
@@ -91,13 +57,17 @@ variable "https_proxy" {
     default     = "http://webproxy.kvnbw.de:3128"
 }
 
-variable "vsphere_name" {
-    description = "The hostname of the vsphere to use"
-    type        = string
-    validation {
-        condition     = contains(["viinfvc00025t", "viinfvc00004p"], var.vsphere_name)
-        error_message = "Valid values for var: vsphere_name are (viinfvc00025t (sandbox), viinfvc00004p (labor) or viinfvc00004p (prod)."
-    }
+variable "vms" {
+  description = "ToDo"
+  type = list(object({
+    num_cpus = number
+    memory    = number
+    system_disk_size = number
+    
+    # network
+    # template
+    # additional_domains = list(string)
+  }))
 }
 
 # base path in vault to the get api credentials

@@ -60,14 +60,14 @@ tasks:
       - dart:run:build_runner
     cmds:
       - pwd
-      - rm -rf {{.EXAMPLE_PROJECT_NAME}}-mgm
+      - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       - |
         dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
           --organization=cas \
           --environment=mgm \
-          --hostname=viicasmgm666 \
-          --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
+          --hostname=viicasmgm004 \
+          --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
           {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 
@@ -88,15 +88,15 @@ tasks:
       - yade:compile
     dir: "{{.HOME}}/projects/cas-yade/src/"
     cmds:
-      - rm -rf example-mgm
+      - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       # - yade-generator-cli/build/yade --version
       - |
         yade-generator-cli/build/yade create \
           --organization=cas \
           --environment=mgm \
-          --hostname=viicasmgm666 \
-          --ansible_collections=adfinis.gitlab:1.0.1,community.general:9.4.0 \
+          --hostname=viicasmgm004 \
+          --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
           {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 

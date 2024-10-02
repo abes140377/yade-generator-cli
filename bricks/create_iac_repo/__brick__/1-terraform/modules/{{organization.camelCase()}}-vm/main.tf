@@ -1,21 +1,30 @@
 module "cas_vm" {
+    for_each = local.vms
+
     source = "git@viicasapp003t.intinf.dvvbw.net:cas/terraform/module-cas-vm.git?ref=v1.0.1"
     
-    location = var.location
-    stage    = var.stage
-    function = var.function
+    stage = local.stage
+    function = local.function
 
-    hostname         = var.hostname
-    memory           = var.memory
-    num_cpus         = var.num_cpus
-    system_disk_size = var.system_disk_size
-    template         = var.template
-    network          = var.network
-    folder           = var.folder
+    hostname = each.key
 
-    http_proxy = var.http_proxy
-    https_proxy = var.https_proxy
+    location = each.value.location
+    memory = each.value.memory
+    num_cpus = each.value.num_cpus
+    system_disk_size = each.value.system_disk_size
+    template = each.value.template
+    network  = each.value.network
 
-    additional_domains = var.additional_domains
-    domain_zone = var.domain_zone
+    folder = local.folder
+
+    http_proxy = local.http_proxy
+    https_proxy = local.https_proxy
+
+    additional_domains = []
+    # additional_domains = var.additional_domains
+    additional_ssh_keys = [module.ssh.public_key_openssh]
+}
+
+output "datacenter" {
+  value = module.cas_vm
 }

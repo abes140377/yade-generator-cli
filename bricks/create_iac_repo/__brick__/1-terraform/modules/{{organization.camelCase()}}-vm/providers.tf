@@ -45,8 +45,8 @@ provider "vault" {
   skip_tls_verify = true
 }
 
-# # vault secret containing credentials for vsphere
-# # Should contain "VSPHERE_USER", "VSPHERE_PASSWORD", "VSPHERE_SERVER", "VSPHERE_ALLOW_UNVERIFIED_SSL"
+# vault secret containing credentials for vsphere
+# Should contain "VSPHERE_USER", "VSPHERE_PASSWORD", "VSPHERE_SERVER", "VSPHERE_ALLOW_UNVERIFIED_SSL"
 data "vault_generic_secret" "vsphere" {
   path = local.vault.path_vsphere
 }

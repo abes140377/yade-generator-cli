@@ -57,6 +57,18 @@ class CreateCommand extends YadeCommand {
     final hostname = _hostname;
     final ansibleCollections = _ansibleCollections;
 
+    // create gitignore wildcard entries for 3rd party collections
+    var collectionsGitignore = <String>[];
+    for (final collection in ansibleCollections) {
+      final collectionName = collection['name']!;
+      final entry =
+          '${collectionName.substring(0, collectionName.lastIndexOf('.'))}*';
+
+      collectionsGitignore.add(entry);
+    }
+
+    collectionsGitignore = collectionsGitignore.toSet().toList();
+
     final outputDirectory =
         Directory('$organization-$applicationName-$environment');
 
@@ -81,6 +93,7 @@ class CreateCommand extends YadeCommand {
       'hostname': hostname,
       'ansibleCollections': ansibleCollections,
       'outputDirectory': outputDirectory.absolute.path,
+      'collectionsGitignore': collectionsGitignore,
     };
 
     await generator.generate(
