@@ -3,6 +3,7 @@ version: 3
 env:
   EXAMPLE_PROJECT_NAME: example
   CODER_PROJECT_NAME: coder
+  KEYCLOAK_PROJECT_NAME: keycloak
 
 tasks:
   dart:cleanup:
@@ -51,6 +52,26 @@ tasks:
     dir: packages/yade_cli
     cmds:
       - dart run build_runner build --delete-conflicting-outputs
+    silent: true
+
+  yade:create:keycloak:
+    desc: Create the keycloak repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - pwd
+      # - rm -rf cas-{{.KEYCLOAK_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm004 \
+          --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
+          {{.KEYCLOAK_PROJECT_NAME}}
     silent: true
 
   yade:create:coder:
