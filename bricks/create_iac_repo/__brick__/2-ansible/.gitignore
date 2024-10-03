@@ -1,4 +1,6 @@
-# exclude all collections except the {{applicationName}}/gitlab
+# exclude all collections except the {{applicationName}}
+collections/ansible_collections/cloud*
+
 {{#collectionsGitignore}}collections/ansible_collections/{{.}}
 {{/collectionsGitignore}}
 collections/ansible_collections/{{organization}}/*

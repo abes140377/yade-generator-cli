@@ -1,7 +1,7 @@
 # Example
 
 ```sh
-# Create a Infrastructure as Code project to deploy a GitLab instance
+# Create a Infrastructure as Code project to deploy a {{applicationName.camelCase()}} instance
 $ yade create \
     --environment=mgm \
     --hostname=viicasmgm666 \

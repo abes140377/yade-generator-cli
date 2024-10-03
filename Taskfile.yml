@@ -2,6 +2,7 @@ version: 3
 
 env:
   EXAMPLE_PROJECT_NAME: example
+  CODER_PROJECT_NAME: coder
 
 tasks:
   dart:cleanup:
@@ -52,15 +53,15 @@ tasks:
       - dart run build_runner build --delete-conflicting-outputs
     silent: true
 
-  yade:create:test:
-    desc: Create a test repository using the dart cli tool
+  yade:create:coder:
+    desc: Create the coder repository using the dart cli tool
     dir: ../
     deps:
       - mason:bundle:templates:local
       - dart:run:build_runner
     cmds:
       - pwd
-      - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      # - rm -rf cas-{{.CODER_PROJECT_NAME}}-mgm
       - clear
       - |
         dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
@@ -68,6 +69,29 @@ tasks:
           --environment=mgm \
           --hostname=viicasmgm004 \
           --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1,thehedgefrog.coder_v2_install:v1.2.0 \
+          --enable_digitalocean \
+          {{.CODER_PROJECT_NAME}}
+    silent: true
+
+  yade:create:example:
+    desc: Create the example repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - pwd
+      # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm004 \
+          --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
+          --enable_digitalocean \
           {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 
@@ -82,13 +106,13 @@ tasks:
       - dart compile exe ./packages/yade_cli/bin/yade.dart -o ./build/yade
     silent: true
 
-  yade:create:test:compiled:
+  yade:create:example:compiled:
     desc: Create a test repository using the compiled dart cli tool
     deps:
       - yade:compile
     dir: "{{.HOME}}/projects/cas-yade/src/"
     cmds:
-      - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       # - yade-generator-cli/build/yade --version
       - |

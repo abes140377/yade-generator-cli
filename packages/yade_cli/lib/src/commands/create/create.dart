@@ -35,8 +35,18 @@ class CreateCommand extends YadeCommand {
       ..addOption(
         'ansible_collections',
         help: 'The ansible collections to use. E.g.: '
-            'adfinis.gitlab:1.0.1,community.general:9.4.0',
+            'community.docker:3.12.1,community.general:9.4.0',
         mandatory: true,
+      )
+      ..addOption(
+        'ansible_roles',
+        help: 'The ansible roles to use. E.g.: '
+            'community.docker:3.12.1,community.general:9.4.0',
+        // mandatory: false,
+      )
+      ..addFlag(
+        'enable_digitalocean',
+        help: 'Wether to enable digitalocean support',
       );
   }
 
@@ -56,6 +66,8 @@ class CreateCommand extends YadeCommand {
     const stages = 'sandbox,labor,production';
     final hostname = _hostname;
     final ansibleCollections = _ansibleCollections;
+    final ansibleRoles = _ansibleRoles;
+    final enableDigitalocean = results['enable_digitalocean'] as bool;
 
     // create gitignore wildcard entries for 3rd party collections
     var collectionsGitignore = <String>[];
@@ -72,16 +84,19 @@ class CreateCommand extends YadeCommand {
     final outputDirectory =
         Directory('$organization-$applicationName-$environment');
 
-    // logger
-    //   ..info('Available variables:')
-    //   ..info('  applicationName: $applicationName')
-    //   ..info('  organization: $organization')
-    //   ..info('  environment: $environment')
-    //   ..info('  stages: $stages')
-    //   ..info('  hostname: $hostname')
-    //   ..info('  outputDirectory: ${outputDirectory.path}')
-    //   ..info('  ansibleCollections: $ansibleCollections')
-    //   ..info('');
+    logger
+      ..info('Available variables:')
+      ..info('  applicationName: $applicationName')
+      ..info('  organization: $organization')
+      ..info('  environment: $environment')
+      ..info('  stages: $stages')
+      ..info('  hostname: $hostname')
+      ..info('  ansibleCollections: $ansibleCollections')
+      ..info('  collectionsGitignore: $collectionsGitignore')
+      ..info('  ansibleRoles: $ansibleRoles')
+      ..info('  enableDigitalocean: $enableDigitalocean')
+      ..info('  outputDirectory: ${outputDirectory.path}')
+      ..info('');
 
     final generator = await _generator(createIacRepoBundle);
 
@@ -92,8 +107,10 @@ class CreateCommand extends YadeCommand {
       'stages': stages,
       'hostname': hostname,
       'ansibleCollections': ansibleCollections,
-      'outputDirectory': outputDirectory.absolute.path,
       'collectionsGitignore': collectionsGitignore,
+      'ansibleRoles': ansibleRoles,
+      'enableDigitalocean': enableDigitalocean,
+      'outputDirectory': outputDirectory.absolute.path,
     };
 
     await generator.generate(
@@ -175,5 +192,25 @@ class CreateCommand extends YadeCommand {
         .toList();
 
     return ansibleCollections;
+  }
+
+  List<Map<String, String>> get _ansibleRoles {
+    final ansibleRolesStr = results['ansible_roles'] as String?;
+
+    // Split the string by comma and then by colon and create a List of Map
+    final ansibleRoles = ansibleRolesStr != null
+        ? ansibleRolesStr
+            .split(',')
+            .map((e) => e.split(':'))
+            .map(
+              (e) => {
+                'name': e[0],
+                'version': e[1],
+              },
+            )
+            .toList()
+        : <Map<String, String>>[];
+
+    return ansibleRoles;
   }
 }

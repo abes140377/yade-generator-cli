@@ -27,20 +27,20 @@ Including an example of how to use your role (for instance, with variables passe
 - name: Execute tasks on servers
   hosts: servers
   roles:
-    - role: {{organization.camelCase()}}.gitlab.install
+    - role: {{organization.camelCase()}}.{{applicationName}}.install
       install_x: 42
 ```
 
 Another way to consume this role would be:
 
 ```yaml
-- name: Initialize the install role from {{organization.camelCase()}}.gitlab
+- name: Initialize the install role from {{organization.camelCase()}}.{{applicationName}}
   hosts: servers
   gather_facts: false
   tasks:
     - name: Trigger invocation of install role
       ansible.builtin.include_role:
-        name: {{organization.camelCase()}}.gitlab.install
+        name: {{organization.camelCase()}}.{{applicationName}}.install
       vars:
         install_x: 42
 ```

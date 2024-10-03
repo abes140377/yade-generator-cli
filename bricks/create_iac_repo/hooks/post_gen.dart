@@ -189,7 +189,11 @@ tasks:
       - echo "  VAULT_ADDR - \$VAULT_ADDR"
       - echo "  VAULT_TOKEN - \$VAULT_TOKEN"
       - echo "  VAULT_SKIP_VERIFY - \$VAULT_SKIP_VERIFY"
+      - echo ""
       - echo "  TF_VAR_vault_provider_token - \$TF_VAR_vault_provider_token"
+      - echo ""
+      - echo "  TF_VAR_do_token - \$TF_VAR_do_token"
+      - echo "  TF_VAR_ssh_fingerprint - \$TF_VAR_ssh_fingerprint"
       - echo ""
       - echo "Variables:"
       - echo "  ${applicationName.toUpperCase()}_VM_NAME_SANDBOX - {{.${applicationName.toUpperCase()}_VM_NAME_SANDBOX}}"
@@ -210,11 +214,51 @@ tasks:
       - pip install -r requirements.txt
       - cd 2-ansible && ansible-galaxy install -r requirements.yml --force
 
+  # ====================
+  # === DIGITALOCEAN ===
+  # ====================
+  $applicationName:install:digitalocean:
+    desc: "Install $applicationName on Digitalocean"
+    cmds:
+      - task: terraform:init
+        vars:
+          STAGE: digitalocean
+      - task: terraform:plan
+        vars:
+          STAGE: digitalocean
+      - task: terraform:apply
+        vars:
+          STAGE: digitalocean
+      - task: ansible:test:connectivity
+        vars:
+          STAGE: 'digitalocean'
+      - task: ansible:inventory:print
+        vars:
+          STAGE: 'digitalocean'
+      - task: ansible:playbook:site
+        vars:
+          STAGE: 'digitalocean'
+
+  $applicationName:uninstall:digitalocean:
+    desc: "Uninstall $applicationName on Digitalocean"
+    cmds:
+      - task: terraform:destroy
+        vars:
+            STAGE: digitalocean
+
+  $applicationName:reinstall:digitalocean:
+    desc: "Re-Install $applicationName on Digitalocean"
+    cmds:
+      - task: $applicationName:uninstall:digitalocean
+      - task: $applicationName:install:digitalocean
+    silent: true
+
+  
   # ===============
   # === SANDBOX ===
   # ===============
   $applicationName:install:sandbox:
-    desc: "Install $applicationName on the Sandbox VM"
+    desc: "Install $applicationName in the Sandbox Environment"
     cmds:
       - task: terraform:init
         vars:
@@ -243,14 +287,14 @@ tasks:
           STAGE: 'sandbox'
 
   $applicationName:uninstall:sandbox:
-    desc: "Top Level Task to Uninstall $applicationName Sandbox"
+    desc: "Uninstall $applicationName in the Sandbox Environment"
     cmds:
       - task: terraform:destroy
         vars:
             STAGE: sandbox
 
   $applicationName:reinstall:sandbox:
-    desc: "Top Level Task to Re-Install $applicationName Labor"
+    desc: "Re-Install $applicationName in the Sandbox Environment"
     cmds:
       - task: $applicationName:uninstall:sandbox
       - task: $applicationName:install:sandbox
@@ -268,7 +312,7 @@ tasks:
   # === LABOR ===
   # =============
   $applicationName:install:labor:
-    desc: "Install $applicationName on the Labor VM"
+    desc: "Install $applicationName in the Labor Environment"
     cmds:
       - task: terraform:init
         vars:
@@ -297,14 +341,14 @@ tasks:
           STAGE: 'labor'
 
   $applicationName:uninstall:labor:
-    desc: "Top Level Task to Uninstall $applicationName Sandbox"
+    desc: "Uninstall $applicationName in the Labor Environment"
     cmds:
       - task: terraform:destroy
         vars:
             STAGE: labor
 
   $applicationName:reinstall:labor:
-    desc: "Top Level Task to Re-Install $applicationName Labor"
+    desc: "Re-Install $applicationName in the Labor Environment"
     cmds:
       - task: $applicationName:uninstall:labor
       - task: $applicationName:install:labor
@@ -322,7 +366,7 @@ tasks:
   # === PROD ===
   # ============
   $applicationName:install:prod:
-    desc: "Install $applicationName on the Prod VM"
+    desc: "Install $applicationName in the Prod Environment"
     cmds:
       - task: terraform:init
         vars:
@@ -351,21 +395,21 @@ tasks:
           STAGE: 'prod'
 
   $applicationName:uninstall:prod:
-    desc: "Top Level Task to Uninstall $applicationName Sandbox"
+    desc: "Uninstall $applicationName in the Prod Environment"
     cmds:
       - task: terraform:destroy
         vars:
             STAGE: prod
 
   $applicationName:reinstall:prod:
-    desc: "Top Level Task to Re-Install $applicationName Labor"
+    desc: "Re-Install $applicationName in the Prod Environment"
     cmds:
       - task: $applicationName:uninstall:prod
       - task: $applicationName:install:prod
     silent: true
 
   $applicationName:connect:prod:
-    desc: "Connect to the Labor VM via SSH"
+    desc: "Connect to the Prod VM via SSH"
     cmds:
       - task: ssh:connect
         vars:
