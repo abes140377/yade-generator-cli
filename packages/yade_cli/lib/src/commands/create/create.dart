@@ -43,10 +43,6 @@ class CreateCommand extends YadeCommand {
         help: 'The ansible roles to use. E.g.: '
             'community.docker:3.12.1,community.general:9.4.0',
         // mandatory: false,
-      )
-      ..addFlag(
-        'enable_digitalocean',
-        help: 'Wether to enable digitalocean support',
       );
   }
 
@@ -67,7 +63,6 @@ class CreateCommand extends YadeCommand {
     final hostname = _hostname;
     final ansibleCollections = _ansibleCollections;
     final ansibleRoles = _ansibleRoles;
-    final enableDigitalocean = results['enable_digitalocean'] as bool;
 
     // create gitignore wildcard entries for 3rd party collections
     var collectionsGitignore = <String>[];
@@ -94,7 +89,6 @@ class CreateCommand extends YadeCommand {
       ..info('  ansibleCollections: $ansibleCollections')
       ..info('  collectionsGitignore: $collectionsGitignore')
       ..info('  ansibleRoles: $ansibleRoles')
-      ..info('  enableDigitalocean: $enableDigitalocean')
       ..info('  outputDirectory: ${outputDirectory.path}')
       ..info('');
 
@@ -109,7 +103,6 @@ class CreateCommand extends YadeCommand {
       'ansibleCollections': ansibleCollections,
       'collectionsGitignore': collectionsGitignore,
       'ansibleRoles': ansibleRoles,
-      'enableDigitalocean': enableDigitalocean,
       'outputDirectory': outputDirectory.absolute.path,
     };
 

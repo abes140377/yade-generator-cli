@@ -1,2 +1,0 @@
-plugin: cloud.terraform.terraform_provider
-project_path: ../1-terraform/environment/digitalocean

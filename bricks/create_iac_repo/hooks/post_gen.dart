@@ -192,9 +192,6 @@ tasks:
       - echo ""
       - echo "  TF_VAR_vault_provider_token - \$TF_VAR_vault_provider_token"
       - echo ""
-      - echo "  TF_VAR_do_token - \$TF_VAR_do_token"
-      - echo "  TF_VAR_ssh_fingerprint - \$TF_VAR_ssh_fingerprint"
-      - echo ""
       - echo "Variables:"
       - echo "  ${applicationName.toUpperCase()}_VM_NAME_SANDBOX - {{.${applicationName.toUpperCase()}_VM_NAME_SANDBOX}}"
       - echo "  ${applicationName.toUpperCase()}_VM_FQDN_SANDBOX - {{.${applicationName.toUpperCase()}_VM_FQDN_SANDBOX}}"
@@ -214,46 +211,6 @@ tasks:
       - pip install -r requirements.txt
       - cd 2-ansible && ansible-galaxy install -r requirements.yml --force
 
-  # ====================
-  # === DIGITALOCEAN ===
-  # ====================
-  $applicationName:install:digitalocean:
-    desc: "Install $applicationName on Digitalocean"
-    cmds:
-      - task: terraform:init
-        vars:
-          STAGE: digitalocean
-      - task: terraform:plan
-        vars:
-          STAGE: digitalocean
-      - task: terraform:apply
-        vars:
-          STAGE: digitalocean
-      - task: ansible:test:connectivity
-        vars:
-          STAGE: 'digitalocean'
-      - task: ansible:inventory:print
-        vars:
-          STAGE: 'digitalocean'
-      - task: ansible:playbook:site
-        vars:
-          STAGE: 'digitalocean'
-
-  $applicationName:uninstall:digitalocean:
-    desc: "Uninstall $applicationName on Digitalocean"
-    cmds:
-      - task: terraform:destroy
-        vars:
-            STAGE: digitalocean
-
-  $applicationName:reinstall:digitalocean:
-    desc: "Re-Install $applicationName on Digitalocean"
-    cmds:
-      - task: $applicationName:uninstall:digitalocean
-      - task: $applicationName:install:digitalocean
-    silent: true
-
-  
   # ===============
   # === SANDBOX ===
   # ===============
