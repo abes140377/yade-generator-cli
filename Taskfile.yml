@@ -5,6 +5,7 @@ env:
   CODER_PROJECT_NAME: coder
   KEYCLOAK_PROJECT_NAME: keycloak
   MATRIX_PROJECT_NAME: matrix
+  VAULT_PROJECT_NAME: vault
 
 tasks:
   dart:cleanup:
@@ -53,6 +54,26 @@ tasks:
     dir: packages/yade_cli
     cmds:
       - dart run build_runner build --delete-conflicting-outputs
+    silent: true
+
+  yade:create:vault:
+    desc: Create the vault repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - pwd
+      # - rm -rf cas-{{.MATRIX_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm003 \
+          --ansible_collections=community.general:9.4.0,community.hashi_vault:6.2.0 \
+          --ansible_roles=tomhesse.traefik:1.0.1,robertdebock.hashicorp:3.4.7,robertdebock.vault_configuration:5.0.2,robertdebock.vault:6.1.5 \
+          {{.VAULT_PROJECT_NAME}}
     silent: true
 
   yade:create:matrix:

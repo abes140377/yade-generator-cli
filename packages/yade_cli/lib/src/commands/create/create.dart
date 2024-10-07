@@ -136,7 +136,7 @@ class CreateCommand extends YadeCommand {
       ..info('🚀 You are ready to spin up your first vm.')
       ..info('')
       ..info('Tip: You can run the follwing command to start the sandbox vm:')
-      ..info('  task example:install:sandbox');
+      ..info('  task $applicationName:install:sbox');
 
     return ExitCode.success.code;
   }
