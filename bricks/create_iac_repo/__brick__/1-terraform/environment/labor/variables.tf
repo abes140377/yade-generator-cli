@@ -61,7 +61,7 @@ variable "folder" {
 variable "vsphere_name" {
     description = "The hostname of the vsphere to use"
     type        = string
-    default     = "viinfvc00004p" # labor (same as production)
+    default     = "viinfvc00004p" # labor (same as prod)
 }
 
 # ==================================

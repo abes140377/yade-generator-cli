@@ -35,7 +35,7 @@ variable "additional_domains" {
 variable "network" {
   description = "The network to get the ip for the vm"
   type        = string
-  default     = "TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_SANDBOX"  # sandbox
+  default     = "TNT_INT|ANP_INT_CAS_MGMT|EPG_INT_CAS_MGMT_SHS_SANDBOX"  # sbox
 }
 
 variable "vms" {
@@ -60,7 +60,7 @@ variable "folder" {
 variable "vsphere_name" {
     description = "The hostname of the vsphere to use"
     type        = string
-    default     = "viinfvc00025t" # sandbox
+    default     = "viinfvc00025t" # sbox
 }
 
 # ==================================

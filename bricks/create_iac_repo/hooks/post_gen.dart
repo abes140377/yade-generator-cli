@@ -15,23 +15,18 @@ Future<void> run(HookContext context) async {
   context.logger.info('');
   context.logger.info('Generating additional files:');
 
-  // 2-ansible/inventory/hosts_sandbox.yml
-  final sandboxInventoryProgress = context.logger.progress('hosts_sandbox.yml '
+  // 2-ansible/inventory/hosts_sbox.yml
+  final sboxInventoryProgress = context.logger.progress('hosts_sbox.yml '
       'created successfully.');
   await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
 
   final hostsSandbox =
-      File('$projectDirectory/2-ansible/inventory/hosts_sandbox.yml');
+      File('$projectDirectory/2-ansible/inventory/hosts_sbox.yml');
 
-  final hostsSandboxContent = getHosts(
-    applicationName: applicationName,
-    organization: organization,
-    hostname: hostname,
-    stage: 'sandbox',
-  );
+  final hostsSandboxContent = getHosts(stage: 'sbox');
   hostsSandbox.writeAsStringSync(hostsSandboxContent);
 
-  sandboxInventoryProgress.complete();
+  sboxInventoryProgress.complete();
 
   // 2-ansible/inventory/hosts_labor.yml
   final laborIventoryProgress = context.logger.progress('hosts_labor.yml '
@@ -40,29 +35,19 @@ Future<void> run(HookContext context) async {
 
   final hostsLabor =
       File('$projectDirectory/2-ansible/inventory/hosts_labor.yml');
-  final hostsLaborContent = getHosts(
-    applicationName: applicationName,
-    organization: organization,
-    hostname: hostname,
-    stage: 'labor',
-  );
+  final hostsLaborContent = getHosts(stage: 'labor');
   hostsLabor.writeAsStringSync(hostsLaborContent);
 
   laborIventoryProgress.complete();
 
   // 2-ansible/inventory/hosts_prod.yml
-  final prodIventoryProgress = context.logger.progress('hosts_labor.yml '
+  final prodIventoryProgress = context.logger.progress('hosts_prod.yml '
       'created successfully.');
   await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
 
   final hostsProduction =
       File('$projectDirectory/2-ansible/inventory/hosts_prod.yml');
-  final hostsProductionContent = getHosts(
-    applicationName: applicationName,
-    organization: organization,
-    hostname: hostname,
-    stage: 'prod',
-  );
+  final hostsProductionContent = getHosts(stage: 'prod');
   hostsProduction.writeAsStringSync(hostsProductionContent);
 
   prodIventoryProgress.complete();
@@ -119,32 +104,11 @@ Future<void> run(HookContext context) async {
 }
 
 ///
-String getHosts({
-  required String applicationName,
-  required String organization,
-  required String hostname,
-  required String stage,
-}) {
-  final suffix = stage == 'sandbox'
-      ? 's'
-      : stage == 'labor'
-          ? 'l'
-          : 'p';
-
+String getHosts({required String stage}) {
   return '''
 ---
-all:
-  hosts:
-    $applicationName-$organization-$stage:
-      ansible_host: $hostname$suffix.vm.cas.kvnbw.net
-      ansible_port: 22022
-      ansible_user: ansible
-      ansible_ssh_private_key_file: ../ssh/$hostname${suffix}_ansible_ed25519
-      ansible_python_interpreter: /usr/bin/python3
-  children:
-    ${applicationName}_servers:
-      hosts:
-        $applicationName-$organization-$stage:
+plugin: cloud.terraform.terraform_provider
+project_path: ../1-terraform/environment/$stage
 ''';
 }
 
@@ -214,50 +178,53 @@ tasks:
   # ===============
   # === SANDBOX ===
   # ===============
-  $applicationName:install:sandbox:
+  $applicationName:install:sbox:
     desc: "Install $applicationName in the Sandbox Environment"
     cmds:
       - task: terraform:init
         vars:
-          STAGE: sandbox
+          STAGE: sbox
       - task: terraform:plan
         vars:
-          STAGE: sandbox
+          STAGE: sbox
       - task: terraform:apply
         vars:
-          STAGE: sandbox
+          STAGE: sbox
+
       - task: vault:get:private_key
         vars:
           VM_NAME: '{{.${applicationName.toUpperCase()}_VM_NAME_SANDBOX}}'
           VM_FQDN: '{{.${applicationName.toUpperCase()}_VM_FQDN_SANDBOX}}'
           MOUNT_PATH: '{{.VAULT_MOUNT_PATH_SANDBOX}}'
-      - task: ssh:test:connectivity
+
+      - task: ansible:inventory:print
         vars:
-          VM_FQDN: '{{.${applicationName.toUpperCase()}_VM_FQDN_SANDBOX}}'
-          KEY: ./ssh/{{.${applicationName.toUpperCase()}_VM_NAME_SANDBOX}}_ansible_ed25519
+          STAGE: sbox
+
       - task: ansible:test:connectivity
         vars:
           HOST: '{{.${applicationName.toUpperCase()}_VM_FQDN_SANDBOX}}'
-          STAGE: 'sandbox'
+          STAGE: sbox
+
       - task: ansible:playbook:site
         vars:
-          STAGE: 'sandbox'
+          STAGE: sbox
 
-  $applicationName:uninstall:sandbox:
+  $applicationName:uninstall:sbox:
     desc: "Uninstall $applicationName in the Sandbox Environment"
     cmds:
       - task: terraform:destroy
         vars:
-            STAGE: sandbox
+            STAGE: sbox
 
-  $applicationName:reinstall:sandbox:
+  $applicationName:reinstall:sbox:
     desc: "Re-Install $applicationName in the Sandbox Environment"
     cmds:
-      - task: $applicationName:uninstall:sandbox
-      - task: $applicationName:install:sandbox
+      - task: $applicationName:uninstall:sbox
+      - task: $applicationName:install:sbox
     silent: true
 
-  $applicationName:connect:sandbox:
+  $applicationName:connect:sbox:
     desc: "Connect to the Sandbox VM via SSH"
     cmds:
       - task: ssh:connect
@@ -280,22 +247,30 @@ tasks:
       - task: terraform:apply
         vars:
           STAGE: labor
+
       - task: vault:get:private_key
         vars:
           VM_NAME: '{{.${applicationName.toUpperCase()}_VM_NAME_LABOR}}'
           VM_FQDN: '{{.${applicationName.toUpperCase()}_VM_FQDN_LABOR}}'
           MOUNT_PATH: '{{.VAULT_MOUNT_PATH_LABOR}}'
+
+      - task: ansible:inventory:print
+        vars:
+          STAGE: labor
+
       - task: ssh:test:connectivity
         vars:
           VM_FQDN: '{{.${applicationName.toUpperCase()}_VM_FQDN_LABOR}}'
           KEY: ./ssh/{{.${applicationName.toUpperCase()}_VM_NAME_LABOR}}_ansible_ed25519
+
       - task: ansible:test:connectivity
         vars:
           HOST: '{{.${applicationName.toUpperCase()}_VM_FQDN_LABOR}}'
-          STAGE: 'labor'
+          STAGE: labor
+
       - task: ansible:playbook:site
         vars:
-          STAGE: 'labor'
+          STAGE: labor
 
   $applicationName:uninstall:labor:
     desc: "Uninstall $applicationName in the Labor Environment"
@@ -334,22 +309,25 @@ tasks:
       - task: terraform:apply
         vars:
           STAGE: prod
+
       - task: vault:get:private_key
         vars:
           VM_NAME: '{{.${applicationName.toUpperCase()}_VM_NAME_PROD}}'
           VM_FQDN: '{{.${applicationName.toUpperCase()}_VM_FQDN_PROD}}'
           MOUNT_PATH: '{{.VAULT_MOUNT_PATH_PROD}}'
-      - task: ssh:test:connectivity
+
+      - task: ansible:inventory:print
         vars:
-          VM_FQDN: '{{.${applicationName.toUpperCase()}_VM_FQDN_PROD}}'
-          KEY: ./ssh/{{.${applicationName.toUpperCase()}_VM_NAME_PROD}}_ansible_ed25519
+          STAGE: prod
+
       - task: ansible:test:connectivity
         vars:
           HOST: '{{.${applicationName.toUpperCase()}_VM_FQDN_PROD}}'
-          STAGE: 'prod'
+          STAGE: prod
+
       - task: ansible:playbook:site
         vars:
-          STAGE: 'prod'
+          STAGE: prod
 
   $applicationName:uninstall:prod:
     desc: "Uninstall $applicationName in the Prod Environment"

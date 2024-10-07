@@ -1,4 +1,4 @@
-module "{{organization.camelCase()}}_vm_sandbox" {
+module "{{organization.camelCase()}}_vm_sbox" {
     source   = "../../modules/{{organization.camelCase()}}-vm"
 
     group = var.group

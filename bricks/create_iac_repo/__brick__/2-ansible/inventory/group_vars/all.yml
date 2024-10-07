@@ -2,7 +2,12 @@
 # ====================
 # ===== webproxy =====
 # ====================
-webproxy_http_proxy: "http://webproxy.kvnbw.de:3128"
-webproxy_https_proxy: "http://webproxy.kvnbw.de:3128"
-webproxy_no_proxy: >-
-  "127.0.0.1,localhost,kivbf.intra,kvnbw.de,dzbw.de,dev.dzbw.de,k1wtsd1.intra,kivbf-cloud.net,kivbf.net,kvnbw.net,dvvbw.net,komm.one,kvnbw.intra,kvnurs.intra,komm-one.net,.cluster.local,.svc,.kivbf.intra,.kvnbw.de,.dzbw.de,.k1wtsd1.intra,.kivbf-cloud.net,.kivbf.net,.kvnbw.net,.dvvbw.net,.komm.one,.kvnbw.intra,.kvnurs.intra,.komm-one.net"
+proxy_env:
+  http_proxy: "http://webproxy.kvnbw.de:3128"
+  https_proxy: "http://webproxy.kvnbw.de:3128"
+  no_proxy: "127.0.0.1,localhost,kivbf.intra,kvnbw.de,dzbw.de,dev.dzbw.de,k1wtsd1.intra,kivbf-cloud.net,kivbf.net,kvnbw.net,dvvbw.net,komm.one,kvnbw.intra,kvnurs.intra,komm-one.net,.cluster.local,.svc,.kivbf.intra,.kvnbw.de,.dzbw.de,.k1wtsd1.intra,.kivbf-cloud.net,.kivbf.net,.kvnbw.net,.dvvbw.net,.komm.one,.kvnbw.intra,.kvnurs.intra,.komm-one.net"
+
+# ===============
+# ===== dns =====
+# ===============
+dns_servers: ['10.242.77.11', '10.242.77.21']

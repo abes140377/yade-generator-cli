@@ -59,7 +59,7 @@ class CreateCommand extends YadeCommand {
     final applicationName = _applicationName;
     final organization = _organization;
     final environment = _environment;
-    const stages = 'sandbox,labor,production';
+    const stages = 'sbox,labor,prod';
     final hostname = _hostname;
     final ansibleCollections = _ansibleCollections;
     final ansibleRoles = _ansibleRoles;
@@ -135,7 +135,7 @@ class CreateCommand extends YadeCommand {
       ..info('')
       ..info('🚀 You are ready to spin up your first vm.')
       ..info('')
-      ..info('Tip: You can run the follwing command to start the sandbox vm:')
+      ..info('Tip: You can run the follwing command to start the sbox vm:')
       ..info('  task $applicationName:install:sbox');
 
     return ExitCode.success.code;
