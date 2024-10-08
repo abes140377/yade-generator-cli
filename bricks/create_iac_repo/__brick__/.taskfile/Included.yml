@@ -127,7 +127,6 @@ tasks:
     requires:
       vars: [ STAGE ]
 
-
   ansible:playbook:site:
     dir: '{{.USER_WORKING_DIR}}/2-ansible'
     vars:
@@ -139,4 +138,16 @@ tasks:
       - ansible-playbook -i inventory/hosts_{{.STAGE}}.yml {{.PLAYBOOK}}
     requires:
       vars: [ STAGE ]
+
+  ansible:playbook:site:vars:
+    dir: '{{.USER_WORKING_DIR}}/2-ansible'
+    vars:
+      PLAYBOOK: '{{default "site.yml" .PLAYBOOK}}'
+    cmds:
+      - echo ""
+      - echo "🚀 ansible:playbook:site [ STAGE - {{.STAGE}}, PLAYBOOK - {{.PLAYBOOK}}, VARIABLES - {{.VARIABLES}} ]"
+      - pwd
+      - ansible-playbook -i inventory/hosts_{{.STAGE}}.yml {{.PLAYBOOK}} -e "{{ .VARIABLES }}"
+    requires:
+      vars: [ STAGE, VARIABLES ]
 <%={{ }}=%>
