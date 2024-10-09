@@ -2,7 +2,7 @@
 
 set -e
 
-REPO="abes140377/yade-project-generator-cli"  # Ersetze das mit deinem GitHub Repository
+REPO="abes140377/yade-generator-cli"  # Ersetze das mit deinem GitHub Repository
 
 # Hole die neueste Release-Version
 LATEST_RELEASE=$(curl --silent "https://api.github.com/repos/$REPO/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
