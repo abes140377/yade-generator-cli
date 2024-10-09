@@ -1,4 +1,4 @@
-module "cas_vm" {
+module "{{organization}}_vm" {
     for_each = local.vms
 
     source = "git@viicasapp003t.intinf.dvvbw.net:cas/terraform/module-cas-vm.git?ref=v1.0.1"

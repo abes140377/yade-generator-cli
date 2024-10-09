@@ -7,6 +7,6 @@
     - name: Include tasks from file tasks/debug.yml
       ansible.builtin.include_tasks: tasks/debug.yml
 
-    - name: Import role cas.{{applicationName.camelCase()}}.install
+    - name: Import role {{organization}}.{{applicationName.camelCase()}}.install
       ansible.builtin.import_role:
-        name: cas.{{applicationName.camelCase()}}.install
+        name: {{organization}}.{{applicationName.camelCase()}}.install

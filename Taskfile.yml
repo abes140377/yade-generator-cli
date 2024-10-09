@@ -139,7 +139,7 @@ tasks:
       - dart:run:build_runner
     cmds:
       - pwd
-      # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       - |
         dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
@@ -147,8 +147,16 @@ tasks:
           --environment=mgm \
           --hostname=viicasmgm004 \
           --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
-          --ansible_roles=geerlingguy.docker:7.4.1 \
           {{.EXAMPLE_PROJECT_NAME}}
+      # - |
+      #   dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+      #     --organization=cas \
+      #     --environment=mgm \
+      #     --hostname=viicasmgm004 \
+      #     --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
+      #     --ansible_roles=geerlingguy.docker:7.4.1 \
+      #     {{.EXAMPLE_PROJECT_NAME}}
+      - cp /home/itag001202/projects/cas-yade/src/cas-gitlab-mgm/.env.private /home/itag001202/projects/cas-yade/src/cas-example-mgm
     silent: true
 
   # === REPOSITORIES COMPILED ===
