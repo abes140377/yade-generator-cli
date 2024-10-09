@@ -172,6 +172,28 @@ tasks:
           {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 
+  # === REPOSITORIES GITHUB ===
+
+  yade:create:example:github:
+    desc: Create a test repository using the compiled dart cli tool
+    deps:
+      - yade:install:github
+    dir: "{{.HOME}}/projects/cas-yade/src/"
+    cmds:
+      # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      - clear
+      # - yade-generator-cli/build/yade --version
+      - which yade
+      - |
+        yade create \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm004 \
+          --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
+          {{.EXAMPLE_PROJECT_NAME}}
+    silent: true
+
   # === COMMON ===
 
   dart:cleanup:
@@ -237,5 +259,5 @@ tasks:
     desc: Install yade cli tool by using the install.sh script from github
     cmds:
       - sudo rm -rf /usr/local/bin/yade
-      - curl -s https://raw.githubusercontent.com/abes140377/yade-generator-cli/refs/heads/main/scripts/install.sh | sudo bash
+      - curl -sS https://raw.githubusercontent.com/abes140377/yade-generator-cli/refs/heads/main/scripts/install.sh | sudo bash
     silent: true
