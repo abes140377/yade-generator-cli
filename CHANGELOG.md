@@ -1,3 +1,9 @@
+# Verion v0.1.2
+
+## Features
+
+- Add doctor.sh to check the environment variable preconditions
+
 # Verion v0.1.1
 
 ## Features

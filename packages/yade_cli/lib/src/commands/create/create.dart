@@ -18,6 +18,11 @@ class CreateCommand extends YadeCommand {
   }) : _generator = generator ?? MasonGenerator.fromBundle {
     argParser
       ..addOption(
+        'organization',
+        help: 'The name of the organization',
+        mandatory: true,
+      )
+      ..addOption(
         'environment',
         help: 'The name of the environment',
         mandatory: true,
@@ -30,8 +35,14 @@ class CreateCommand extends YadeCommand {
       ..addOption(
         'ansible_collections',
         help: 'The ansible collections to use. E.g.: '
-            'adfinis.gitlab:1.0.1,community.general',
+            'community.docker:3.12.1,community.general:9.4.0',
         mandatory: true,
+      )
+      ..addOption(
+        'ansible_roles',
+        help: 'The ansible roles to use. E.g.: '
+            'community.docker:3.12.1,community.general:9.4.0',
+        // mandatory: false,
       );
   }
 
@@ -46,46 +57,86 @@ class CreateCommand extends YadeCommand {
   @override
   Future<int> run() async {
     final applicationName = _applicationName;
+    final organization = _organization;
     final environment = _environment;
-    const stages = 'sandbox,labor,production';
+    const stages = 'sbox,labor,prod';
     final hostname = _hostname;
     final ansibleCollections = _ansibleCollections;
+    final ansibleRoles = _ansibleRoles;
 
-    final outputDirectory = Directory('$applicationName-$environment');
+    // create gitignore wildcard entries for 3rd party collections
+    var collectionsGitignore = <String>[];
+    for (final collection in ansibleCollections) {
+      final collectionName = collection['name']!;
+      final entry =
+          '${collectionName.substring(0, collectionName.lastIndexOf('.'))}*';
 
-    // print('applicationName: $applicationName');
-    // print('environment: $environment');
-    // print('outputDirectory: ${outputDirectory.path}');
-    // print('hostname: $hostname');
-    // print('ansibleCollections: $ansibleCollections');
+      collectionsGitignore.add(entry);
+    }
+
+    collectionsGitignore = collectionsGitignore.toSet().toList();
+
+    final outputDirectory =
+        Directory('$organization-$applicationName-$environment');
+
+    logger
+      ..info('Available variables:')
+      ..info('  applicationName: $applicationName')
+      ..info('  organization: $organization')
+      ..info('  environment: $environment')
+      ..info('  stages: $stages')
+      ..info('  hostname: $hostname')
+      ..info('  ansibleCollections: $ansibleCollections')
+      ..info('  collectionsGitignore: $collectionsGitignore')
+      ..info('  ansibleRoles: $ansibleRoles')
+      ..info('  outputDirectory: ${outputDirectory.path}')
+      ..info('');
 
     final generator = await _generator(createIacRepoBundle);
 
-    final generateProgress =
-        logger.progress('IAC Repository for application $applicationName '
-            'created successfully.');
-
     final vars = <String, dynamic>{
       'applicationName': applicationName,
+      'organization': organization,
       'environment': environment,
       'stages': stages,
       'hostname': hostname,
       'ansibleCollections': ansibleCollections,
-      'output_directory': outputDirectory.absolute.path,
-      'has_parameters': true,
+      'collectionsGitignore': collectionsGitignore,
+      'ansibleRoles': ansibleRoles,
+      'outputDirectory': outputDirectory.absolute.path,
     };
 
     await generator.generate(
       DirectoryGeneratorTarget(outputDirectory),
       vars: vars,
+      logger: logger,
     );
-    generateProgress.complete();
-
-    // final postGenProgress = logger.progress('Executing Post Generation Steps');
 
     await generator.hooks.postGen(vars: vars, workingDirectory: cwd.path);
 
-    // postGenProgress.complete();
+    logger.info('');
+    logger
+        .progress('The IAC Repository for application $applicationName '
+            'has been successfully created\n'
+            '  Path: ${outputDirectory.absolute.path}')
+        .complete();
+
+    logger
+      ..info('')
+      ..info('Important next steps:')
+      ..info(
+          "  1. Open the '.env.private.example' file in the project directory.")
+      ..info('  2. Adjust the values in the file to match your environment.')
+      ..info("  3. Save the file as '.env.private'.")
+      ..info('')
+      ..info(
+          "Note: The '.env.private' file should contain sensitive information "
+          'such as credentials and should NOT be committed to version control')
+      ..info('')
+      ..info('🚀 You are ready to spin up your first vm.')
+      ..info('')
+      ..info('Tip: You can run the follwing command to start the sbox vm:')
+      ..info('  task $applicationName:install:sbox');
 
     return ExitCode.success.code;
   }
@@ -98,6 +149,12 @@ class CreateCommand extends YadeCommand {
     final rest = results.rest;
 
     return rest.first;
+  }
+
+  String get _organization {
+    final organization = results['organization'] as String;
+
+    return organization;
   }
 
   String get _environment {
@@ -128,5 +185,25 @@ class CreateCommand extends YadeCommand {
         .toList();
 
     return ansibleCollections;
+  }
+
+  List<Map<String, String>> get _ansibleRoles {
+    final ansibleRolesStr = results['ansible_roles'] as String?;
+
+    // Split the string by comma and then by colon and create a List of Map
+    final ansibleRoles = ansibleRolesStr != null
+        ? ansibleRolesStr
+            .split(',')
+            .map((e) => e.split(':'))
+            .map(
+              (e) => {
+                'name': e[0],
+                'version': e[1],
+              },
+            )
+            .toList()
+        : <Map<String, String>>[];
+
+    return ansibleRoles;
   }
 }

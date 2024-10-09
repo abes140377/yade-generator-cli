@@ -67,6 +67,7 @@ class YadeCommandRunner extends CompletionCommandRunner<int> {
     try {
       _logger.info(getAsciiArtContent());
       exitCode = await runCommand(argResults) ?? ExitCode.success.code;
+      _logger.info('');
     } catch (error) {
       _logger.err('$error');
       exitCode = ExitCode.software.code;
@@ -82,12 +83,13 @@ class YadeCommandRunner extends CompletionCommandRunner<int> {
 
   ///
   String getAsciiArtContent() {
-    return '''
+    return r'''
 __  _____    ____  ______   ________    ____
-\\ \\/ /   |  / __ \\/ ____/  / ____/ /   /  _/
- \\  / /| | / / / / __/    / /   / /    / /  
+\ \/ /   |  / __ \/ ____/  / ____/ /   /  _/
+ \  / /| | / / / / __/    / /   / /    / /  
  / / ___ |/ /_/ / /___   / /___/ /____/ /   
-/_/_/  |_/_____/_____/   \\____/_____/___/   
+/_/_/  |_/_____/_____/   \____/_____/___/   
+Yet Another Development Environment CLI
   ''';
   }
 
