@@ -80,6 +80,16 @@ Future<void> run(HookContext context) async {
   );
   progress.complete();
 
+  // make doctor.sh executable
+  final chmodProgress = context.logger.progress('Make ./doctor.sh executable');
+  await Process.run(
+    'chmod',
+    ['+x', 'doctor.sh'],
+    runInShell: true,
+    workingDirectory: projectDirectory,
+  );
+  chmodProgress.complete();
+
   // Initialize git repository
   final gitProgress = context.logger.progress('Initializing git repository');
   await Process.run(
@@ -96,21 +106,11 @@ Future<void> run(HookContext context) async {
   );
   await Process.run(
     'git',
-    ['commit', '-m', '"Initial commit"'],
+    ['commit', '-m', '"Initial commit after generate"'],
     runInShell: true,
     workingDirectory: projectDirectory,
   );
   gitProgress.complete();
-
-  // Initialize git repository
-  final chmodProgress = context.logger.progress('Make ./doctor.sh executable');
-  await Process.run(
-    'chmod',
-    ['+x', 'doctor.sh'],
-    runInShell: true,
-    workingDirectory: projectDirectory,
-  );
-  chmodProgress.complete();
 }
 
 ///

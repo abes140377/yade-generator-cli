@@ -2,6 +2,7 @@
 
 ## Features
 
+- Support dynamic inventories for ansible
 - Add doctor.sh to check the environment variable preconditions
 
 # Verion v0.1.1

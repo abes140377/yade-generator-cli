@@ -17,7 +17,3 @@ Options:
  -f     --force              Force re-initialize the specified directory. (default: False)
  -h     --help               Show this help message and exit
  -v     --verbosity          Give more Cli output. Option is additive, and can be used up to 3 times. (default: 0)
-
-    rm -rf /home/itag001202/projects/cas-yade/src/cas-example-mgm
-    ansible-creator init playbook cas.example /home/itag001202/projects/cas-yade/src/cas-example-mgm \
-        --no-ansi --force -vv --lf=/tmp/ansible-create-cas-example-mgm.log --ll=debug --la=false
