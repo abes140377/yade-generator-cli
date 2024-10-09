@@ -101,6 +101,16 @@ Future<void> run(HookContext context) async {
     workingDirectory: projectDirectory,
   );
   gitProgress.complete();
+
+  // Initialize git repository
+  final chmodProgress = context.logger.progress('Make ./doctor.sh executable');
+  await Process.run(
+    'chmod',
+    ['+x', 'doctor.sh'],
+    runInShell: true,
+    workingDirectory: projectDirectory,
+  );
+  chmodProgress.complete();
 }
 
 ///
@@ -126,17 +136,17 @@ dotenv: ['.env', '.env.private']
 silent: true
 
 vars:
-  ${applicationName.toUpperCase()}_VM_NAME_SANDBOX: '${hostname}s'
-  ${applicationName.toUpperCase()}_VM_FQDN_SANDBOX: '${hostname}s.vm.cas.kvnbw.net'
-  VAULT_MOUNT_PATH_SANDBOX: 'cas/vms/mgm/sbox/'
+  ${applicationName.toUpperCase()}_VM_NAME_SANDBOX: ${hostname}s
+  ${applicationName.toUpperCase()}_VM_FQDN_SANDBOX: ${hostname}s.vm.cas.kvnbw.net
+  VAULT_MOUNT_PATH_SANDBOX: cas/vms/mgm/sbox/
 
-  ${applicationName.toUpperCase()}_VM_NAME_LABOR: '${hostname}l'
-  ${applicationName.toUpperCase()}_VM_FQDN_LABOR: '${hostname}l.vm.cas.kvnbw.net'
-  VAULT_MOUNT_PATH_LABOR: 'cas/vms/mgm/labor/'
+  ${applicationName.toUpperCase()}_VM_NAME_LABOR: ${hostname}l
+  ${applicationName.toUpperCase()}_VM_FQDN_LABOR: ${hostname}l.vm.cas.kvnbw.net
+  VAULT_MOUNT_PATH_LABOR: cas/vms/mgm/labor/
 
-  ${applicationName.toUpperCase()}_VM_NAME_PROD: '${hostname}p'
-  ${applicationName.toUpperCase()}_VM_FQDN_PROD: '${hostname}p.vm.cas.kvnbw.net'
-  VAULT_MOUNT_PATH_PROD: 'cas/vms/mgm/prod/'
+  ${applicationName.toUpperCase()}_VM_NAME_PROD: ${hostname}p
+  ${applicationName.toUpperCase()}_VM_FQDN_PROD: ${hostname}p.vm.cas.kvnbw.net
+  VAULT_MOUNT_PATH_PROD: cas/vms/mgm/prod/
 
 includes:
   libs:

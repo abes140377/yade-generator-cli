@@ -6,54 +6,49 @@ env:
   KEYCLOAK_PROJECT_NAME: keycloak
   MATRIX_PROJECT_NAME: matrix
   VAULT_PROJECT_NAME: vault
+  BITWARDEN_PROJECT_NAME: bitwarden
+  APPWRITE_PROJECT_NAME: appwrite
 
 tasks:
-  dart:cleanup:
-    desc: Remove dart cache files like .dart_tool and pubspec.lock recursively
+  # === REPOSITORIES ===
+  yade:create:appwrite:
+    desc: Create the appwrite repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
     cmds:
-      - find . -type d -name ".dart_tool" -exec rm -r {} +
-      - find . -name "pubspec.lock" -type f -delete
+      - pwd
+      # - rm -rf cas-{{.APPWRITE_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm005 \
+          --ansible_collections=community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
+          {{.APPWRITE_PROJECT_NAME}}
     silent: true
 
-  dart:init:
-    desc: Initialize dart projects yade-generator-cli recursively
+  yade:create:bitwarden:
+    desc: Create the bitwarden repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
     cmds:
-      - cd ./packages/yade_cli && dart pub get
-      - cd ./bricks/create_iac_repo/hooks && dart pub get
-    silent: true
-
-  mason:bundle:templates:local:
-    desc: Bundle templates locally
-    cmds:
-      # bundle templates
-      - >
-        mason bundle \
-          -s path ./bricks/create_iac_repo \
-          -t dart \
-          -o packages/yade_cli/lib/src/commands/create/templates
-      # format
-      - dart format ./packages/yade_cli
-    silent: true
-
-  mason:bundle:templates:git:
-    desc: Bundle templates from git repo
-    cmds:
-      # bundle templates
-      - >
-        mason bundle \
-          -s git git@github.com:abes140377/yade-generator-cli.git \
-          --git-path bricks/create_iac_repo \
-          -t dart \
-          -o packages/yade_cli/lib/src/commands/create/templates
-      # format
-      - dart format ./packages/yade_cli
-    silent: true
-
-  dart:run:build_runner:
-    desc: Run dart build_runner build to generate version.dart file
-    dir: packages/yade_cli
-    cmds:
-      - dart run build_runner build --delete-conflicting-outputs
+      - pwd
+      # - rm -rf cas-{{.BITWARDEN_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm005 \
+          --ansible_collections=community.general:9.4.0 \
+          --ansible_roles=maartenbeeckmans.bitwarden:x.y.z \
+          {{.BITWARDEN_PROJECT_NAME}}
     silent: true
 
   yade:create:vault:
@@ -144,7 +139,7 @@ tasks:
       - dart:run:build_runner
     cmds:
       - pwd
-      - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       - |
         dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
@@ -156,16 +151,7 @@ tasks:
           {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 
-  yade:compile:
-    desc: Compile the dart cli tool to a binary
-    deps:
-      - mason:bundle:templates:local
-      - dart:run:build_runner
-    cmds:
-      - rm -rf build/yade
-      - mkdir -p build
-      - dart compile exe ./packages/yade_cli/bin/yade.dart -o ./build/yade
-    silent: true
+  # === REPOSITORIES COMPILED ===
 
   yade:create:example:compiled:
     desc: Create a test repository using the compiled dart cli tool
@@ -183,6 +169,67 @@ tasks:
           --hostname=viicasmgm004 \
           --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
           {{.EXAMPLE_PROJECT_NAME}}
+    silent: true
+
+  # === COMMON ===
+
+  dart:cleanup:
+    desc: Remove dart cache files like .dart_tool and pubspec.lock recursively
+    cmds:
+      - find . -type d -name ".dart_tool" -exec rm -r {} +
+      - find . -name "pubspec.lock" -type f -delete
+    silent: true
+
+  dart:init:
+    desc: Initialize dart projects yade-generator-cli recursively
+    cmds:
+      - cd ./packages/yade_cli && dart pub get
+      - cd ./bricks/create_iac_repo/hooks && dart pub get
+    silent: true
+
+  mason:bundle:templates:local:
+    desc: Bundle templates locally
+    cmds:
+      # bundle templates
+      - >
+        mason bundle \
+          -s path ./bricks/create_iac_repo \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/create/templates
+      # format
+      - dart format ./packages/yade_cli
+    silent: true
+
+  mason:bundle:templates:git:
+    desc: Bundle templates from git repo
+    cmds:
+      # bundle templates
+      - >
+        mason bundle \
+          -s git git@github.com:abes140377/yade-generator-cli.git \
+          --git-path bricks/create_iac_repo \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/create/templates
+      # format
+      - dart format ./packages/yade_cli
+    silent: true
+
+  dart:run:build_runner:
+    desc: Run dart build_runner build to generate version.dart file
+    dir: packages/yade_cli
+    cmds:
+      - dart run build_runner build --delete-conflicting-outputs
+    silent: true
+
+  yade:compile:
+    desc: Compile the dart cli tool to a binary
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - rm -rf build/yade
+      - mkdir -p build
+      - dart compile exe ./packages/yade_cli/bin/yade.dart -o ./build/yade
     silent: true
 
   yade:install:github:
