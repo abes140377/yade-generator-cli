@@ -19,7 +19,7 @@ echo "YADE CLI Installer $LATEST_RELEASE"
 echo ""
 
 # Download der neuesten Version
-echo "Downloading latest release: $LATEST_RELEASE..."
+echo "Downloading binary to /usr/local/bin/yade..."
 curl -s -L "https://github.com/$REPO/releases/download/$LATEST_RELEASE/yade" -o /usr/local/bin/yade
 
 # Setze Ausführungsrechte
