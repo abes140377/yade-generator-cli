@@ -87,8 +87,8 @@ class CreateCommand extends YadeCommand {
       ..info('  stages: $stages')
       ..info('  hostname: $hostname')
       ..info('  ansibleCollections: $ansibleCollections')
-      ..info('  collectionsGitignore: $collectionsGitignore')
       ..info('  ansibleRoles: $ansibleRoles')
+      ..info('  collectionsGitignore: $collectionsGitignore')
       ..info('  outputDirectory: ${outputDirectory.path}')
       ..info('');
 
