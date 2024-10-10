@@ -79,18 +79,18 @@ class CreateCommand extends YadeCommand {
     final outputDirectory =
         Directory('$organization-$applicationName-$environment');
 
-    logger
-      ..info('Available variables:')
-      ..info('  applicationName: $applicationName')
-      ..info('  organization: $organization')
-      ..info('  environment: $environment')
-      ..info('  stages: $stages')
-      ..info('  hostname: $hostname')
-      ..info('  ansibleCollections: $ansibleCollections')
-      ..info('  ansibleRoles: $ansibleRoles')
-      ..info('  collectionsGitignore: $collectionsGitignore')
-      ..info('  outputDirectory: ${outputDirectory.path}')
-      ..info('');
+    // logger
+    //   ..info('Available variables:')
+    //   ..info('  applicationName: $applicationName')
+    //   ..info('  organization: $organization')
+    //   ..info('  environment: $environment')
+    //   ..info('  stages: $stages')
+    //   ..info('  hostname: $hostname')
+    //   ..info('  ansibleCollections: $ansibleCollections')
+    //   ..info('  ansibleRoles: $ansibleRoles')
+    //   ..info('  collectionsGitignore: $collectionsGitignore')
+    //   ..info('  outputDirectory: ${outputDirectory.path}')
+    //   ..info('');
 
     final generator = await _generator(createIacRepoBundle);
 
