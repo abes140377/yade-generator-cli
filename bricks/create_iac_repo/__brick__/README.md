@@ -8,7 +8,9 @@ The Repository supports the following stages:
 
 ## Available Tasks
 
-You need the task executable insalled on you system. You can install it with the following command:
+You need the task executable insalled on you system (if you like to use the tasks defined in Taskfile.yml). 
+
+You can install it with the following command:
 
 ```bash
 sudo sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin

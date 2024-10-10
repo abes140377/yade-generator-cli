@@ -239,8 +239,8 @@ tasks:
     cmds:
       - task: ssh:connect
         vars:
-          VM_NAME: '{{.${applicationName.toUpperCase()}_VM_NAME_SANDBOX}}'
           VM_FQDN: '{{.${applicationName.toUpperCase()}_VM_FQDN_SANDBOX}}'
+          KEY: './ssh/{{.${applicationName.toUpperCase()}_VM_NAME_SANDBOX}}_ansible_ed25519'
 
   # =============
   # === LABOR ===
@@ -301,8 +301,8 @@ tasks:
     cmds:
       - task: ssh:connect
         vars:
-          VM_NAME: '{{.${applicationName.toUpperCase()}_VM_NAME_LABOR}}'
           VM_FQDN: '{{.${applicationName.toUpperCase()}_VM_FQDN_LABOR}}'
+          KEY: './ssh/{{.${applicationName.toUpperCase()}_VM_NAME_LABOR}}_ansible_ed25519'
 
   # ============
   # === PROD ===
@@ -358,8 +358,8 @@ tasks:
     cmds:
       - task: ssh:connect
         vars:
-          VM_NAME: '{{.${applicationName.toUpperCase()}_VM_NAME_PROD}}'
           VM_FQDN: '{{.${applicationName.toUpperCase()}_VM_FQDN_PROD}}'
+          KEY: './ssh/{{.${applicationName.toUpperCase()}_VM_NAME_PROD}}_ansible_ed25519'
 
 """;
 }
