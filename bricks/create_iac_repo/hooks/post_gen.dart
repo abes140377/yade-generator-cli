@@ -15,112 +15,112 @@ Future<void> run(HookContext context) async {
   context.logger.info('');
   context.logger.info('Generating additional files:');
 
-  // 2-ansible/inventory/hosts_sbox.yml
-  final sboxInventoryProgress = context.logger.progress('hosts_sbox.yml '
-      'created successfully.');
-  await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
+  // // 2-ansible/inventory/hosts_sbox.yml
+  // final sboxInventoryProgress = context.logger.progress('hosts_sbox.yml '
+  //     'created successfully.');
+  // await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
 
-  final hostsSandbox =
-      File('$projectDirectory/2-ansible/inventory/hosts_sbox.yml');
+  // final hostsSandbox =
+  //     File('$projectDirectory/2-ansible/inventory/hosts_sbox.yml');
 
-  final hostsSandboxContent = getHosts(stage: 'sbox');
-  hostsSandbox.writeAsStringSync(hostsSandboxContent);
+  // final hostsSandboxContent = getHosts(stage: 'sbox');
+  // hostsSandbox.writeAsStringSync(hostsSandboxContent);
 
-  sboxInventoryProgress.complete();
+  // sboxInventoryProgress.complete();
 
-  // 2-ansible/inventory/hosts_labor.yml
-  final laborIventoryProgress = context.logger.progress('hosts_labor.yml '
-      'created successfully.');
-  await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
+  // // 2-ansible/inventory/hosts_labor.yml
+  // final laborIventoryProgress = context.logger.progress('hosts_labor.yml '
+  //     'created successfully.');
+  // await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
 
-  final hostsLabor =
-      File('$projectDirectory/2-ansible/inventory/hosts_labor.yml');
-  final hostsLaborContent = getHosts(stage: 'labor');
-  hostsLabor.writeAsStringSync(hostsLaborContent);
+  // final hostsLabor =
+  //     File('$projectDirectory/2-ansible/inventory/hosts_labor.yml');
+  // final hostsLaborContent = getHosts(stage: 'labor');
+  // hostsLabor.writeAsStringSync(hostsLaborContent);
 
-  laborIventoryProgress.complete();
+  // laborIventoryProgress.complete();
 
-  // 2-ansible/inventory/hosts_prod.yml
-  final prodIventoryProgress = context.logger.progress('hosts_prod.yml '
-      'created successfully.');
-  await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
+  // // 2-ansible/inventory/hosts_prod.yml
+  // final prodIventoryProgress = context.logger.progress('hosts_prod.yml '
+  //     'created successfully.');
+  // await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
 
-  final hostsProduction =
-      File('$projectDirectory/2-ansible/inventory/hosts_prod.yml');
-  final hostsProductionContent = getHosts(stage: 'prod');
-  hostsProduction.writeAsStringSync(hostsProductionContent);
+  // final hostsProduction =
+  //     File('$projectDirectory/2-ansible/inventory/hosts_prod.yml');
+  // final hostsProductionContent = getHosts(stage: 'prod');
+  // hostsProduction.writeAsStringSync(hostsProductionContent);
 
-  prodIventoryProgress.complete();
+  // prodIventoryProgress.complete();
 
-  // Taskfile
-  final taskfileProgress = context.logger.progress('Taskfile.yml '
-      'created successfully.');
-  await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
+  // // Taskfile
+  // final taskfileProgress = context.logger.progress('Taskfile.yml '
+  //     'created successfully.');
+  // await Future<dynamic>.delayed(const Duration(milliseconds: sleepDuration));
 
-  final taskfile = File('$projectDirectory/Taskfile.yml');
+  // final taskfile = File('$projectDirectory/Taskfile.yml');
 
-  final taskfileContent = getTaskfileContent(
-    applicationName: applicationName,
-    hostname: hostname,
-  );
-  taskfile.writeAsStringSync(taskfileContent);
+  // final taskfileContent = getTaskfileContent(
+  //   applicationName: applicationName,
+  //   hostname: hostname,
+  // );
+  // taskfile.writeAsStringSync(taskfileContent);
 
-  taskfileProgress.complete();
+  // taskfileProgress.complete();
 
-  context.logger.info('');
-  context.logger.info('Initialize project:');
+  // context.logger.info('');
+  // context.logger.info('Initialize project:');
 
-  // Install ansible dependencies
-  final progress = context.logger.progress('Installing ansible dependencies');
-  await Process.run(
-    'task',
-    ['install:deps'],
-    runInShell: true,
-    workingDirectory: projectDirectory,
-  );
-  progress.complete();
+  // // Install ansible dependencies
+  // final progress = context.logger.progress('Installing ansible dependencies');
+  // await Process.run(
+  //   'task',
+  //   ['install:deps'],
+  //   runInShell: true,
+  //   workingDirectory: projectDirectory,
+  // );
+  // progress.complete();
 
-  // make doctor.sh executable
-  final chmodProgress = context.logger.progress('Make ./doctor.sh executable');
-  await Process.run(
-    'chmod',
-    ['+x', 'doctor.sh'],
-    runInShell: true,
-    workingDirectory: projectDirectory,
-  );
-  chmodProgress.complete();
+  // // make doctor.sh executable
+  // final chmodProgress = context.logger.progress('Make ./doctor.sh executable');
+  // await Process.run(
+  //   'chmod',
+  //   ['+x', 'doctor.sh'],
+  //   runInShell: true,
+  //   workingDirectory: projectDirectory,
+  // );
+  // chmodProgress.complete();
 
-  // Initialize git repository
-  final gitProgress = context.logger.progress('Initializing git repository');
-  await Process.run(
-    'git',
-    ['init'],
-    runInShell: true,
-    workingDirectory: projectDirectory,
-  );
-  await Process.run(
-    'git',
-    ['add', '.'],
-    runInShell: true,
-    workingDirectory: projectDirectory,
-  );
-  await Process.run(
-    'git',
-    ['commit', '-m', '"Initial commit after generate"'],
-    runInShell: true,
-    workingDirectory: projectDirectory,
-  );
-  gitProgress.complete();
+  // // Initialize git repository
+  // final gitProgress = context.logger.progress('Initializing git repository');
+  // await Process.run(
+  //   'git',
+  //   ['init'],
+  //   runInShell: true,
+  //   workingDirectory: projectDirectory,
+  // );
+  // await Process.run(
+  //   'git',
+  //   ['add', '.'],
+  //   runInShell: true,
+  //   workingDirectory: projectDirectory,
+  // );
+  // await Process.run(
+  //   'git',
+  //   ['commit', '-m', '"Initial commit after generate"'],
+  //   runInShell: true,
+  //   workingDirectory: projectDirectory,
+  // );
+  // gitProgress.complete();
 }
 
-///
-String getHosts({required String stage}) {
-  return '''
----
-plugin: cloud.terraform.terraform_provider
-project_path: ../1-terraform/environment/$stage
-''';
-}
+// ///
+// String getHosts({required String stage}) {
+//   return '''
+// ---
+// plugin: cloud.terraform.terraform_provider
+// project_path: ../1-terraform/environment/$stage
+// ''';
+// }
 
 String getTaskfileContent({
   required String applicationName,

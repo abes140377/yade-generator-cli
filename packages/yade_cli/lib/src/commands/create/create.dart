@@ -112,8 +112,54 @@ class CreateCommand extends YadeCommand {
       logger: logger,
     );
 
-    await generator.hooks.postGen(vars: vars, workingDirectory: cwd.path);
+    // await generator.hooks.postGen(vars: vars, workingDirectory: cwd.path);
 
+    logger.info('');
+    logger.info('Initialize project:');
+
+    // Install ansible dependencies
+    final progress = logger.progress('Installing ansible dependencies');
+    await Process.run(
+      'task',
+      ['install:deps'],
+      runInShell: true,
+      workingDirectory: outputDirectory.absolute.path,
+    );
+    progress.complete();
+
+    // make doctor.sh executable
+    final chmodProgress = logger.progress('Make ./doctor.sh executable');
+    await Process.run(
+      'chmod',
+      ['+x', 'doctor.sh'],
+      runInShell: true,
+      workingDirectory: outputDirectory.absolute.path,
+    );
+    chmodProgress.complete();
+
+    // Initialize git repository
+    final gitProgress = logger.progress('Initializing git repository');
+    await Process.run(
+      'git',
+      ['init'],
+      runInShell: true,
+      workingDirectory: outputDirectory.absolute.path,
+    );
+    await Process.run(
+      'git',
+      ['add', '.'],
+      runInShell: true,
+      workingDirectory: outputDirectory.absolute.path,
+    );
+    await Process.run(
+      'git',
+      ['commit', '-m', '"Initial commit after generate"'],
+      runInShell: true,
+      workingDirectory: outputDirectory.absolute.path,
+    );
+    gitProgress.complete();
+
+    // Print user info
     logger.info('');
     logger
         .progress('The IAC Repository for application $applicationName '
