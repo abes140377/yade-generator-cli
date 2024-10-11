@@ -160,7 +160,7 @@ tasks:
   # === REPOSITORIES COMPILED ===
 
   yade:create:example:compiled:
-    desc: Create a test repository using the compiled dart cli tool
+    desc: Create the example repository using the compiled dart cli tool
     deps:
       - yade:compile
     dir: "{{.HOME}}/projects/cas-yade/src/"
@@ -177,6 +177,24 @@ tasks:
           --ansible_roles=geerlingguy.docker:7.4.1 \
           {{.EXAMPLE_PROJECT_NAME}}
       - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+    silent: true
+
+  yade:create:vault:compiled:
+    desc: Create the vault repository using the compiled dart cli tool
+    deps:
+      - yade:compile
+    dir: "{{.HOME}}/projects/cas-yade/src/"
+    cmds:
+      - clear
+      - |
+        yade-generator-cli/build/yade create \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm003 \
+          --ansible_collections=community.general:9.4.0,community.hashi_vault:6.2.0 \
+          --ansible_roles=tomhesse.traefik:1.0.1,robertdebock.hashicorp:3.4.7,robertdebock.vault_configuration:5.0.2,robertdebock.vault:6.1.5 \
+          {{.VAULT_PROJECT_NAME}}
+      - cp cas-gitlab-mgm/.env.private cas-{{.VAULT_PROJECT_NAME}}-mgm
     silent: true
 
   # === REPOSITORIES GITHUB ===
