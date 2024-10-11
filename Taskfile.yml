@@ -312,15 +312,14 @@ tasks:
   yade:release:patch:
     desc: Create a release of the yade cli tool
     cmds:
+      - echo "Bump version for release"
       - mag modify bump --targets 'patch' --directory="packages/yade_cli/pubspec.yaml"
-      - "git add . && git commit -m \"chore: bump version for release\""
-      - git push origin develop
-      - git checkout main
-      - git merge develop
-      - git push origin main
-      - cider --project-root=packages/yade_cli version
+      - echo "Commit and push changes to develop"
+      - "git add . && git commit -m \"chore: bump version for release\" && git push origin develop"
+      - echo "Merge develop into main, create a tag and push it"
+      - git checkout main && git merge develop && git push origin main
       - git tag -a $(cider --project-root=packages/yade_cli version) -m "Release $(cider --project-root=packages/yade_cli version)"
       - git push --tags
-      - git checkout develop
-      - git merge main
+      - echo "Checkout develop and merge main"
+      - git checkout develop && git merge main && git push origin develop
     silent: true
