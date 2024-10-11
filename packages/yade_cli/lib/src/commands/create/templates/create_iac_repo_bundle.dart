@@ -183,7 +183,7 @@ final createIacRepoBundle = MasonBundle.fromJson(<String, dynamic>{
       "path":
           "2-ansible/collections/ansible_collections/{{organization.camelCase()}}/{{applicationName.camelCase()}}/roles/install/tasks/main.yml",
       "data":
-          "LS0tCi0gbmFtZTogUHJpbnQgZXhlY3V0aW9uIG9mIHRoZSB0YXNrCiAgYW5zaWJsZS5idWlsdGluLmRlYnVnOgogICAgbXNnOiBIZWxsbyBmcm9tIHt7b3JnYW5pemF0aW9uLmNhbWVsQ2FzZSgpfX0ue3thcHBsaWNhdGlvbk5hbWUuY2FtZWxDYXNlKCl9fS5pbnN0YWxsCiMge3sjYW5zaWJsZVJvbGVzfX0KIyAtIG5hbWU6IEltcG9ydCByb2xlIHt7bmFtZX19CiMgICBhbnNpYmxlLmJ1aWx0aW4uaW1wb3J0X3JvbGU6CiMgICAgIG5hbWU6IHt7bmFtZX19CiMge3svYW5zaWJsZVJvbGVzfX0=",
+          "LS0tCi0gbmFtZTogUHJpbnQgZXhlY3V0aW9uIG9mIHRoZSB0YXNrCiAgYW5zaWJsZS5idWlsdGluLmRlYnVnOgogICAgbXNnOiBIZWxsbyBmcm9tIHt7IG9yZ2FuaXphdGlvbi5jYW1lbENhc2UoKSB9fS57eyBhcHBsaWNhdGlvbk5hbWUuY2FtZWxDYXNlKCkgfX0uaW5zdGFsbAo=",
       "type": "text"
     },
     {

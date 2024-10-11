@@ -1,9 +1,4 @@
 ---
 - name: Print execution of the task
   ansible.builtin.debug:
-    msg: Hello from {{organization.camelCase()}}.{{applicationName.camelCase()}}.install
-# {{#ansibleRoles}}
-# - name: Import role {{name}}
-#   ansible.builtin.import_role:
-#     name: {{name}}
-# {{/ansibleRoles}}
+    msg: Hello from {{ organization.camelCase() }}.{{ applicationName.camelCase() }}.install

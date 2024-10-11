@@ -171,7 +171,8 @@ class CreateCommand extends YadeCommand {
       ..info('')
       ..info('Important next steps:')
       ..info(
-          "  1. Open the '.env.private.example' file in the project directory.",)
+        "  1. Open the '.env.private.example' file in the project directory.",
+      )
       ..info('  2. Adjust the values in the file to match your environment.')
       ..info("  3. Save the file as '.env.private'.")
       ..info('')
