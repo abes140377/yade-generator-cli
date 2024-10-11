@@ -145,18 +145,23 @@ class CreateCommand extends YadeCommand {
       runInShell: true,
       workingDirectory: outputDirectory.absolute.path,
     );
-    await Process.run(
-      'git',
-      ['add', '.'],
-      runInShell: true,
-      workingDirectory: outputDirectory.absolute.path,
-    );
-    await Process.run(
-      'git',
-      ['commit', '-m', '"Initial commit after generate"'],
-      runInShell: true,
-      workingDirectory: outputDirectory.absolute.path,
-    );
+
+    // Issue: https://github.com/abes140377/yade-generator-cli/issues/6
+    // Solution: Do not commit the generated files to git. Let the user decide
+    // if and when he wants to commit. Makes it easier to rolback changes from
+    // subsequent runs if something is overwritten accidentally.
+    // await Process.run(
+    //   'git',
+    //   ['add', '.'],
+    //   runInShell: true,
+    //   workingDirectory: outputDirectory.absolute.path,
+    // );
+    // await Process.run(
+    //   'git',
+    //   ['commit', '-m', '"Initial commit after generate"'],
+    //   runInShell: true,
+    //   workingDirectory: outputDirectory.absolute.path,
+    // );
     gitProgress.complete();
 
     // Print user info
