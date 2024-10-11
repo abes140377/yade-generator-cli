@@ -309,7 +309,7 @@ tasks:
       - curl -sS https://raw.githubusercontent.com/abes140377/yade-generator-cli/refs/heads/main/scripts/install.sh | sudo bash
     silent: true
 
-  yade:release:path:
+  yade:release:patch:
     desc: Create a release of the yade cli tool
     cmds:
       - mag modify bump --targets 'patch' --directory="packages/yade_cli/pubspec.yaml"
@@ -318,5 +318,9 @@ tasks:
       - git checkout main
       - git merge develop
       - git push origin main
-      - git tag -a v$(mag version get) -m "Release v$(mag version get)"
+      - cider --project-root=packages/yade_cli version
+      - git tag -a $(cider --project-root=packages/yade_cli version) -m "Release $(cider --project-root=packages/yade_cli version)"
+      - git push --tags
+      - git checkout develop
+      - git merge main
     silent: true
