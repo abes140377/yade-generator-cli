@@ -208,7 +208,7 @@ tasks:
       # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       # - yade-generator-cli/build/yade --version
-      - which yade
+      # - which yade
       - |
         yade create \
           --organization=cas \
@@ -218,6 +218,27 @@ tasks:
           --ansible_roles=geerlingguy.docker:7.4.1 \
           {{.EXAMPLE_PROJECT_NAME}}
       - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+    silent: true
+
+  yade:create:vault:github:
+    desc: Create a test repository using the compiled dart cli tool
+    deps:
+      - yade:install:github
+    dir: "{{.HOME}}/projects/cas-yade/src/"
+    cmds:
+      # - rm -rf cas-{{.VAULT_PROJECT_NAME}}-mgm
+      - clear
+      # - yade-generator-cli/build/yade --version
+      # - which yade
+      - |
+        yade create \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm003 \
+          --ansible_collections=community.general:9.4.0,community.hashi_vault:6.2.0 \
+          --ansible_roles=tomhesse.traefik:1.0.1,robertdebock.hashicorp:3.4.7,robertdebock.vault_configuration:5.0.2,robertdebock.vault:6.1.5 \
+          {{.VAULT_PROJECT_NAME}}
+      - cp cas-gitlab-mgm/.env.private cas-{{.VAULT_PROJECT_NAME}}-mgm
     silent: true
 
   # === COMMON ===
@@ -286,4 +307,16 @@ tasks:
     cmds:
       - sudo rm -rf /usr/local/bin/yade
       - curl -sS https://raw.githubusercontent.com/abes140377/yade-generator-cli/refs/heads/main/scripts/install.sh | sudo bash
+    silent: true
+
+  yade:release:path:
+    desc: Create a release of the yade cli tool
+    cmds:
+      - mag modify bump --targets 'patch' --directory="packages/yade_cli/pubspec.yaml"
+      - "git add . && git commit -m \"chore: bump version for release\""
+      - git push origin develop
+      - git checkout main
+      - git merge develop
+      - git push origin main
+      - git tag -a v$(mag version get) -m "Release v$(mag version get)"
     silent: true

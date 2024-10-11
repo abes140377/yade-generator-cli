@@ -1,6 +1,6 @@
 name: yade_cli
 description: The official command line interface for YADE. Built by Very Good Ventures.
-version: 0.1.2
+version: 0.1.3
 homepage: https://yade.io
 repository: https://github.com/yadeio/yade
 issue_tracker: https://github.com/VeryGoodOpenSource/yade/issues
