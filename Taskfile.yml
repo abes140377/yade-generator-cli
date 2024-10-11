@@ -197,6 +197,17 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.VAULT_PROJECT_NAME}}-mgm
     silent: true
 
+  yade:update:compiled:
+    desc: Update the compiled dart cli tool
+    deps:
+      - yade:compile
+    dir: "{{.HOME}}/projects/cas-yade/src/"
+    cmds:
+      - clear
+      - |
+        yade-generator-cli/build/yade update
+    silent: true
+
   # === REPOSITORIES GITHUB ===
 
   yade:create:example:github:
@@ -207,8 +218,6 @@ tasks:
     cmds:
       # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
-      # - yade-generator-cli/build/yade --version
-      # - which yade
       - |
         yade create \
           --organization=cas \
@@ -228,8 +237,6 @@ tasks:
     cmds:
       # - rm -rf cas-{{.VAULT_PROJECT_NAME}}-mgm
       - clear
-      # - yade-generator-cli/build/yade --version
-      # - which yade
       - |
         yade create \
           --organization=cas \

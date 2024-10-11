@@ -5,12 +5,6 @@
 
 name: Dart
 
-#on:
-#  push:
-#    branches: [ "develop" ]
-#  pull_request:
-#    branches: [ "develop" ]
-
 on:
   push:
     tags:
@@ -35,10 +29,6 @@ jobs:
       - name: Install CLI dependencies
         working-directory: ./packages/yade_cli
         run: dart pub get
-
-      # - name: Install BRICK dependencies
-      #   working-directory: ./bricks/create_iac_repo/hooks
-      #   run: dart pub get
 
       - name: Bundle mason templates
         run: >
@@ -65,7 +55,6 @@ jobs:
           draft: false
           prerelease: false
           release_name: "${{ github.ref }}"
-          # release_name: ${{ steps.version.outputs.version }}
           tag_name: ${{ github.ref }}
           body_path: CHANGELOG.md
         env:
