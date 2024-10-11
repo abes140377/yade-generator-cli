@@ -13,7 +13,7 @@ tasks:
       - echo ""
       - echo "🚀 terraform:init [ STAGE - {{.STAGE}} ]"
       - pwd
-      - terraform init
+      - terraform init -upgrade
     requires:
       vars: [ STAGE ]
 
