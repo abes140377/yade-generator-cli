@@ -17,7 +17,8 @@ locals {
       num_cpus = vm.num_cpus
       memory = vm.memory
       system_disk_size = vm.system_disk_size
-      additional_domains = []
+      additional_disks = vm.additional_disks
+      additional_domains = vm.additional_domains
   }}
 }
 

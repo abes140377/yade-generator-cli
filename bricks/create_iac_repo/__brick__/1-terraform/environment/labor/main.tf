@@ -12,5 +12,4 @@ module "{{organization.camelCase()}}_vm_labor" {
     vms = var.vms
 
     vault_provider_token = var.vault_provider_token
-    # additional_domains = []
 }

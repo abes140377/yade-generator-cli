@@ -63,10 +63,17 @@ variable "vms" {
     num_cpus = number
     memory    = number
     system_disk_size = number
-    
+    additional_disks = list(object({
+      size       = string
+      device     = string
+      mount      = string
+      table_type = string
+      filesystem = string
+    }))
+    additional_domains = list(string)
+
     # network
     # template
-    # additional_domains = list(string)
   }))
 }
 

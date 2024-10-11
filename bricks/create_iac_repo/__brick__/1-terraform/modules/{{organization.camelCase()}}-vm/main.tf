@@ -14,14 +14,14 @@ module "{{organization}}_vm" {
     system_disk_size = each.value.system_disk_size
     template = each.value.template
     network  = each.value.network
+    additional_disks = each.value.additional_disks
+    additional_domains = each.value.additional_domains
 
     folder = local.folder
 
     http_proxy = local.http_proxy
     https_proxy = local.https_proxy
 
-    additional_domains = []
-    # additional_domains = var.additional_domains
     additional_ssh_keys = [module.ssh.public_key_openssh]
 }
 
