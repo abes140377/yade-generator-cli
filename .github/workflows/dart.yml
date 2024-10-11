@@ -36,9 +36,9 @@ jobs:
         working-directory: ./packages/yade_cli
         run: dart pub get
 
-      - name: Install BRICK dependencies
-        working-directory: ./bricks/create_iac_repo/hooks
-        run: dart pub get
+      # - name: Install BRICK dependencies
+      #   working-directory: ./bricks/create_iac_repo/hooks
+      #   run: dart pub get
 
       - name: Bundle mason templates
         run: >
