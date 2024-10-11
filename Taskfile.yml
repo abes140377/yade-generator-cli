@@ -261,7 +261,7 @@ tasks:
     desc: Initialize dart projects yade-generator-cli recursively
     cmds:
       - cd ./packages/yade_cli && dart pub get
-      - cd ./bricks/create_iac_repo/hooks && dart pub get
+      # - cd ./bricks/create_iac_repo/hooks && dart pub get
     silent: true
 
   mason:bundle:templates:local:
