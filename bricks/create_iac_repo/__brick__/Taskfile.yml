@@ -96,7 +96,7 @@ tasks:
     cmds:
       - task: terraform:destroy
         vars:
-            STAGE: sbox
+          STAGE: sbox
 
   {{applicationName}}:reinstall:sbox:
     desc: "Re-Install {{applicationName}} in the Sandbox Environment"
@@ -158,7 +158,7 @@ tasks:
     cmds:
       - task: terraform:destroy
         vars:
-            STAGE: labor
+          STAGE: labor
 
   {{applicationName}}:reinstall:labor:
     desc: "Re-Install {{applicationName}} in the Labor Environment"
@@ -215,7 +215,7 @@ tasks:
     cmds:
       - task: terraform:destroy
         vars:
-            STAGE: prod
+          STAGE: prod
 
   {{applicationName}}:reinstall:prod:
     desc: "Re-Install {{applicationName}} in the Prod Environment"
@@ -231,4 +231,3 @@ tasks:
         vars:
           VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_PROD{{=<% %>=}}}}<%={{ }}=%>'
           KEY: './ssh/{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_PROD{{=<% %>=}}}}<%={{ }}=%>_ansible_ed25519'
-

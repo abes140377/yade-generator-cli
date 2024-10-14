@@ -8,6 +8,7 @@ env:
   VAULT_PROJECT_NAME: vault
   BITWARDEN_PROJECT_NAME: bitwarden
   APPWRITE_PROJECT_NAME: appwrite
+  WINDMILL_PROJECT_NAME: windmill
 
 tasks:
   # === REPOSITORIES ===
@@ -135,6 +136,27 @@ tasks:
           --ansible_roles=geerlingguy.docker:7.4.1,thehedgefrog.coder_v2_install:v1.2.0 \
           {{.CODER_PROJECT_NAME}}
       - cp cas-gitlab-mgm/.env.private cas-{{.CODER_PROJECT_NAME}}-mgm
+    silent: true
+
+  yade:create:windmill:
+    desc: Create the example repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - pwd
+      # - rm -rf cas-{{.WINDMILL_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm006 \
+          --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
+          {{.WINDMILL_PROJECT_NAME}}
+      - cp cas-gitlab-mgm/.env.private cas-{{.WINDMILL_PROJECT_NAME}}-mgm
     silent: true
 
   yade:create:example:

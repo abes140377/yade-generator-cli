@@ -1,6 +1,6 @@
 module "naming" {
     #source = "./module/naming"
-    source = "git@viicasapp003t.intinf.dvvbw.net:cas/terraform/module/naming.git?ref=v1.2.0"
+    source = "git@viicasapp003t.intinf.dvvbw.net:cas/terraform/module/naming.git?ref=v1.3.0"
 
     # Type for the Lookup:
     # grp : lookup for VM Group deployt via Terraform

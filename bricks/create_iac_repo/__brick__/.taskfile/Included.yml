@@ -15,7 +15,7 @@ tasks:
       - pwd
       - terraform init -upgrade
     requires:
-      vars: [ STAGE ]
+      vars: [STAGE]
 
   terraform:plan:
     desc: "Initialize terraform"
@@ -26,7 +26,7 @@ tasks:
       - pwd
       - terraform plan
     requires:
-      vars: [ STAGE ]
+      vars: [STAGE]
 
   terraform:apply:
     desc: "Initialize terraform"
@@ -37,7 +37,7 @@ tasks:
       - pwd
       - terraform apply -auto-approve
     requires:
-      vars: [ STAGE ]
+      vars: [STAGE]
 
   terraform:destroy:
     desc: "Destroy terraform"
@@ -48,7 +48,7 @@ tasks:
       - pwd
       - terraform destroy -auto-approve
     requires:
-      vars: [ STAGE ]
+      vars: [STAGE]
 
   # ===========
   # === SSH ===
@@ -65,7 +65,7 @@ tasks:
       - pwd
       - ssh -o StrictHostKeyChecking=no -p {{.PORT}} -i {{.KEY}} {{.USERNAME}}@{{.VM_FQDN}} "date"
     requires:
-      vars: [ VM_FQDN, KEY ]
+      vars: [VM_FQDN, KEY]
 
   ssh:connect:
     desc: "Connect to a VM via SSH"
@@ -79,7 +79,7 @@ tasks:
       - pwd
       - ssh -o StrictHostKeyChecking=no -p {{.PORT}} -i {{.KEY}} {{.USERNAME}}@{{.VM_FQDN}}
     requires:
-      vars: [ VM_FQDN, KEY ]
+      vars: [VM_FQDN, KEY]
 
   # =============
   # === VAULT ===
@@ -102,7 +102,7 @@ tasks:
       # remove from known_hosts
       - ssh-keygen -f "{{.HOME}}/.ssh/known_hosts" -R "[{{.VM_FQDN}}]:{{.PORT}}"
     requires:
-      vars: [ VM_NAME, VM_FQDN, MOUNT_PATH ]
+      vars: [VM_NAME, VM_FQDN, MOUNT_PATH]
 
   # ===============
   # === ANSIBLE ===
@@ -115,7 +115,7 @@ tasks:
       - pwd
       - ansible -i inventory/hosts_{{.STAGE}}.yml -m ping all
     requires:
-      vars: [ STAGE ]
+      vars: [STAGE]
 
   ansible:inventory:print:
     dir: '{{.USER_WORKING_DIR}}/2-ansible'
@@ -125,7 +125,7 @@ tasks:
       - pwd
       - ansible-inventory -i inventory/hosts_{{.STAGE}}.yml --graph --vars
     requires:
-      vars: [ STAGE ]
+      vars: [STAGE]
 
   ansible:playbook:site:
     dir: '{{.USER_WORKING_DIR}}/2-ansible'
@@ -137,7 +137,7 @@ tasks:
       - pwd
       - ansible-playbook -i inventory/hosts_{{.STAGE}}.yml {{.PLAYBOOK}}
     requires:
-      vars: [ STAGE ]
+      vars: [STAGE]
 
   ansible:playbook:site:vars:
     dir: '{{.USER_WORKING_DIR}}/2-ansible'
@@ -149,5 +149,5 @@ tasks:
       - pwd
       - ansible-playbook -i inventory/hosts_{{.STAGE}}.yml {{.PLAYBOOK}} -e "{{ .VARIABLES }}"
     requires:
-      vars: [ STAGE, VARIABLES ]
+      vars: [STAGE, VARIABLES]
 <%={{ }}=%>
