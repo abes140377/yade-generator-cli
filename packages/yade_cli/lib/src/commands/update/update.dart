@@ -1,9 +1,8 @@
-import 'dart:io';
+import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:mason/mason.dart' hide packageVersion;
-import 'package:pub_updater/pub_updater.dart';
 import 'package:yade_cli/src/command.dart';
-import 'package:yade_cli/src/command_runner.dart';
 import 'package:yade_cli/src/version.dart';
 
 /// {@template update_command}
@@ -13,9 +12,7 @@ class UpdateCommand extends YadeCommand {
   /// {@macro update_command}
   UpdateCommand({
     required Logger logger,
-    PubUpdater? pubUpdater,
-  })  : _logger = logger,
-        _pubUpdater = pubUpdater ?? PubUpdater() {
+  }) : _logger = logger {
     argParser.addFlag(
       'verify-only',
       help: 'Check if an update is available, without committing to update.',
@@ -24,7 +21,6 @@ class UpdateCommand extends YadeCommand {
   }
 
   final Logger _logger;
-  final PubUpdater _pubUpdater;
 
   @override
   String get description => 'Update the YADE CLI.';
@@ -40,47 +36,50 @@ class UpdateCommand extends YadeCommand {
     final verifyOnly = results['verify-only'] as bool;
 
     final updateCheckProgress = _logger.progress('Checking for updates');
-    late final String latestVersion;
+
+    var latestVersion = '0.0.0';
     try {
-      latestVersion = await _pubUpdater.getLatestVersion(packageName);
+      final uri = Uri.parse(
+        'https://api.github.com/repos/abes140377/yade-generator-cli/releases/latest',
+      );
+      final response = await http.get(uri);
+      final responseJson = json.decode(response.body);
+
+      latestVersion = responseJson['tag_name'] as String;
     } catch (error) {
       updateCheckProgress.fail();
       _logger.err('$error');
+
       return ExitCode.software.code;
     }
+
     updateCheckProgress.complete('Checked for updates');
 
     final isUpToDate = packageVersion == latestVersion;
     if (isUpToDate) {
-      _logger.info('$packageName is already at the latest version.');
+      _logger
+        ..info('')
+        ..info(
+          '${green.wrap('The yade CLI is already at the latest version!')}',
+        );
+
       return ExitCode.success.code;
     } else if (verifyOnly) {
       _logger
-        ..info('A new version of $packageName is available.\n')
+        ..info('A new version of the yade CLI is available.\n')
         ..info(styleBold.wrap('The latest version: $latestVersion'))
         ..info('Your current version: $packageVersion\n')
-        ..info('To update now, run "$executableName update".');
+        ..info('To update now, you can re-run the installer with the following '
+            'command:\n')
+        ..info('${lightYellow.wrap('Update available!')} '
+            '${lightCyan.wrap(packageVersion)} '
+            '\u2192 ${lightCyan.wrap(latestVersion)}')
+        ..info(
+          '  curl -sS https://raw.githubusercontent.com/abes140377/yade-generator-cli/refs/heads/main/scripts/install.sh | sudo bash',
+        );
+
       return ExitCode.success.code;
     }
-
-    final updateProgress = _logger.progress('Updating to $latestVersion');
-    late ProcessResult result;
-    try {
-      result = await _pubUpdater.update(
-        packageName: packageName,
-        versionConstraint: latestVersion,
-      );
-    } catch (error) {
-      updateProgress.fail();
-      _logger.err('$error');
-      return ExitCode.software.code;
-    }
-    if (result.exitCode != ExitCode.success.code) {
-      updateProgress.fail();
-      _logger.err('Error updating YADE CLI: ${result.stderr}');
-      return ExitCode.software.code;
-    }
-    updateProgress.complete('Updated to $latestVersion');
 
     return ExitCode.success.code;
   }
