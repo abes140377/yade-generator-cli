@@ -1,3 +1,13 @@
+# Verion v0.2.0
+
+- https://github.com/abes140377/yade-generator-cli/issues/5
+
+  Integrate pre-commit configuration
+
+- https://github.com/abes140377/yade-generator-cli/issues/4
+    
+  Custom command to check the current cli version with the latest version available from github.
+
 # Verion v0.1.5
 
 - https://github.com/abes140377/yade-generator-cli/issues/6

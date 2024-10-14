@@ -12,27 +12,6 @@ env:
 
 tasks:
   # === REPOSITORIES ===
-  yade:create:appwrite:
-    desc: Create the appwrite repository using the dart cli tool
-    dir: ../
-    deps:
-      - mason:bundle:templates:local
-      - dart:run:build_runner
-    cmds:
-      - pwd
-      # - rm -rf cas-{{.APPWRITE_PROJECT_NAME}}-mgm
-      - clear
-      - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
-          --organization=cas \
-          --environment=mgm \
-          --hostname=viicasmgm005 \
-          --ansible_collections=community.general:9.4.0 \
-          --ansible_roles=geerlingguy.docker:7.4.1 \
-          {{.APPWRITE_PROJECT_NAME}}
-      - cp cas-gitlab-mgm/.env.private cas-{{.APPWRITE_PROJECT_NAME}}-mgm
-    silent: true
-
   yade:create:bitwarden:
     desc: Create the bitwarden repository using the dart cli tool
     dir: ../
@@ -138,6 +117,27 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.CODER_PROJECT_NAME}}-mgm
     silent: true
 
+  yade:create:appwrite:
+    desc: Create the appwrite repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - pwd
+      # - rm -rf cas-{{.APPWRITE_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm007 \
+          --ansible_collections=community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
+          {{.APPWRITE_PROJECT_NAME}}
+      - cp cas-gitlab-mgm/.env.private cas-{{.APPWRITE_PROJECT_NAME}}-mgm
+    silent: true
+https://github.com/abes140377/yade-generator-cli/issues/4
   yade:create:windmill:
     desc: Create the example repository using the dart cli tool
     dir: ../
