@@ -137,7 +137,7 @@ tasks:
           {{.APPWRITE_PROJECT_NAME}}
       - cp cas-gitlab-mgm/.env.private cas-{{.APPWRITE_PROJECT_NAME}}-mgm
     silent: true
-https://github.com/abes140377/yade-generator-cli/issues/4
+
   yade:create:windmill:
     desc: Create the example repository using the dart cli tool
     dir: ../
