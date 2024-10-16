@@ -154,7 +154,7 @@ tasks:
   # ==============
   # === PYTHON ===
   # ==============
-  pyenv:create:venv:
+  pyvenv:create:venv:
     desc: "Create Python Virtual Environment required for a repository to install deps locally"
     cmds:
       - python3 -m venv .venv

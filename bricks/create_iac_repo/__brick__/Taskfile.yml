@@ -53,10 +53,10 @@ tasks:
   install:deps:
     desc: "Install python and ansible dependencies"
     deps:
-      - task: pyenv:create:venv
+      - task: pyvenv:create:venv
     cmds:
-      - pip install -r requirements.txt
-      - cd 2-ansible && ansible-galaxy install -r requirements.yml --force
+      - .venv/bin/pip install -r requirements.txt
+      - .venv/bin/ansible-galaxy install -r 2-ansible/requirements.yml --force
 
   # ===============
   # === SANDBOX ===
