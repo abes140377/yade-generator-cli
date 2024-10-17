@@ -49,7 +49,7 @@ class CreateClusterVmsCommand extends YadeCommand {
   final GeneratorBuilder _generator;
 
   @override
-  final String description = 'Creates a new Infrastructure As Code repository.';
+  final String description = 'Creates a new Cluster repository.';
 
   @override
   final String name = 'create-cluster';

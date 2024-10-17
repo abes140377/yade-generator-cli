@@ -49,7 +49,7 @@ class CreateSingleVmsCommand extends YadeCommand {
   final GeneratorBuilder _generator;
 
   @override
-  final String description = 'Creates a new Infrastructure As Code repository.';
+  final String description = 'Creates a new Single VM repository.';
 
   @override
   final String name = 'create-single';
