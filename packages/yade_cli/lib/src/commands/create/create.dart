@@ -112,8 +112,6 @@ class CreateCommand extends YadeCommand {
       logger: logger,
     );
 
-    // await generator.hooks.postGen(vars: vars, workingDirectory: cwd.path);
-
     logger.info('');
     logger.info('Initialize project:');
 
@@ -145,23 +143,6 @@ class CreateCommand extends YadeCommand {
       runInShell: true,
       workingDirectory: outputDirectory.absolute.path,
     );
-
-    // Issue: https://github.com/abes140377/yade-generator-cli/issues/6
-    // Solution: Do not commit the generated files to git. Let the user decide
-    // if and when he wants to commit. Makes it easier to rolback changes from
-    // subsequent runs if something is overwritten accidentally.
-    // await Process.run(
-    //   'git',
-    //   ['add', '.'],
-    //   runInShell: true,
-    //   workingDirectory: outputDirectory.absolute.path,
-    // );
-    // await Process.run(
-    //   'git',
-    //   ['commit', '-m', '"Initial commit after generate"'],
-    //   runInShell: true,
-    //   workingDirectory: outputDirectory.absolute.path,
-    // );
     gitProgress.complete();
 
     // Print user info
@@ -180,12 +161,17 @@ class CreateCommand extends YadeCommand {
       )
       ..info('  2. Adjust the values in the file to match your environment.')
       ..info("  3. Save the file as '.env.private'.")
+      ..info(
+          '  4. Run the following command to activate the pyenv environment:')
+      ..info('     source .venv/bin/activate')
       ..info('')
       ..info(
           "Note: The '.env.private' file should contain sensitive information "
           'such as credentials and should NOT be committed to version control')
       ..info('')
-      ..info('🚀 You are ready to spin up your first vm.')
+      ..info('⚠ To use the')
+      ..info('')
+      ..info("🚀 You are ready to spin up your vm's.")
       ..info('')
       ..info('Tip: You can run the follwing command to start the sbox vm:')
       ..info('  task $applicationName:install:sbox');

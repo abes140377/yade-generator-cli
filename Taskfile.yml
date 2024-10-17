@@ -175,6 +175,7 @@ tasks:
           --environment=mgm \
           --hostname=viicasmgm004 \
           --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
           {{.EXAMPLE_PROJECT_NAME}}
       - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
     silent: true
