@@ -30,7 +30,7 @@ void main() {
     late Logger logger;
     late Progress progress;
     late MasonGenerator generator;
-    late CreateCommand command;
+    late CreateSingleVmsCommand command;
 
     setUp(() {
       argResults = _MockArgResults();
@@ -38,7 +38,7 @@ void main() {
       progress = _MockProgress();
       when(() => logger.progress(any())).thenReturn(progress);
       generator = _MockMasonGenerator();
-      command = CreateCommand(
+      command = CreateSingleVmsCommand(
         logger: logger,
         generator: (_) async => generator,
       )

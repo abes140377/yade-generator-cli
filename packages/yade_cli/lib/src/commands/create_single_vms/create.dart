@@ -5,14 +5,14 @@ import 'dart:io';
 import 'package:mason/mason.dart';
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/commands/commands.dart';
-import 'package:yade_cli/src/commands/create/templates/create_iac_repo_bundle.dart';
+import 'package:yade_cli/src/commands/create_single_vms/templates/create_single_vms_bundle.dart';
 
 /// {@template create_command}
 /// `yade create` command which creates a new application.`.
 /// {@endtemplate}
-class CreateCommand extends YadeCommand {
+class CreateSingleVmsCommand extends YadeCommand {
   /// {@macro create_command}
-  CreateCommand({
+  CreateSingleVmsCommand({
     super.logger,
     GeneratorBuilder? generator,
   }) : _generator = generator ?? MasonGenerator.fromBundle {
@@ -52,7 +52,7 @@ class CreateCommand extends YadeCommand {
   final String description = 'Creates a new Infrastructure As Code repository.';
 
   @override
-  final String name = 'create';
+  final String name = 'create-single';
 
   @override
   Future<int> run() async {
@@ -92,7 +92,7 @@ class CreateCommand extends YadeCommand {
     //   ..info('  outputDirectory: ${outputDirectory.path}')
     //   ..info('');
 
-    final generator = await _generator(createIacRepoBundle);
+    final generator = await _generator(createSingleVmsBundle);
 
     final vars = <String, dynamic>{
       'applicationName': applicationName,
@@ -112,9 +112,8 @@ class CreateCommand extends YadeCommand {
       logger: logger,
     );
 
-    logger
-      ..info('')
-      ..info('Initialize project:');
+    logger.info('');
+    logger.info('Initialize project:');
 
     // Install ansible dependencies
     final progress = logger.progress('Installing ansible dependencies');

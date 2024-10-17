@@ -1,0 +1,16 @@
+repos:
+  # Terraform Checks
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.75.0
+    hooks:
+      - id: terraform_fmt
+        files: ^1-terraform/
+      - id: terraform_validate
+        files: ^1-terraform/
+
+  # Ansible Checks
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v6.20.0
+    hooks:
+      - id: ansible-lint
+        files: ^2-ansible/

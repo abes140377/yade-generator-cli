@@ -4,7 +4,8 @@ import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:cli_completion/cli_completion.dart';
 import 'package:mason/mason.dart' hide packageVersion;
-import 'package:yade_cli/src/commands/commands.dart';
+import 'package:yade_cli/src/commands/create_cluster_vms/create.dart';
+import 'package:yade_cli/src/commands/create_single_vms/create.dart';
 import 'package:yade_cli/src/version.dart';
 
 /// Typedef for [io.exit].
@@ -32,8 +33,9 @@ class YadeCommandRunner extends CompletionCommandRunner<int> {
         stdin = stdin ?? io.stdin,
         super(executableName, executableDescription) {
     argParser.addFlags();
-    addCommand(CreateCommand(logger: _logger));
-    addCommand(UpdateCommand(logger: _logger));
+    addCommand(CreateSingleVmsCommand(logger: _logger));
+    addCommand(CreateClusterVmsCommand(logger: _logger));
+    // addCommand(UpdateCommand(logger: _logger));
   }
 
   final Logger _logger;

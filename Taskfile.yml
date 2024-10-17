@@ -11,8 +11,8 @@ env:
   WINDMILL_PROJECT_NAME: windmill
 
 tasks:
-  # === REPOSITORIES ===
-  yade:create:bitwarden:
+  # === CREATE SINGLE VMS ===
+  yade:create:bitwarden:single:
     desc: Create the bitwarden repository using the dart cli tool
     dir: ../
     deps:
@@ -23,7 +23,7 @@ tasks:
       # - rm -rf cas-{{.BITWARDEN_PROJECT_NAME}}-mgm
       - clear
       - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm005 \
@@ -33,7 +33,7 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.BITWARDEN_PROJECT_NAME}}-mgm
     silent: true
 
-  yade:create:vault:
+  yade:create:vault:single:
     desc: Create the vault repository using the dart cli tool
     dir: ../
     deps:
@@ -44,7 +44,7 @@ tasks:
       # - rm -rf cas-{{.VAULT_PROJECT_NAME}}-mgm
       - clear
       - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm003 \
@@ -54,7 +54,7 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.VAULT_PROJECT_NAME}}-mgm
     silent: true
 
-  yade:create:matrix:
+  yade:create:matrix:single:
     desc: Create the matrix repository using the dart cli tool
     dir: ../
     deps:
@@ -65,7 +65,7 @@ tasks:
       # - rm -rf cas-{{.MATRIX_PROJECT_NAME}}-mgm
       - clear
       - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm005 \
@@ -75,7 +75,7 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.MATRIX_PROJECT_NAME}}-mgm
     silent: true
 
-  yade:create:keycloak:
+  yade:create:keycloak:single:
     desc: Create the keycloak repository using the dart cli tool
     dir: ../
     deps:
@@ -86,7 +86,7 @@ tasks:
       # - rm -rf cas-{{.KEYCLOAK_PROJECT_NAME}}-mgm
       - clear
       - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm006 \
@@ -96,7 +96,7 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.KEYCLOAK_PROJECT_NAME}}-mgm
     silent: true
 
-  yade:create:coder:
+  yade:create:coder:single:
     desc: Create the coder repository using the dart cli tool
     dir: ../
     deps:
@@ -107,7 +107,7 @@ tasks:
       # - rm -rf cas-{{.CODER_PROJECT_NAME}}-mgm
       - clear
       - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm005 \
@@ -117,7 +117,7 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.CODER_PROJECT_NAME}}-mgm
     silent: true
 
-  yade:create:appwrite:
+  yade:create:appwrite:single:
     desc: Create the appwrite repository using the dart cli tool
     dir: ../
     deps:
@@ -128,7 +128,7 @@ tasks:
       # - rm -rf cas-{{.APPWRITE_PROJECT_NAME}}-mgm
       - clear
       - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm007 \
@@ -138,7 +138,7 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.APPWRITE_PROJECT_NAME}}-mgm
     silent: true
 
-  yade:create:windmill:
+  yade:create:windmill:single:
     desc: Create the example repository using the dart cli tool
     dir: ../
     deps:
@@ -149,7 +149,7 @@ tasks:
       # - rm -rf cas-{{.WINDMILL_PROJECT_NAME}}-mgm
       - clear
       - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm006 \
@@ -159,7 +159,7 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.WINDMILL_PROJECT_NAME}}-mgm
     silent: true
 
-  yade:create:example:
+  yade:create:example:single:
     desc: Create the example repository using the dart cli tool
     dir: ../
     deps:
@@ -170,7 +170,7 @@ tasks:
       # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create \
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm004 \
@@ -178,6 +178,41 @@ tasks:
           --ansible_roles=geerlingguy.docker:7.4.1 \
           {{.EXAMPLE_PROJECT_NAME}}
       - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+    silent: true
+
+  yade:test:cli:
+    desc: Test cli
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - pwd
+      # - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart --help
+    silent: true
+
+  # === CREATE CLUSTER VMS ===
+
+  yade:create:example:cluster:
+    desc: Create the example cluster repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - pwd
+      - rm -rf cas-cluster-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-cluster \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm004 \
+          --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
+          {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 
   # === REPOSITORIES COMPILED ===
@@ -192,7 +227,7 @@ tasks:
       - clear
       # - yade-generator-cli/build/yade --version
       - |
-        yade-generator-cli/build/yade create \
+        yade-generator-cli/build/yade create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm004 \
@@ -210,7 +245,7 @@ tasks:
     cmds:
       - clear
       - |
-        yade-generator-cli/build/yade create \
+        yade-generator-cli/build/yade create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm003 \
@@ -231,9 +266,9 @@ tasks:
         yade-generator-cli/build/yade update
     silent: true
 
-  # === REPOSITORIES GITHUB ===
+  # === CREATE SINGLE VMS GITHUB ===
 
-  yade:create:example:github:
+  yade:create:example:single:github:
     desc: Create a test repository using the compiled dart cli tool
     deps:
       - yade:install:github
@@ -242,7 +277,7 @@ tasks:
       # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       - |
-        yade create \
+        yade create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm004 \
@@ -252,7 +287,7 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
     silent: true
 
-  yade:create:vault:github:
+  yade:create:vault:single:github:
     desc: Create a test repository using the compiled dart cli tool
     deps:
       - yade:install:github
@@ -261,7 +296,7 @@ tasks:
       # - rm -rf cas-{{.VAULT_PROJECT_NAME}}-mgm
       - clear
       - |
-        yade create \
+        yade create-single \
           --organization=cas \
           --environment=mgm \
           --hostname=viicasmgm003 \
@@ -284,7 +319,6 @@ tasks:
     desc: Initialize dart projects yade-generator-cli recursively
     cmds:
       - cd ./packages/yade_cli && dart pub get
-      # - cd ./bricks/create_iac_repo/hooks && dart pub get
     silent: true
 
   mason:bundle:templates:local:
@@ -293,9 +327,13 @@ tasks:
       # bundle templates
       - >
         mason bundle \
-          -s path ./bricks/create_iac_repo \
+          -s path ./bricks/create_single_vms \
           -t dart \
-          -o packages/yade_cli/lib/src/commands/create/templates
+          -o packages/yade_cli/lib/src/commands/create_single_vms/templates
+        mason bundle \
+          -s path ./bricks/create_cluster_vms \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/create_cluster_vms/templates
       # format
       - dart format ./packages/yade_cli
     silent: true
@@ -307,9 +345,14 @@ tasks:
       - >
         mason bundle \
           -s git git@github.com:abes140377/yade-generator-cli.git \
-          --git-path bricks/create_iac_repo \
+          --git-path bricks/create_single_vms \
           -t dart \
-          -o packages/yade_cli/lib/src/commands/create/templates
+          -o packages/yade_cli/lib/src/commands/create_single_vms/templates
+        mason bundle \
+          -s git git@github.com:abes140377/yade-generator-cli.git \
+          --git-path bricks/create_cluster_vms \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/create_cluster_vms/templates
       # format
       - dart format ./packages/yade_cli
     silent: true

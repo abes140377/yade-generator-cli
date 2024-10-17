@@ -5,14 +5,14 @@ import 'dart:io';
 import 'package:mason/mason.dart';
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/commands/commands.dart';
-import 'package:yade_cli/src/commands/create/templates/create_iac_repo_bundle.dart';
+import 'package:yade_cli/src/commands/create_cluster_vms/templates/create_cluster_vms_bundle.dart';
 
 /// {@template create_command}
 /// `yade create` command which creates a new application.`.
 /// {@endtemplate}
-class CreateCommand extends YadeCommand {
+class CreateClusterVmsCommand extends YadeCommand {
   /// {@macro create_command}
-  CreateCommand({
+  CreateClusterVmsCommand({
     super.logger,
     GeneratorBuilder? generator,
   }) : _generator = generator ?? MasonGenerator.fromBundle {
@@ -52,7 +52,7 @@ class CreateCommand extends YadeCommand {
   final String description = 'Creates a new Infrastructure As Code repository.';
 
   @override
-  final String name = 'create';
+  final String name = 'create-cluster';
 
   @override
   Future<int> run() async {
@@ -77,22 +77,22 @@ class CreateCommand extends YadeCommand {
     collectionsGitignore = collectionsGitignore.toSet().toList();
 
     final outputDirectory =
-        Directory('$organization-$applicationName-$environment');
+        Directory('$organization-$applicationName-cluster-$environment');
 
-    // logger
-    //   ..info('Available variables:')
-    //   ..info('  applicationName: $applicationName')
-    //   ..info('  organization: $organization')
-    //   ..info('  environment: $environment')
-    //   ..info('  stages: $stages')
-    //   ..info('  hostname: $hostname')
-    //   ..info('  ansibleCollections: $ansibleCollections')
-    //   ..info('  ansibleRoles: $ansibleRoles')
-    //   ..info('  collectionsGitignore: $collectionsGitignore')
-    //   ..info('  outputDirectory: ${outputDirectory.path}')
-    //   ..info('');
+    logger
+      ..info('Available variables:')
+      ..info('  applicationName: $applicationName')
+      ..info('  organization: $organization')
+      ..info('  environment: $environment')
+      ..info('  stages: $stages')
+      ..info('  hostname: $hostname')
+      ..info('  ansibleCollections: $ansibleCollections')
+      ..info('  ansibleRoles: $ansibleRoles')
+      ..info('  collectionsGitignore: $collectionsGitignore')
+      ..info('  outputDirectory: ${outputDirectory.path}')
+      ..info('');
 
-    final generator = await _generator(createIacRepoBundle);
+    final generator = await _generator(createClusterVmsBundle);
 
     final vars = <String, dynamic>{
       'applicationName': applicationName,
@@ -149,7 +149,7 @@ class CreateCommand extends YadeCommand {
     // Print user info
     logger.info('');
     logger
-        .progress('The IAC Repository for application $applicationName '
+        .progress('The IAC Repository for cluster $applicationName '
             'has been successfully created\n'
             '  Path: ${outputDirectory.absolute.path}')
         .complete();
@@ -172,10 +172,10 @@ class CreateCommand extends YadeCommand {
       ..info('')
       ..info('⚠ To use the')
       ..info('')
-      ..info("🚀 You are ready to spin up your vm's.")
+      ..info("🚀 You are ready to spin up your cluster vm's.")
       ..info('')
       ..info('Tip: You can run the follwing command to start the sbox vm:')
-      ..info('  task $applicationName:install:sbox');
+      ..info('  task ...');
 
     return ExitCode.success.code;
   }

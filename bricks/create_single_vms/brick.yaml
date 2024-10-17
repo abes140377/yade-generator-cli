@@ -1,4 +1,4 @@
-name: create_iac_repo
+name: create_single_vms
 description: A YADE Infrastructure As Code template
 version: 0.1.0+1
 
