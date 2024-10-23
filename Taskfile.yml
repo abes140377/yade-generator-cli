@@ -2,6 +2,8 @@ version: 3
 
 env:
   EXAMPLE_PROJECT_NAME: example
+  GITLAB_PROJECT_NAME: gitlab
+  GITLAB_RUNNER_PROJECT_NAME: gitlab-runner
   CODER_PROJECT_NAME: coder
   KEYCLOAK_PROJECT_NAME: keycloak
   MATRIX_PROJECT_NAME: matrix
@@ -157,6 +159,48 @@ tasks:
           --ansible_roles=geerlingguy.docker:7.4.1 \
           {{.WINDMILL_PROJECT_NAME}}
       - cp cas-gitlab-mgm/.env.private cas-{{.WINDMILL_PROJECT_NAME}}-mgm
+    silent: true
+
+  yade:create:gitlab:single:
+    desc: Create the gitlab repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - pwd
+      # - rm -rf cas-{{.GITLAB_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-single \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm001 \
+          --ansible_collections=community.docker:3.12.1,community.general:9.4.0,community.hashi_vault:6.2.0,adfinis.gitlab:1.0.1 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
+          {{.GITLAB_PROJECT_NAME}}
+      - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+    silent: true
+
+  yade:create:gitlab-runner:single:
+    desc: Create the gitlab-runner repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - pwd
+      # - rm -rf cas-{{.GITLAB_RUNNER_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-single \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm002 \
+          --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
+          {{.GITLAB_RUNNER_PROJECT_NAME}}
+      - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
     silent: true
 
   yade:create:example:single:
