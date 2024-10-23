@@ -1,6 +1,6 @@
-# {{organization.upperCase()}} {{applicationName.pascalCase()}} Collection
+# {{organization.upperCase()}} {{applicationName.titleCase()}} Collection
 
-This repository contains the `{{organization.camelCase()}}.{{applicationName.camelCase()}}` Ansible Collection.
+This repository contains the `{{organization.camelCase()}}.{{applicationName.snakeCase()}}` Ansible Collection.
 
 ## Tested with Ansible
 
@@ -12,31 +12,31 @@ Some modules and plugins require external libraries. Please check the requiremen
 
 ## Included content
 
-Please check the included content on the [Ansible Galaxy page for this collection](https://galaxy.ansible.com/{{organization.camelCase()}}/{{applicationName.camelCase()}}).
+Please check the included content on the [Ansible Galaxy page for this collection](https://galaxy.ansible.com/{{organization.camelCase()}}/{{applicationName.snakeCase()}}).
 
 ## Using this collection
 
 ```
-    ansible-galaxy collection install {{organization.camelCase()}}.{{applicationName.camelCase()}}
+    ansible-galaxy collection install {{organization.camelCase()}}.{{applicationName.snakeCase()}}
 ```
 
 You can also include it in a `requirements.yml` file and install it via `ansible-galaxy collection install -r requirements.yml` using the format:
 
 ```yaml
 collections:
-  - name: {{organization.camelCase()}}.{{applicationName.camelCase()}}
+  - name: {{organization.camelCase()}}.{{applicationName.snakeCase()}}
 ```
 
 To upgrade the collection to the latest available version, run the following command:
 
 ```bash
-ansible-galaxy collection install {{organization.camelCase()}}.{{applicationName.camelCase()}} --upgrade
+ansible-galaxy collection install {{organization.camelCase()}}.{{applicationName.snakeCase()}} --upgrade
 ```
 
-You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax where `X.Y.Z` can be any [available version](https://galaxy.ansible.com/{{organization.camelCase()}}/{{applicationName.camelCase()}}):
+You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax where `X.Y.Z` can be any [available version](https://galaxy.ansible.com/{{organization.camelCase()}}/{{applicationName.snakeCase()}}):
 
 ```bash
-ansible-galaxy collection install {{organization.camelCase()}}.{{applicationName.camelCase()}}:==X.Y.Z
+ansible-galaxy collection install {{organization.camelCase()}}.{{applicationName.snakeCase()}}:==X.Y.Z
 ```
 
 See [Ansible Using Collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html) for more details.

@@ -1,4 +1,0 @@
----
-- name: Print execution of the task
-  ansible.builtin.debug:
-    msg: Hello from {{ organization.camelCase() }}.{{ applicationName.camelCase() }}.install

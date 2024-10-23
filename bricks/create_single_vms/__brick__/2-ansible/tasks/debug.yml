@@ -2,4 +2,4 @@
   ansible.builtin.debug:
     msg: "Variable {{=<% %>=}}{{ item.name }}: {{ item.value }}<%={{ }}=%>"
   with_items:
-    - { name: "env", value: "{{=<% %>=}}{{ env }}<%={{ }}=%>" } # check var from inventory/host_vars/{{applicationName.camelCase()}}-{{environment.camelCase()}}-<env>.yml
+    - { name: "env", value: "{{=<% %>=}}{{ env }}<%={{ }}=%>" } # check var from inventory/host_vars/{{applicationName.snakeCase()}}-{{environment.camelCase()}}-<env>.yml

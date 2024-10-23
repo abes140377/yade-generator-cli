@@ -107,6 +107,18 @@ tasks:
   # ===============
   # === ANSIBLE ===
   # ===============
+  ansible:link:local:collection:
+    dir: '{{.USER_WORKING_DIR}}/2-ansible/collections/ansible_collections'
+    cmds:
+      - echo ""
+      - echo "🚀 ansible:link:local:collection [NAMESPACE - {{.NAMESPACE}}, COLLECTION - {{.COLLECTION}}, LOCAL_DIR - {{.LOCAL_DIR}}]"
+      - pwd
+      - rm -rf {{.NAMESPACE}}/{{.COLLECTION}}
+      - mkdir -p {{.NAMESPACE}}/
+      - cd {{.NAMESPACE}} && ln -s ../../../../../{{.LOCAL_DIR}}/ {{.COLLECTION}}
+    requires:
+      vars: [NAMESPACE, COLLECTION, LOCAL_DIR]
+
   ansible:test:connectivity:
     dir: '{{.USER_WORKING_DIR}}/2-ansible'
     cmds:

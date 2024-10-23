@@ -7,16 +7,16 @@ dotenv: ['.env', '.env.private']
 silent: true
 
 vars:
-  {{applicationName.upperCase()}}_VM_NAME_SANDBOX: {{hostname}}s
-  {{applicationName.upperCase()}}_VM_FQDN_SANDBOX: {{hostname}}s.vm.cas.kvnbw.net
+  {{applicationName.constantCase()}}_VM_NAME_SANDBOX: {{hostname}}s
+  {{applicationName.constantCase()}}_VM_FQDN_SANDBOX: {{hostname}}s.vm.cas.kvnbw.net
   VAULT_MOUNT_PATH_SANDBOX: cas/vms/mgm/sbox/
 
-  {{applicationName.upperCase()}}_VM_NAME_LABOR: {{hostname}}l
-  {{applicationName.upperCase()}}_VM_FQDN_LABOR: {{hostname}}l.vm.cas.kvnbw.net
+  {{applicationName.constantCase()}}_VM_NAME_LABOR: {{hostname}}l
+  {{applicationName.constantCase()}}_VM_FQDN_LABOR: {{hostname}}l.vm.cas.kvnbw.net
   VAULT_MOUNT_PATH_LABOR: cas/vms/mgm/labor/
 
-  {{applicationName.upperCase()}}_VM_NAME_PROD: {{hostname}}p
-  {{applicationName.upperCase()}}_VM_FQDN_PROD: {{hostname}}p.vm.cas.kvnbw.net
+  {{applicationName.constantCase()}}_VM_NAME_PROD: {{hostname}}p
+  {{applicationName.constantCase()}}_VM_FQDN_PROD: {{hostname}}p.vm.cas.kvnbw.net
   VAULT_MOUNT_PATH_PROD: cas/vms/mgm/prod/
 
 includes:
@@ -38,16 +38,16 @@ tasks:
       - echo "  TF_VAR_vault_provider_token - $TF_VAR_vault_provider_token"
       - echo ""
       - echo "Variables:"
-      - echo "  {{applicationName.upperCase()}}_VM_NAME_SANDBOX - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_SANDBOX{{=<% %>=}}}}<%={{ }}=%>"
-      - echo "  {{applicationName.upperCase()}}_VM_FQDN_SANDBOX - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_SANDBOX{{=<% %>=}}}}<%={{ }}=%>"
+      - echo "  {{applicationName.constantCase()}}_VM_NAME_SANDBOX - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_NAME_SANDBOX{{=<% %>=}}}}<%={{ }}=%>"
+      - echo "  {{applicationName.constantCase()}}_VM_FQDN_SANDBOX - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_SANDBOX{{=<% %>=}}}}<%={{ }}=%>"
       - echo "  VAULT_MOUNT_PATH_SANDBOX - {{=<% %>=}}{{.VAULT_MOUNT_PATH_SANDBOX}}<%={{ }}=%>"
       - echo ""
-      - echo "  {{applicationName.upperCase()}}_VM_NAME_LABOR - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_LABOR{{=<% %>=}}}}<%={{ }}=%>"
-      - echo "  {{applicationName.upperCase()}}_VM_FQDN_LABOR - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_LABOR{{=<% %>=}}}}<%={{ }}=%>"
+      - echo "  {{applicationName.constantCase()}}_VM_NAME_LABOR - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_NAME_LABOR{{=<% %>=}}}}<%={{ }}=%>"
+      - echo "  {{applicationName.constantCase()}}_VM_FQDN_LABOR - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_LABOR{{=<% %>=}}}}<%={{ }}=%>"
       - echo "  VAULT_MOUNT_PATH_LABOR - {{=<% %>=}}{{.VAULT_MOUNT_PATH_LABOR}}<%={{ }}=%>"
       - echo ""
-      - echo "  {{applicationName.upperCase()}}_VM_NAME_PROD - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_PROD{{=<% %>=}}}}<%={{ }}=%>"
-      - echo "  {{applicationName.upperCase()}}_VM_FQDN_PROD - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_PROD{{=<% %>=}}}}<%={{ }}=%>"
+      - echo "  {{applicationName.constantCase()}}_VM_NAME_PROD - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_NAME_PROD{{=<% %>=}}}}<%={{ }}=%>"
+      - echo "  {{applicationName.constantCase()}}_VM_FQDN_PROD - {{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_PROD{{=<% %>=}}}}<%={{ }}=%>"
       - echo "  VAULT_MOUNT_PATH_PROD - {{=<% %>=}}{{.VAULT_MOUNT_PATH_PROD}}<%={{ }}=%>"
 
   install:deps:
@@ -76,8 +76,8 @@ tasks:
 
       - task: vault:get:private_key
         vars:
-          VM_NAME: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_SANDBOX{{=<% %>=}}}}<%={{ }}=%>'
-          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_SANDBOX{{=<% %>=}}}}<%={{ }}=%>'
+          VM_NAME: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_NAME_SANDBOX{{=<% %>=}}}}<%={{ }}=%>'
+          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_SANDBOX{{=<% %>=}}}}<%={{ }}=%>'
           MOUNT_PATH: '{{=<% %>=}}{{.VAULT_MOUNT_PATH_SANDBOX}}<%={{ }}=%>'
 
       - task: ansible:inventory:print
@@ -86,8 +86,15 @@ tasks:
 
       - task: ansible:test:connectivity
         vars:
-          HOST: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_SANDBOX{{=<% %>=}}}}<%={{ }}=%>'
+          HOST: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_SANDBOX{{=<% %>=}}}}<%={{ }}=%>'
           STAGE: sbox
+
+      # Hint: You can use this task to link a local collection to the ansible collections of this playbook
+      # - task: ansible:link:local:collection
+      #   vars:
+      #     NAMESPACE: cas
+      #     COLLECTION: common
+      #     LOCAL_DIR: ansible-collection-cas
 
       - task: ansible:playbook:site
         vars:

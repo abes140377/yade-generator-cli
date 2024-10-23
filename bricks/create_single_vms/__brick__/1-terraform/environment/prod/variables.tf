@@ -5,7 +5,7 @@
 variable "group" {
   description = "Name for the vm group"
   type        = string
-  default     = "{{applicationName.camelCase()}}"
+  default     = "{{applicationName.snakeCase()}}"
 }
 
 variable "location" {
@@ -29,7 +29,7 @@ variable "function" {
 variable "additional_domains" {
     description = "Additional Domains to set for the vm"
     type        = list(string)
-    default     = [ "{{applicationName.camelCase()}}-{{organization.camelCase()}}" ]
+    default     = [ "{{applicationName.paramCase()}}-{{organization.paramCase()}}.sbox" ]
 }
 
 variable "network" {

@@ -15,3 +15,5 @@ collections/ansible_collections/{{organization}}/*
 *.retry
 
 # End of https://www.toptal.com/developers/gitignore/api/ansible
+
+__pycache__

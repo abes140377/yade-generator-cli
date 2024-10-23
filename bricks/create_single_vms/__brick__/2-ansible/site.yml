@@ -1,12 +1,12 @@
 ---
-- name: {{applicationName.pascalCase()}} {{environment.camelCase()}} site playbook
-  hosts: {{applicationName.camelCase()}}_servers
+- name: {{applicationName.sentenceCase()}} {{environment.camelCase()}} site playbook
+  hosts: {{applicationName.snakeCase()}}_servers
   become: true
   environment: {{=<% %>=}}"{{ proxy_env }}"<%={{ }}=%>
   tasks:
     - name: Include tasks from file tasks/debug.yml
       ansible.builtin.include_tasks: tasks/debug.yml
 
-    - name: Import role {{organization}}.{{applicationName.camelCase()}}.install
+    - name: Import role {{organization}}.{{applicationName.snakeCase()}}.install
       ansible.builtin.import_role:
-        name: {{organization}}.{{applicationName.camelCase()}}.install
+        name: {{organization}}.{{applicationName.snakeCase()}}.install

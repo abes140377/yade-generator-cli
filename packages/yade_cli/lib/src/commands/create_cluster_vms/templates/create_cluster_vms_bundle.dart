@@ -19,7 +19,7 @@ final createClusterVmsBundle = MasonBundle.fromJson(<String, dynamic>{
     {
       "path": ".pre-commit-config.yaml",
       "data":
-          "cmVwb3M6CiAgIyBUZXJyYWZvcm0gQ2hlY2tzCiAgLSByZXBvOiBodHRwczovL2dpdGh1Yi5jb20vYW50b25iYWJlbmtvL3ByZS1jb21taXQtdGVycmFmb3JtCiAgICByZXY6IHYxLjc1LjAKICAgIGhvb2tzOgogICAgICAtIGlkOiB0ZXJyYWZvcm1fZm10CiAgICAgICAgZmlsZXM6IF4xLXRlcnJhZm9ybS8KICAgICAgLSBpZDogdGVycmFmb3JtX3ZhbGlkYXRlCiAgICAgICAgZmlsZXM6IF4xLXRlcnJhZm9ybS8KCiAgIyBBbnNpYmxlIENoZWNrcwogIC0gcmVwbzogaHR0cHM6Ly9naXRodWIuY29tL2Fuc2libGUvYW5zaWJsZS1saW50CiAgICByZXY6IHY2LjIwLjAKICAgIGhvb2tzOgogICAgICAtIGlkOiBhbnNpYmxlLWxpbnQKICAgICAgICBmaWxlczogXjItYW5zaWJsZS8K",
+          "cmVwb3M6CiAgIyBUZXJyYWZvcm0gQ2hlY2tzCiAgLSByZXBvOiBodHRwczovL2dpdGh1Yi5jb20vYW50b25iYWJlbmtvL3ByZS1jb21taXQtdGVycmFmb3JtCiAgICByZXY6IHYxLjc1LjAKICAgIGhvb2tzOgogICAgICAtIGlkOiB0ZXJyYWZvcm1fZm10CiAgICAgICAgZmlsZXM6IF4xLXRlcnJhZm9ybS8KICAgICAgLSBpZDogdGVycmFmb3JtX3ZhbGlkYXRlCiAgICAgICAgZmlsZXM6IF4xLXRlcnJhZm9ybS8KCiAgIyBBbnNpYmxlIENoZWNrcwogIC0gcmVwbzogaHR0cHM6Ly9naXRodWIuY29tL2Fuc2libGUvYW5zaWJsZS1saW50CiAgICByZXY6IHY2LjIwLjAKICAgIGhvb2tzOgogICAgICAtIGlkOiBhbnNpYmxlLWxpbnQKICAgICAgICBmaWxlczogXjItYW5zaWJsZS8KICAgICAgICBhcmdzOiBbJy14JywgJ3lhbWwnXQo=",
       "type": "text"
     },
     {
@@ -49,7 +49,7 @@ final createClusterVmsBundle = MasonBundle.fromJson(<String, dynamic>{
     },
     {
       "path": "requirements.txt",
-      "data": "cHJlLWNvbW1pdD09My44LjAKYW5zaWJsZS1saW50PT0yNC43LjAK",
+      "data": "cHJlLWNvbW1pdD09NC4wLjEKYW5zaWJsZS1saW50PT0yNC43LjAK",
       "type": "text"
     },
     {
