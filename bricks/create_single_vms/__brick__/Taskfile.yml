@@ -119,8 +119,8 @@ tasks:
     cmds:
       - task: ssh:connect
         vars:
-          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_SANDBOX{{=<% %>=}}}}<%={{ }}=%>'
-          KEY: './ssh/{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_SANDBOX{{=<% %>=}}}}<%={{ }}=%>_ansible_ed25519'
+          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_SANDBOX{{=<% %>=}}}}<%={{ }}=%>'
+          KEY: './ssh/{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_NAME_SANDBOX{{=<% %>=}}}}<%={{ }}=%>_ansible_ed25519'
 
   # =============
   # === LABOR ===
@@ -140,8 +140,8 @@ tasks:
 
       - task: vault:get:private_key
         vars:
-          VM_NAME: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_LABOR{{=<% %>=}}}}<%={{ }}=%>'
-          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_LABOR{{=<% %>=}}}}<%={{ }}=%>'
+          VM_NAME: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_NAME_LABOR{{=<% %>=}}}}<%={{ }}=%>'
+          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_LABOR{{=<% %>=}}}}<%={{ }}=%>'
           MOUNT_PATH: '{{=<% %>=}}{{.VAULT_MOUNT_PATH_LABOR}}<%={{ }}=%>'
 
       - task: ansible:inventory:print
@@ -150,12 +150,12 @@ tasks:
 
       - task: ssh:test:connectivity
         vars:
-          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_LABOR{{=<% %>=}}}}<%={{ }}=%>'
-          KEY: ./ssh/{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_LABOR{{=<% %>=}}}}<%={{ }}=%>_ansible_ed25519
+          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_LABOR{{=<% %>=}}}}<%={{ }}=%>'
+          KEY: ./ssh/{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_NAME_LABOR{{=<% %>=}}}}<%={{ }}=%>_ansible_ed25519
 
       - task: ansible:test:connectivity
         vars:
-          HOST: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_LABOR{{=<% %>=}}}}<%={{ }}=%>'
+          HOST: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_LABOR{{=<% %>=}}}}<%={{ }}=%>'
           STAGE: labor
 
       - task: ansible:playbook:site
@@ -181,8 +181,8 @@ tasks:
     cmds:
       - task: ssh:connect
         vars:
-          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_LABOR{{=<% %>=}}}}<%={{ }}=%>'
-          KEY: './ssh/{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_LABOR{{=<% %>=}}}}<%={{ }}=%>_ansible_ed25519'
+          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_LABOR{{=<% %>=}}}}<%={{ }}=%>'
+          KEY: './ssh/{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_NAME_LABOR{{=<% %>=}}}}<%={{ }}=%>_ansible_ed25519'
 
   # ============
   # === PROD ===
@@ -202,8 +202,8 @@ tasks:
 
       - task: vault:get:private_key
         vars:
-          VM_NAME: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_PROD{{=<% %>=}}}}<%={{ }}=%>'
-          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_PROD{{=<% %>=}}}}<%={{ }}=%>'
+          VM_NAME: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_NAME_PROD{{=<% %>=}}}}<%={{ }}=%>'
+          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_PROD{{=<% %>=}}}}<%={{ }}=%>'
           MOUNT_PATH: '{{=<% %>=}}{{.VAULT_MOUNT_PATH_PROD}}<%={{ }}=%>'
 
       - task: ansible:inventory:print
@@ -212,7 +212,7 @@ tasks:
 
       - task: ansible:test:connectivity
         vars:
-          HOST: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_PROD{{=<% %>=}}}}<%={{ }}=%>'
+          HOST: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_PROD{{=<% %>=}}}}<%={{ }}=%>'
           STAGE: prod
 
       - task: ansible:playbook:site
@@ -238,5 +238,5 @@ tasks:
     cmds:
       - task: ssh:connect
         vars:
-          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_FQDN_PROD{{=<% %>=}}}}<%={{ }}=%>'
-          KEY: './ssh/{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.upperCase()}}_VM_NAME_PROD{{=<% %>=}}}}<%={{ }}=%>_ansible_ed25519'
+          VM_FQDN: '{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_FQDN_PROD{{=<% %>=}}}}<%={{ }}=%>'
+          KEY: './ssh/{{=<% %>=}}{{<%={{ }}=%>.{{applicationName.constantCase()}}_VM_NAME_PROD{{=<% %>=}}}}<%={{ }}=%>_ansible_ed25519'
