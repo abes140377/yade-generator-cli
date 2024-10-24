@@ -163,6 +163,18 @@ tasks:
     requires:
       vars: [STAGE, VARIABLES]
 
+  ansible:playbook:site:vars:tags:
+    dir: '{{.USER_WORKING_DIR}}/2-ansible'
+    vars:
+      PLAYBOOK: '{{default "site.yml" .PLAYBOOK}}'
+    cmds:
+      - echo ""
+      - echo "🚀 ansible:playbook:site [ STAGE - {{.STAGE}}, PLAYBOOK - {{.PLAYBOOK}}, VARIABLES - {{.VARIABLES}}, TAGS - {{.TAGS}} ]"
+      - pwd
+      - ansible-playbook -i inventory/hosts_{{.STAGE}}.yml {{.PLAYBOOK}} -e "{{ .VARIABLES }}" --tags "{{ .TAGS }}"
+    requires:
+      vars: [STAGE, VARIABLES, TAGS]
+
   # ==============
   # === PYTHON ===
   # ==============
