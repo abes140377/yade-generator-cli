@@ -169,8 +169,6 @@ class CreateSingleVmsCommand extends YadeCommand {
           "Note: The '.env.private' file should contain sensitive information "
           'such as credentials and should NOT be committed to version control')
       ..info('')
-      ..info('⚠ To use the')
-      ..info('')
       ..info("🚀 You are ready to spin up your vm's.")
       ..info('')
       ..info('Tip: You can run the follwing command to start the sbox vm:')
