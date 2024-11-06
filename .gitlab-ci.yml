@@ -45,7 +45,8 @@ release:
     name: "0.3.0"
     # name: "$RELEASE_NAME"
     description: "`cat CHANGELOG.md`"
-    tag_name: "$CI_COMMIT_REF_NAME"
+    tag_name: "0.3.0"
+    # tag_name: "$CI_COMMIT_REF_NAME"
     assets:
       links:
         - name: "YADE CLI (Linux)"
