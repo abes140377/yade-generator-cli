@@ -26,12 +26,6 @@ variable "function" {
   default     = "mgm"
 }
 
-variable "additional_domains" {
-    description = "Additional Domains to set for the vm"
-    type        = list(string)
-    default     = [ "{{applicationName.paramCase()}}-{{organization.paramCase()}}.sbox" ]
-}
-
 variable "network" {
   description = "The network to get the ip for the vm"
   type        = string
@@ -54,9 +48,6 @@ variable "vms" {
       }
     )), [])
     additional_domains = optional(list(string), [])
-
-    # network
-    # template
   }))
 }
 
