@@ -378,6 +378,10 @@ tasks:
           -s path ./bricks/create_cluster_vms \
           -t dart \
           -o packages/yade_cli/lib/src/commands/create_cluster_vms/templates
+        mason bundle \
+          -s path ./bricks/create_project \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/create_project/templates
       # format
       - dart format ./packages/yade_cli
     silent: true
@@ -397,6 +401,11 @@ tasks:
           --git-path bricks/create_cluster_vms \
           -t dart \
           -o packages/yade_cli/lib/src/commands/create_cluster_vms/templates
+        mason bundle \
+          -s git git@github.com:abes140377/yade-generator-cli.git \
+          --git-path bricks/create_project \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/create_project/templates
       # format
       - dart format ./packages/yade_cli
     silent: true

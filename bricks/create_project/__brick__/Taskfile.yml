@@ -1,0 +1,18 @@
+# https://taskfile.dev
+
+version: '3'
+
+dotenv: ['.env', '.env.private']
+
+silent: true
+
+# includes:
+#   libs:
+#     taskfile: .taskfile/Included.yml
+#     flatten: true
+#     internal: true
+
+tasks:
+  default:
+    cmds: 
+      - echo "TODO Implement the create_cluster_vms task"

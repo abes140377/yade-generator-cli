@@ -1,0 +1,62 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, implicit_dynamic_list_literal, implicit_dynamic_map_literal, inference_failure_on_collection_literal
+
+import 'package:mason/mason.dart';
+
+final createProjectBundle = MasonBundle.fromJson(<String, dynamic>{
+  "files": [
+    {
+      "path": ".gitignore",
+      "data": "LmVudi5wcml2YXRlCi52ZW52Lwo=",
+      "type": "text"
+    },
+    {
+      "path": "doctor.sh",
+      "data":
+          "IyEvYmluL2Jhc2gKCiMgTmFtZSBkZXMgenUgcHLDvGZlbmRlbiBEYXRlaQpmaWxlPSIuZW52LnByaXZhdGUiCgpjbGVhcgoKY2F0IDw8ICJFT0YiCl9fICBfX19fXyAgICBfX19fICBfX19fX18gICBfX19fICAgICAgICAgICAgIF9fICAgICAgICAgICAgClwgXC8gLyAgIHwgIC8gX18gXC8gX19fXy8gIC8gX18gXF9fX18gIF9fX19fLyAvX19fX18gIF9fX19fCiBcICAvIC98IHwgLyAvIC8gLyBfXy8gICAgLyAvIC8gLyBfXyBcLyBfX18vIF9fLyBfXyBcLyBfX18vCiAvIC8gX19fIHwvIC9fLyAvIC9fX18gICAvIC9fLyAvIC9fLyAvIC9fXy8gL18vIC9fLyAvIC8gICAgCi9fL18vICB8Xy9fX19fXy9fX19fXy8gIC9fX19fXy9cX19fXy9cX19fL1xfXy9cX19fXy9fLyAgICAgCgpDaGVja2luZyBQcmUtY29uZGl0aW9ucyBmb3Ige3tvcmdhbml6YXRpb24udXBwZXJDYXNlKCl9fSB7e2FwcGxpY2F0aW9uTmFtZS51cHBlckNhc2UoKX19IHt7ZW52aXJvbm1lbnQudXBwZXJDYXNlKCl9fQoKRU9GCgojIMOcYmVycHLDvGZlbiwgb2IgZGllIERhdGVpIGV4aXN0aWVydAppZiBbWyAtZiAiJGZpbGUiIF1dOyB0aGVuCiAgICBlY2hvICLinJQgVGhlIGZpbGUgJyRmaWxlJyBleGlzdHMuIgogICAgCiAgICAjIMOcYmVycHLDvGZlbiwgb2IgZGllIERhdGVpIGRpZSBaZWljaGVua2V0dGUgPHNlcnZlcj46PHBvcnQ+IGVudGjDpGx0CiAgICBpZiBncmVwIC1xICI8c2VydmVyPjo8cG9ydD4iICIkZmlsZSI7IHRoZW4KICAgICAgICBlY2hvICIiCiAgICAgICAgZWNobyAi4pqgIEVycm9yOiIKICAgICAgICBlY2hvICJUaGUgZmlsZSAnJGZpbGUnIHN0aWxsIGNvbnRhaW5zIHRoZSBwbGFjZWhvbGRlciAnPHNlcnZlcj46PHBvcnQ+Jy4iCiAgICAgICAgZWNobyAiUGxlYXNlIHJlcGxhY2UgdGhpcyB2YWx1ZSB3aXRoIGEgdmFsaWQgVmF1bHQgaG9zdCBhbmQgcG9ydC4iCiAgICAgICAgZWNobyAiIgogICAgICAgIGV4aXQgMQogICAgZmkKCiAgICAjIMOcYmVycHLDvGZlbiwgb2IgZGllIERhdGVpIGRpZSBaZWljaGVua2V0dGUgPHZhdWx0X3Rva2VuPiBlbnRow6RsdAogICAgaWYgZ3JlcCAtcSAiPHZhdWx0X3Rva2VuPiIgIiRmaWxlIjsgdGhlbgogICAgICAgIGVjaG8gIiIKICAgICAgICBlY2hvICLimqAgRXJyb3I6IgogICAgICAgIGVjaG8gIlRoZSBmaWxlICckZmlsZScgc3RpbGwgY29udGFpbnMgdGhlIHBsYWNlaG9sZGVyICc8dmF1bHRfdG9rZW4+Jy4iCiAgICAgICAgZWNobyAiUGxlYXNlIHJlcGxhY2UgdGhpcyB2YWx1ZSB3aXRoIGEgdmFsaWQgVmF1bHQgdG9rZW4uIgogICAgICAgIGVjaG8gIiIKICAgICAgICBleGl0IDEKICAgIGZpCgogICAgZWNobyAi4pyUIFRoZSBwbGFjZWhvbGRlcnMgaW4gdGhlIGZpbGUgJyRmaWxlJyBoYXZlIGJlZW4gcmVwbGFjZWQuIgplbHNlCiAgICBlY2hvICIiCiAgICBlY2hvICLimqAgRXJyb3I6IgogICAgZWNobyAiVGhlIGZpbGUgJyRmaWxlJyBkb2VzIG5vdCBleGlzdCBpbiB0aGUgY3VycmVudCBkaXJlY3RvcnkuIgogICAgZWNobyAiTWFrZSBhIGNvcHkgb2YgdGhlIHRlbXBsYXRlIC5lbnYucHJpdmF0ZS5leGFtcGxlIGFuZCByZXBsYWNlIHRoZSBwbGFjZWhvbGRlcnMgd2l0aCB0aGUgY29ycmVzcG9uZGluZyB2YWx1ZXMuIgogICAgZWNobyAiIgogICAgZXhpdCAxCmZpCgplY2hvICIiCmVjaG8gIllvdSBjYW4gbm93IHN0YXJ0IG9uZSBvZiB0aGUgZW52aXJvbm1lbnRzLiBFeGFtcGxlOiIKZWNobyAiIgplY2hvICIgIHRhc2sgbWF0cml4Omluc3RhbGw6c2JveCIKZWNobyAiIgoKZXhpdCAw",
+      "type": "text"
+    },
+    {
+      "path": "README.md",
+      "data":
+          "IyB7e29yZ2FuaXphdGlvbi51cHBlckNhc2UoKX19IHt7YXBwbGljYXRpb25OYW1lLnVwcGVyQ2FzZSgpfX0ge3tlbnZpcm9ubWVudC51cHBlckNhc2UoKX19IElBQyByZXBvc2l0b3J5IGdlbmVyYXRlZCB3aXRoIHlhZGUKClRoZSBSZXBvc2l0b3J5IHN1cHBvcnRzIHRoZSBmb2xsb3dpbmcgc3RhZ2VzOgoKLSBzYm94Ci0gbGFib3IKLSBwcm9kCgojIyBBdmFpbGFibGUgVGFza3MKCllvdSBuZWVkIHRoZSB0YXNrIGV4ZWN1dGFibGUgaW5zYWxsZWQgb24geW91IHN5c3RlbSAoaWYgeW91IGxpa2UgdG8gdXNlIHRoZSB0YXNrcyBkZWZpbmVkIGluIFRhc2tmaWxlLnltbCkuIAoKWW91IGNhbiBpbnN0YWxsIGl0IHdpdGggdGhlIGZvbGxvd2luZyBjb21tYW5kOgoKYGBgYmFzaApzdWRvIHNoIC1jICIkKGN1cmwgLS1sb2NhdGlvbiBodHRwczovL3Rhc2tmaWxlLmRldi9pbnN0YWxsLnNoKSIgLS0gLWQgLWIgL3Vzci9sb2NhbC9iaW4KYGBgCgpGb3IgZnVydGhlciBpbmZvcm1hdGlvbiB2aXNpdCBbVGFza2ZpbGUuZGV2XShodHRwczovL3Rhc2tmaWxlLmRldi9pbnN0YWxsYXRpb24vKQoKIyMjIEhlbHAgLyBTZXR1cDoKCiogZGVmYXVsdDogICAgICAgICAgICAgICAgICAgICAgIFByaW50IHZhcidzCiogaW5zdGFsbDpkZXBzOiAgICAgICAgICAgICAgICAgIEluc3RhbGwgcHl0aG9uIGFuZCBhbnNpYmxlIGRlcGVuZGVuY2llcwo=",
+      "type": "text"
+    },
+    {
+      "path": "Taskfile.yml",
+      "data":
+          "IyBodHRwczovL3Rhc2tmaWxlLmRldgoKdmVyc2lvbjogJzMnCgpkb3RlbnY6IFsnLmVudicsICcuZW52LnByaXZhdGUnXQoKc2lsZW50OiB0cnVlCgojIGluY2x1ZGVzOgojICAgbGliczoKIyAgICAgdGFza2ZpbGU6IC50YXNrZmlsZS9JbmNsdWRlZC55bWwKIyAgICAgZmxhdHRlbjogdHJ1ZQojICAgICBpbnRlcm5hbDogdHJ1ZQoKdGFza3M6CiAgZGVmYXVsdDoKICAgIGNtZHM6IAogICAgICAtIGVjaG8gIlRPRE8gSW1wbGVtZW50IHRoZSBjcmVhdGVfY2x1c3Rlcl92bXMgdGFzayIK",
+      "type": "text"
+    }
+  ],
+  "hooks": [],
+  "name": "create_project",
+  "description": "A YADE Infrastructure As Code template",
+  "version": "0.1.0+1",
+  "environment": {"mason": ">=0.1.0-dev <0.1.0"},
+  "readme": {
+    "path": "README.md",
+    "data":
+        "IyBDcmVhdGUgUHJvamVjdCBFbnZpcm9ubWVudAoKWyFbUG93ZXJlZCBieSBNYXNvbl0oaHR0cHM6Ly9pbWcuc2hpZWxkcy5pby9lbmRwb2ludD91cmw9aHR0cHMlM0ElMkYlMkZ0aW55dXJsLmNvbSUyRm1hc29uLWJhZGdlKV0oaHR0cHM6Ly9naXRodWIuY29tL2ZlbGFuZ2VsL21hc29uKQoKQSBCcmljayB0byBjcmVhdGUgYSBwcm9qZWN0IGVudmlyb25tZW50CgpfR2VuZXJhdGVkIGJ5IFttYXNvbl1bMV0g8J+nsV8KClsxXTogaHR0cHM6Ly9naXRodWIuY29tL2ZlbGFuZ2VsL21hc29uCg==",
+    "type": "text"
+  },
+  "changelog": {
+    "path": "CHANGELOG.md",
+    "data": "IyAwLjEuMCsxCg==",
+    "type": "text"
+  },
+  "license": {
+    "path": "LICENSE",
+    "data":
+        "TUlUIExpY2Vuc2UKCkNvcHlyaWdodCAoYykgMjAyMiBWZXJ5IEdvb2QgVmVudHVyZXMKClBlcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhIGNvcHkKb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksIHRvIGRlYWwKaW4gdGhlIFNvZnR3YXJlIHdpdGhvdXQgcmVzdHJpY3Rpb24sIGluY2x1ZGluZyB3aXRob3V0IGxpbWl0YXRpb24gdGhlIHJpZ2h0cwp0byB1c2UsIGNvcHksIG1vZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsIGRpc3RyaWJ1dGUsIHN1YmxpY2Vuc2UsIGFuZC9vciBzZWxsCmNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgcGVyc29ucyB0byB3aG9tIHRoZSBTb2Z0d2FyZSBpcwpmdXJuaXNoZWQgdG8gZG8gc28sIHN1YmplY3QgdG8gdGhlIGZvbGxvd2luZyBjb25kaXRpb25zOgoKVGhlIGFib3ZlIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2Ugc2hhbGwgYmUgaW5jbHVkZWQgaW4gYWxsCmNvcGllcyBvciBzdWJzdGFudGlhbCBwb3J0aW9ucyBvZiB0aGUgU29mdHdhcmUuCgpUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUgpJTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GIE1FUkNIQU5UQUJJTElUWSwKRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UgQU5EIE5PTklORlJJTkdFTUVOVC4gSU4gTk8gRVZFTlQgU0hBTEwgVEhFCkFVVEhPUlMgT1IgQ09QWVJJR0hUIEhPTERFUlMgQkUgTElBQkxFIEZPUiBBTlkgQ0xBSU0sIERBTUFHRVMgT1IgT1RIRVIKTElBQklMSVRZLCBXSEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsIEFSSVNJTkcgRlJPTSwKT1VUIE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhFIFVTRSBPUiBPVEhFUiBERUFMSU5HUyBJTiBUSEUKU09GVFdBUkUuCg==",
+    "type": "text"
+  },
+  "vars": {
+    "name": {
+      "type": "string",
+      "description": "The name of the project environment",
+      "default": "cas",
+      "prompt": "What is the project name?"
+    }
+  }
+});
