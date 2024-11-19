@@ -247,7 +247,7 @@ tasks:
       - dart:run:build_runner
     cmds:
       - pwd
-      - rm -rf cas-cluster-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      # - rm -rf cas-cluster-{{.EXAMPLE_PROJECT_NAME}}-mgm
       - clear
       - |
         dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-cluster \
