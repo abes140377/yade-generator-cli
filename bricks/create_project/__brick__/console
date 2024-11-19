@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+[ ! -f .yade/set-env.sh ] && echo "set-env.sh does not exist. Make sure you are running the command from a project home directory" && exit 1
+
+source .yade/set-env.sh
+
+cd $YADE_PROJECT_HOME
+
+if [[ "$1" == "-v" ]]; then
+    echo ""
+    echo "YADE_PROJECT_ID      : $YADE_PROJECT_ID"
+    echo "YADE_PROJECT_HOME    : $YADE_PROJECT_HOME"
+    echo "YADE_PROJECT_CONF    : $YADE_PROJECT_CONF"
+    echo "YADE_PROJECT_SRC     : $YADE_PROJECT_SRC"
+    echo "YADE_PROJECT_DOC     : $YADE_PROJECT_DOC"
+    echo "YADE_PROJECT_SOFTWARE: $YADE_PROJECT_SOFTWARE"
+fi

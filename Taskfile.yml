@@ -233,8 +233,25 @@ tasks:
     cmds:
       - pwd
       # - clear
+      - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart cluster --help
+      - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart project --help
+      - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart vm --help
+    silent: true
+
+  # === CREATE PROJECT ===
+
+  yade:create:example:project:
+    desc: Create the example project environment using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      # - pwd
+      # - rm -rf cas-cluster-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      - clear
       - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart --help
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-project {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 
   # === CREATE CLUSTER VMS ===
@@ -362,6 +379,7 @@ tasks:
   dart:init:
     desc: Initialize dart projects yade-generator-cli recursively
     cmds:
+      - cd ./bricks/create_project/hooks && dart pub get
       - cd ./packages/yade_cli && dart pub get
     silent: true
 
@@ -371,17 +389,17 @@ tasks:
       # bundle templates
       - >
         mason bundle \
-          -s path ./bricks/create_single_vms \
-          -t dart \
-          -o packages/yade_cli/lib/src/commands/create_single_vms/templates
-        mason bundle \
           -s path ./bricks/create_cluster_vms \
           -t dart \
-          -o packages/yade_cli/lib/src/commands/create_cluster_vms/templates
+          -o packages/yade_cli/lib/src/commands/cluster/create/templates
         mason bundle \
           -s path ./bricks/create_project \
           -t dart \
-          -o packages/yade_cli/lib/src/commands/create_project/templates
+          -o packages/yade_cli/lib/src/commands/project/create/templates
+        mason bundle \
+          -s path ./bricks/create_single_vms \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/vm/create/templates
       # format
       - dart format ./packages/yade_cli
     silent: true

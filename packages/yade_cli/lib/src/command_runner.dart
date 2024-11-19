@@ -4,10 +4,10 @@ import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:cli_completion/cli_completion.dart';
 import 'package:mason/mason.dart' hide packageVersion;
-import 'package:yade_cli/src/commands/create_cluster_vms/create.dart';
-import 'package:yade_cli/src/commands/create_project/create.dart';
-import 'package:yade_cli/src/commands/create_single_vms/create.dart';
+import 'package:yade_cli/src/commands/cluster/cluster_command.dart';
+import 'package:yade_cli/src/commands/project/project_command.dart';
 import 'package:yade_cli/src/commands/update/update.dart';
+import 'package:yade_cli/src/commands/vm/vm_command.dart';
 import 'package:yade_cli/src/version.dart';
 
 /// Typedef for [io.exit].
@@ -35,9 +35,10 @@ class YadeCommandRunner extends CompletionCommandRunner<int> {
         stdin = stdin ?? io.stdin,
         super(executableName, executableDescription) {
     argParser.addFlags();
-    addCommand(CreateProjectCommand(logger: _logger));
-    addCommand(CreateSingleVmsCommand(logger: _logger));
-    addCommand(CreateClusterVmsCommand(logger: _logger));
+    // addCommand(CreateProjectCommand(logger: _logger));
+    addCommand(ClusterCommand(logger: _logger));
+    addCommand(ProjectCommand(logger: _logger));
+    addCommand(VmCommand(logger: _logger));
     addCommand(UpdateCommand(logger: _logger));
   }
 

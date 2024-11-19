@@ -5,14 +5,12 @@ import 'dart:io';
 import 'package:mason/mason.dart';
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/commands/commands.dart';
-import 'package:yade_cli/src/commands/create_project/templates/create_project_bundle.dart';
+import 'package:yade_cli/src/commands/project/create/templates/create_project_bundle.dart';
 
-/// {@template create_command}
-/// `yade create-project` command which creates a project environment.`.
-/// {@endtemplate}
-class CreateProjectCommand extends YadeCommand {
-  /// {@macro create_command}
-  CreateProjectCommand({
+///
+class ProjectCreateCommand extends YadeCommand {
+  ///
+  ProjectCreateCommand({
     super.logger,
     GeneratorBuilder? generator,
   }) : _generator = generator ?? MasonGenerator.fromBundle {
@@ -29,7 +27,7 @@ class CreateProjectCommand extends YadeCommand {
   final String description = 'Creates a project environment.';
 
   @override
-  final String name = 'create-project';
+  final String name = 'create';
 
   @override
   Future<int> run() async {
