@@ -1,0 +1,14 @@
+collections:
+  - name: git@gitlab.mgm.cas.kvnbw.net:cas/components/ansible/ansible-collection-cas.git
+    type: git
+    version: main
+
+  - name: cloud.terraform
+    version: 3.0.0
+{{#ansibleCollections}}  - name: {{name}}
+    version: {{version}}
+{{/ansibleCollections}}
+roles:
+{{#ansibleRoles}}  - name: {{name}}
+    version: {{version}}
+{{/ansibleRoles}}

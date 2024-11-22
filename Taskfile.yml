@@ -233,8 +233,25 @@ tasks:
     cmds:
       - pwd
       # - clear
+      - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart cluster create --help
+      - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart project create --help
+      - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart singlevm create --help
+    silent: true
+
+  # === CREATE PROJECT ===
+
+  yade:create:example:project:
+    desc: Create the example project environment using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      # - pwd
+      # - rm -rf cas-cluster-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      - clear
       - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart --help
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart create-project {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 
   # === CREATE CLUSTER VMS ===
@@ -371,13 +388,17 @@ tasks:
       # bundle templates
       - >
         mason bundle \
-          -s path ./bricks/create_single_vms \
+          -s path ./bricks/cluster_create \
           -t dart \
-          -o packages/yade_cli/lib/src/commands/create_single_vms/templates
+          -o packages/yade_cli/lib/src/commands/cluster/create/templates
         mason bundle \
-          -s path ./bricks/create_cluster_vms \
+          -s path ./bricks/project_create \
           -t dart \
-          -o packages/yade_cli/lib/src/commands/create_cluster_vms/templates
+          -o packages/yade_cli/lib/src/commands/project/create/templates
+        mason bundle \
+          -s path ./bricks/singlevm_create \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/singlevm/create/templates
       # format
       - dart format ./packages/yade_cli
     silent: true
@@ -389,14 +410,19 @@ tasks:
       - >
         mason bundle \
           -s git git@github.com:abes140377/yade-generator-cli.git \
-          --git-path bricks/create_single_vms \
+          --git-path bricks/singlevm_create \
           -t dart \
-          -o packages/yade_cli/lib/src/commands/create_single_vms/templates
+          -o packages/yade_cli/lib/src/commands/singlevm_create/templates
         mason bundle \
           -s git git@github.com:abes140377/yade-generator-cli.git \
-          --git-path bricks/create_cluster_vms \
+          --git-path bricks/cluster_create \
           -t dart \
-          -o packages/yade_cli/lib/src/commands/create_cluster_vms/templates
+          -o packages/yade_cli/lib/src/commands/cluster_create/templates
+        mason bundle \
+          -s git git@github.com:abes140377/yade-generator-cli.git \
+          --git-path bricks/project_create \
+          -t dart \
+          -o packages/yade_cli/lib/src/commands/project_create/templates
       # format
       - dart format ./packages/yade_cli
     silent: true

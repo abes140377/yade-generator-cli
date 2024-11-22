@@ -1,0 +1,5 @@
+# Ignoriere alle Dateien und Verzeichnisse
+*
+
+# Ausnahmen für versteckte Verzeichnisse (z.B. .gitignore selbst)
+!.gitignore

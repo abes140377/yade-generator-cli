@@ -5,9 +5,9 @@ stages:
 variables:
   BUILD_DIR: "build"
   # RELEASE_NAME: "$CI_COMMIT_REF_NAME"
-  http_proxy: "http://webproxy.kvnbw.de:3128"
-  https_proxy: "http://webproxy.kvnbw.de:3128"
-  no_proxy: "localhost,127.0.0.1,.vm.cas.kvnbw.net"
+  # http_proxy: "http://webproxy.kvnbw.de:3128"
+  # https_proxy: "http://webproxy.kvnbw.de:3128"
+  # no_proxy: "localhost,127.0.0.1,.vm.cas.kvnbw.net"
 
 # Job to check out the code and set up the Dart environment
 build:
@@ -17,8 +17,9 @@ build:
     - echo "Build and compile YADE CLI"
     - mkdir -p $BUILD_DIR
     - dart pub global activate mason_cli
-    - mason bundle -s path ./bricks/create_single_vms -t dart -o packages/yade_cli/lib/src/commands/create_single_vms/templates
-    - mason bundle -s path ./bricks/create_cluster_vms -t dart -o packages/yade_cli/lib/src/commands/create_cluster_vms/templates
+    - mason bundle -s path ./bricks/singlevm_create -t dart -o packages/yade_cli/lib/src/commands/singlevm_create/templates
+    - mason bundle -s path ./bricks/cluster_create -t dart -o packages/yade_cli/lib/src/commands/cluster_create/templates
+    - mason bundle -s path ./bricks/project_create -t dart -o packages/yade_cli/lib/src/commands/project_create/templates
     - cd packages/yade_cli
     - dart pub get
     - dart run build_runner build --delete-conflicting-outputs
@@ -31,27 +32,27 @@ build:
       - $BUILD_DIR/yade
 
 # Job to create a release and upload the artifact
-release:
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  stage: release
-  before_script:
-    - apk --no-cache add openssl ca-certificates
-    - mkdir -p /usr/local/share/ca-certificates/extra
-    - openssl s_client -connect ${CI_SERVER_HOST}:${CI_SERVER_PORT} -servername ${CI_SERVER_HOST} -showcerts </dev/null 2>/dev/null | sed -e '/-----BEGIN/,/-----END/!d' | tee "/usr/local/share/ca-certificates/${CI_SERVER_HOST}.crt" >/dev/null
-    - update-ca-certificates
-  script:
-    - echo "Creating GitLab release and uploading artifact"
-  release:
-    name: "0.3.0"
-    # name: "$RELEASE_NAME"
-    description: "`cat CHANGELOG.md`"
-    tag_name: "0.3.0"
-    # tag_name: "$CI_COMMIT_REF_NAME"
-    assets:
-      links:
-        - name: "YADE CLI (Linux)"
-          url: "${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/$BUILD_DIR/yade"
-  artifacts:
-    paths:
-      - $BUILD_DIR/yade
-    expire_in: 1 week
+# release:
+#   image: registry.gitlab.com/gitlab-org/release-cli:latest
+#   stage: release
+#   before_script:
+#     - apk --no-cache add openssl ca-certificates
+#     - mkdir -p /usr/local/share/ca-certificates/extra
+#     - openssl s_client -connect ${CI_SERVER_HOST}:${CI_SERVER_PORT} -servername ${CI_SERVER_HOST} -showcerts </dev/null 2>/dev/null | sed -e '/-----BEGIN/,/-----END/!d' | tee "/usr/local/share/ca-certificates/${CI_SERVER_HOST}.crt" >/dev/null
+#     - update-ca-certificates
+#   script:
+#     - echo "Creating GitLab release and uploading artifact"
+#   release:
+#     name: "0.3.0"
+#     # name: "$RELEASE_NAME"
+#     description: "`cat CHANGELOG.md`"
+#     tag_name: "0.3.0"
+#     # tag_name: "$CI_COMMIT_REF_NAME"
+#     assets:
+#       links:
+#         - name: "YADE CLI (Linux)"
+#           url: "${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/$BUILD_DIR/yade"
+#   artifacts:
+#     paths:
+#       - $BUILD_DIR/yade
+#     expire_in: 1 week
