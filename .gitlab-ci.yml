@@ -5,9 +5,9 @@ stages:
 variables:
   BUILD_DIR: "build"
   # RELEASE_NAME: "$CI_COMMIT_REF_NAME"
-  http_proxy: "http://webproxy.kvnbw.de:3128"
-  https_proxy: "http://webproxy.kvnbw.de:3128"
-  no_proxy: "localhost,127.0.0.1,.vm.cas.kvnbw.net"
+  # http_proxy: "http://webproxy.kvnbw.de:3128"
+  # https_proxy: "http://webproxy.kvnbw.de:3128"
+  # no_proxy: "localhost,127.0.0.1,.vm.cas.kvnbw.net"
 
 # Job to check out the code and set up the Dart environment
 build:
