@@ -31,27 +31,27 @@ build:
       - $BUILD_DIR/yade
 
 # Job to create a release and upload the artifact
-release:
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  stage: release
-  before_script:
-    - apk --no-cache add openssl ca-certificates
-    - mkdir -p /usr/local/share/ca-certificates/extra
-    - openssl s_client -connect ${CI_SERVER_HOST}:${CI_SERVER_PORT} -servername ${CI_SERVER_HOST} -showcerts </dev/null 2>/dev/null | sed -e '/-----BEGIN/,/-----END/!d' | tee "/usr/local/share/ca-certificates/${CI_SERVER_HOST}.crt" >/dev/null
-    - update-ca-certificates
-  script:
-    - echo "Creating GitLab release and uploading artifact"
-  release:
-    name: "0.3.0"
-    # name: "$RELEASE_NAME"
-    description: "`cat CHANGELOG.md`"
-    tag_name: "0.3.0"
-    # tag_name: "$CI_COMMIT_REF_NAME"
-    assets:
-      links:
-        - name: "YADE CLI (Linux)"
-          url: "${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/$BUILD_DIR/yade"
-  artifacts:
-    paths:
-      - $BUILD_DIR/yade
-    expire_in: 1 week
+# release:
+#   image: registry.gitlab.com/gitlab-org/release-cli:latest
+#   stage: release
+#   before_script:
+#     - apk --no-cache add openssl ca-certificates
+#     - mkdir -p /usr/local/share/ca-certificates/extra
+#     - openssl s_client -connect ${CI_SERVER_HOST}:${CI_SERVER_PORT} -servername ${CI_SERVER_HOST} -showcerts </dev/null 2>/dev/null | sed -e '/-----BEGIN/,/-----END/!d' | tee "/usr/local/share/ca-certificates/${CI_SERVER_HOST}.crt" >/dev/null
+#     - update-ca-certificates
+#   script:
+#     - echo "Creating GitLab release and uploading artifact"
+#   release:
+#     name: "0.3.0"
+#     # name: "$RELEASE_NAME"
+#     description: "`cat CHANGELOG.md`"
+#     tag_name: "0.3.0"
+#     # tag_name: "$CI_COMMIT_REF_NAME"
+#     assets:
+#       links:
+#         - name: "YADE CLI (Linux)"
+#           url: "${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/$BUILD_DIR/yade"
+#   artifacts:
+#     paths:
+#       - $BUILD_DIR/yade
+#     expire_in: 1 week
