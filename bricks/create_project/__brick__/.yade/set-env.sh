@@ -10,18 +10,27 @@ export YADE_PROJECT_SOFTWARE=${YADE_PROJECT_HOME}/software
 
 cat ${YADE_PROJECT_HOME}/.yade/ascii-art.txt
 
+# Aktiviert die nullglob-Option
+shopt -s nullglob
+
 echo ""
 echo "Sourcing local env files:"
-for f in ${YADE_PROJECT_HOME}/.env* ; do
-  echo " |-> $f..."
-  . $f
-done
+if compgen -G "${YADE_PROJECT_HOME}/.env*" > /dev/null; then
+  for f in ${YADE_PROJECT_HOME}/.env* ; do
+    echo " |-> $f..."
+    . $f
+  done
+else
+  echo "No .env* files found."
+fi
 
-echo "Sourcing software set-env files:"
-for f in ${YADE_PROJECT_SOFTWARE}/set-env-*.sh ; do
-  echo " |-> $f..."
-  . $f
-done
+if [ -d "$YADE_PROJECT_SOFTWARE" ]; then
+  echo "Sourcing software set-env files:"
+  for f in ${YADE_PROJECT_SOFTWARE}/set-env-*.sh ; do
+    echo " |-> $f..."
+    . $f
+  done
+fi
 
 # echo "Sourcing set-env-* files:"
 # for f in ${YADE_PROJECT_HOME}/set-env-*.sh ; do

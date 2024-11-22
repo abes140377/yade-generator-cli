@@ -115,7 +115,7 @@ tasks:
       - pwd
       - rm -rf {{.NAMESPACE}}/{{.COLLECTION}}
       - mkdir -p {{.NAMESPACE}}/
-      - cd {{.NAMESPACE}} && ln -s ../../../../../{{.LOCAL_DIR}}/ {{.COLLECTION}}
+      - cd {{.NAMESPACE}} && ln -s ../../../../../ansible/{{.LOCAL_DIR}}/ {{.COLLECTION}}
     requires:
       vars: [NAMESPACE, COLLECTION, LOCAL_DIR]
 

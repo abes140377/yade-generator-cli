@@ -34,7 +34,9 @@ class ProjectCreateCommand extends YadeCommand {
     final projectName = _projectName;
     // final organization = _organization;
 
-    final outputDirectory = Directory('$projectName-yade');
+    final outputDirectory = Directory('$_userHome/projects/$projectName-yade');
+
+    print('outputDirectory: $outputDirectory');
 
     logger
       ..info('Available variables:')
@@ -81,6 +83,9 @@ class ProjectCreateCommand extends YadeCommand {
 
     return rest.first;
   }
+
+  String? get _userHome =>
+      Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
 
   // String get _organization {
   //   final organization = results['organization'] as String;

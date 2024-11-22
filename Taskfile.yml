@@ -233,9 +233,9 @@ tasks:
     cmds:
       - pwd
       # - clear
-      - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart cluster --help
-      - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart project --help
-      - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart vm --help
+      # - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart cluster create --help
+      - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart project create --help
+      # - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart vm create --help
     silent: true
 
   # === CREATE PROJECT ===

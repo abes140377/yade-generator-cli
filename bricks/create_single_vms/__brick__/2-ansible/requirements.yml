@@ -1,5 +1,5 @@
 collections:
-  - name: git@viicasapp003t.intinf.dvvbw.net:itag001202/ansible-collection-cas.git
+  - name: git@gitlab.mgm.cas.kvnbw.net:cas/components/ansible/ansible-collection-cas.git
     type: git
     version: main
 
