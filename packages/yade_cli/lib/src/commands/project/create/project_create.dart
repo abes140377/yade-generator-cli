@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:mason/mason.dart';
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/commands/commands.dart';
-import 'package:yade_cli/src/commands/project/create/templates/create_project_bundle.dart';
+import 'package:yade_cli/src/commands/project/create/templates/project_create_bundle.dart';
 
 ///
 class ProjectCreateCommand extends YadeCommand {
@@ -44,7 +44,7 @@ class ProjectCreateCommand extends YadeCommand {
       // ..info('  organization: $organization')
       ..info('');
 
-    final generator = await _generator(createProjectBundle);
+    final generator = await _generator(projectCreateBundle);
 
     final vars = <String, dynamic>{
       'projectName': projectName,

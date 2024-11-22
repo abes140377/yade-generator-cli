@@ -17,8 +17,9 @@ build:
     - echo "Build and compile YADE CLI"
     - mkdir -p $BUILD_DIR
     - dart pub global activate mason_cli
-    - mason bundle -s path ./bricks/create_single_vms -t dart -o packages/yade_cli/lib/src/commands/create_single_vms/templates
-    - mason bundle -s path ./bricks/create_cluster_vms -t dart -o packages/yade_cli/lib/src/commands/create_cluster_vms/templates
+    - mason bundle -s path ./bricks/singlevm_create -t dart -o packages/yade_cli/lib/src/commands/singlevm_create/templates
+    - mason bundle -s path ./bricks/cluster_create -t dart -o packages/yade_cli/lib/src/commands/cluster_create/templates
+    - mason bundle -s path ./bricks/project_create -t dart -o packages/yade_cli/lib/src/commands/project_create/templates
     - cd packages/yade_cli
     - dart pub get
     - dart run build_runner build --delete-conflicting-outputs

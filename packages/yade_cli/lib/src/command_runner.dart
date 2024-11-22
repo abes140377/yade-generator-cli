@@ -7,7 +7,7 @@ import 'package:mason/mason.dart' hide packageVersion;
 import 'package:yade_cli/src/commands/cluster/cluster_command.dart';
 import 'package:yade_cli/src/commands/project/project_command.dart';
 import 'package:yade_cli/src/commands/update/update.dart';
-import 'package:yade_cli/src/commands/vm/vm_command.dart';
+import 'package:yade_cli/src/commands/singlevm/singlevm_command.dart';
 import 'package:yade_cli/src/version.dart';
 
 /// Typedef for [io.exit].

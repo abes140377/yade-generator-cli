@@ -4,13 +4,13 @@ import 'dart:io';
 
 import 'package:mason/mason.dart';
 import 'package:yade_cli/src/command.dart';
-import 'package:yade_cli/src/commands/cluster/create/templates/cluster_create_bundle.dart';
 import 'package:yade_cli/src/commands/commands.dart';
+import 'package:yade_cli/src/commands/singlevm/create/templates/singlevm_create_bundle.dart';
 
 ///
-class ClusterCreateCommand extends YadeCommand {
+class SinglevmCreateCommand extends YadeCommand {
   ///
-  ClusterCreateCommand({
+  SinglevmCreateCommand({
     super.logger,
     GeneratorBuilder? generator,
   }) : _generator = generator ?? MasonGenerator.fromBundle {
@@ -47,7 +47,7 @@ class ClusterCreateCommand extends YadeCommand {
   final GeneratorBuilder _generator;
 
   @override
-  final String description = 'Creates a new Cluster repository.';
+  final String description = 'Creates a new Single VM repository.';
 
   @override
   final String name = 'create';
@@ -75,22 +75,22 @@ class ClusterCreateCommand extends YadeCommand {
     collectionsGitignore = collectionsGitignore.toSet().toList();
 
     final outputDirectory =
-        Directory('$organization-$applicationName-cluster-$environment');
+        Directory('$organization-$applicationName-$environment');
 
-    logger
-      ..info('Available variables:')
-      ..info('  applicationName: $applicationName')
-      ..info('  organization: $organization')
-      ..info('  environment: $environment')
-      ..info('  stages: $stages')
-      ..info('  hostname: $hostname')
-      ..info('  ansibleCollections: $ansibleCollections')
-      ..info('  ansibleRoles: $ansibleRoles')
-      ..info('  collectionsGitignore: $collectionsGitignore')
-      ..info('  outputDirectory: ${outputDirectory.path}')
-      ..info('');
+    // logger
+    //   ..info('Available variables:')
+    //   ..info('  applicationName: $applicationName')
+    //   ..info('  organization: $organization')
+    //   ..info('  environment: $environment')
+    //   ..info('  stages: $stages')
+    //   ..info('  hostname: $hostname')
+    //   ..info('  ansibleCollections: $ansibleCollections')
+    //   ..info('  ansibleRoles: $ansibleRoles')
+    //   ..info('  collectionsGitignore: $collectionsGitignore')
+    //   ..info('  outputDirectory: ${outputDirectory.path}')
+    //   ..info('');
 
-    final generator = await _generator(clusterCreateBundle);
+    final generator = await _generator(singlevmCreateBundle);
 
     final vars = <String, dynamic>{
       'applicationName': applicationName,
@@ -110,9 +110,8 @@ class ClusterCreateCommand extends YadeCommand {
       logger: logger,
     );
 
-    logger
-      ..info('')
-      ..info('Initialize project:');
+    logger.info('');
+    logger.info('Initialize project:');
 
     // Install ansible dependencies
     final progress = logger.progress('Installing ansible dependencies');
@@ -147,7 +146,7 @@ class ClusterCreateCommand extends YadeCommand {
     // Print user info
     logger.info('');
     logger
-        .progress('The IAC Repository for cluster $applicationName '
+        .progress('The IAC Repository for application $applicationName '
             'has been successfully created\n'
             '  Path: ${outputDirectory.absolute.path}')
         .complete();
@@ -168,10 +167,10 @@ class ClusterCreateCommand extends YadeCommand {
           "Note: The '.env.private' file should contain sensitive information "
           'such as credentials and should NOT be committed to version control')
       ..info('')
-      ..info("🚀 You are ready to spin up your cluster vm's.")
+      ..info("🚀 You are ready to spin up your vm's.")
       ..info('')
       ..info('Tip: You can run the follwing command to start the sbox vm:')
-      ..info('  task ...');
+      ..info('  task $applicationName:install:sbox');
 
     return ExitCode.success.code;
   }
