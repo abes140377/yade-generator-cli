@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 clear
 
-export YADE_PROJECT_ID={{projectName.lowerCase()}}
+PROJECT_ID=$(yq '.project.name' .yade/yade.yml)
+
+export YADE_PROJECT_ID=$PROJECT_ID
 export YADE_PROJECT_HOME=${HOME}/projects/${YADE_PROJECT_ID}-yade
+export YADE_PROJECT_SCRIPTS=${YADE_PROJECT_HOME}/scripts
 export YADE_PROJECT_CONF=${YADE_PROJECT_HOME}/conf
 export YADE_PROJECT_SRC=${YADE_PROJECT_HOME}/src
 export YADE_PROJECT_DOC=${YADE_PROJECT_HOME}/doc
@@ -10,33 +13,25 @@ export YADE_PROJECT_SOFTWARE=${YADE_PROJECT_HOME}/software
 
 cat ${YADE_PROJECT_HOME}/.yade/ascii-art.txt
 
-# Aktiviert die nullglob-Option
-shopt -s nullglob
-
 echo ""
-echo "Sourcing local env files:"
-if compgen -G "${YADE_PROJECT_HOME}/.env*" > /dev/null; then
-  for f in ${YADE_PROJECT_HOME}/.env* ; do
-    echo " |-> $f..."
-    . $f
+
+files=$(find "$YADE_PROJECT_HOME" -name ".env*" -type f)
+if [[ -n "$files" ]]; then
+  echo "Sourcing local env files:"
+  for file in $files; do
+    echo " |-> $file..."
+    source $file
   done
-else
-  echo "No .env* files found."
 fi
 
-if [ -d "$YADE_PROJECT_SOFTWARE" ]; then
+files=$(find "$YADE_PROJECT_SOFTWARE" -name "set-env-*.sh" -type f)
+if [[ -n "$files" ]]; then
   echo "Sourcing software set-env files:"
-  for f in ${YADE_PROJECT_SOFTWARE}/set-env-*.sh ; do
-    echo " |-> $f..."
-    . $f
+  for file in $files; do
+    echo " |-> $file..."
+    source $file
   done
 fi
-
-# echo "Sourcing set-env-* files:"
-# for f in ${YADE_PROJECT_HOME}/set-env-*.sh ; do
-#   echo " |-> $f..."
-#   . $f
-# done
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   test -f ${YADE_PROJECT_HOME}/set-env-linux.sh && source ${YADE_PROJECT_HOME}/set-env-linux.sh
@@ -44,4 +39,4 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   test -f ${YADE_PROJECT_HOME}/set-env-darwin.sh && source ${YADE_PROJECT_HOME}/set-env-darwin.sh
 fi
 
-export PATH="${YADE_PROJECT_HOME}/bin:${HOME}/.local/bin:${PATH}"
+export PATH="${YADE_PROJECT_HOME}/bin:${YADE_PROJECT_HOME}/scripts:${HOME}/.local/bin:${PATH}"

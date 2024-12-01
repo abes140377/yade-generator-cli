@@ -1,7 +1,7 @@
 __  _____    ____  ______
 \ \/ /   |  / __ \/ ____/
- \  / /| | / / / / __/   
- / / ___ |/ /_/ / /___   
-/_/_/  |_/_____/_____/   
+ \  / /| | / / / / __/
+ / / ___ |/ /_/ / /___
+/_/_/  |_/_____/_____/
 
-{{projectName.upperCase()}} Project DEV Environment
+{{projectId.upperCase()}} Project DEV Environment

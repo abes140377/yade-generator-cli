@@ -1,7 +1,0 @@
-project:
-  name: {{projectName.lowerCase()}}
-  repositories:
-    # - url: git@gitlab.mgm.cas.kvnbw.net:cas/components/terraform/module-cluster-control-plane.git
-    #   path: terraform/module-cluster-control-plane
-    # - url: git@gitlab.mgm.cas.kvnbw.net:cas/components/terraform/module-cluster-worker-group.git
-    #   path: terraform/module-cluster-worker-group

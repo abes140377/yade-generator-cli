@@ -72,9 +72,6 @@ void main() {
 
       commandRunner = YadeCommandRunner(
         logger: logger,
-        pubUpdater: pubUpdater,
-        exit: (_) {},
-        sigint: sigint,
         stdin: _MockStdin(),
       );
     });
@@ -109,9 +106,6 @@ void main() {
         final exitCalls = <int>[];
         commandRunner = YadeCommandRunner(
           logger: logger,
-          pubUpdater: pubUpdater,
-          exit: exitCalls.add,
-          sigint: sigint,
           stdin: _MockStdin(),
         );
         when(() => sigint.watch()).thenAnswer((_) => Stream.value(sigint));

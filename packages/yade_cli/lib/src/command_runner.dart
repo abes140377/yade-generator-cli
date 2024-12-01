@@ -4,10 +4,10 @@ import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:cli_completion/cli_completion.dart';
 import 'package:mason/mason.dart' hide packageVersion;
-import 'package:yade_cli/src/commands/cluster/cluster_command.dart';
-import 'package:yade_cli/src/commands/project/project_command.dart';
-import 'package:yade_cli/src/commands/update/update.dart';
-import 'package:yade_cli/src/commands/singlevm/singlevm_command.dart';
+import 'package:yade_cli/src/command/cluster/cluster_command.dart';
+import 'package:yade_cli/src/command/commands.dart';
+import 'package:yade_cli/src/command/project/project_command.dart';
+import 'package:yade_cli/src/command/singlevm/singlevm_command.dart';
 import 'package:yade_cli/src/version.dart';
 
 /// Typedef for [io.exit].

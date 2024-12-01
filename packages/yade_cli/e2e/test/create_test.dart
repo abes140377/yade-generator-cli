@@ -14,9 +14,6 @@ void main() {
   group('yade create', () {
     const projectName = 'example';
     final tempDirectory = Directory.systemTemp.createTempSync();
-    // final projectDirectory = Directory(
-    //   path.join(tempDirectory.path, projectName),
-    // );
 
     setUpAll(() async {
       await iacRepoCreate(projectName: projectName, directory: tempDirectory);

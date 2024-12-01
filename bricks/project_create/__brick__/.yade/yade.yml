@@ -1,0 +1,7 @@
+project:
+  id: {{projectId.lowerCase()}}
+  repositories: [ ]
+  # - url: git@github.com:w3schools-test/w3schools-test.github.io.git
+  #   name: w3schools-example
+  #   path: examples
+

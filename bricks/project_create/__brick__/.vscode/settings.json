@@ -2,6 +2,6 @@
     "ansible.python.interpreterPath": "/usr/bin/python3",
     "dart.flutterSdkPath": "${env:HOME}/.fvm/versions/3.24.3",
     "git.autoRepositoryDetection": "subFolders",
-    "git.repositoryScanMaxDepth": 3,
+    "git.repositoryScanMaxDepth": 4,
     "git.ignoreLimitWarning": true
 }
