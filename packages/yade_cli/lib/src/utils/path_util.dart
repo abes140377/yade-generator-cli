@@ -5,15 +5,12 @@ import 'package:path/path.dart';
 
 String get userHome {
   if (Platform.isWindows) {
-    // Windows: HOME oder USERPROFILE verwenden
     return Platform.environment['USERPROFILE'] ??
         Platform.environment['HOMEDRIVE']! + Platform.environment['HOMEPATH']!;
   } else if (Platform.isMacOS || Platform.isLinux) {
-    // macOS/Linux: HOME verwenden
     return Platform.environment['HOME']!;
   } else {
-    // Unbekannte Plattform
-    throw UnsupportedError('Unsupported platform');
+    throw UnsupportedError('Only supports Windows, MacOS, and Linux');
   }
 }
 

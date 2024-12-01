@@ -5,28 +5,23 @@ import 'package:yade_cli/src/injection/injection.dart';
 import 'package:yade_cli/src/service/project_service.dart';
 import 'package:yade_cli/src/utils/path_util.dart';
 
-///
 class RepositoryAddCommand extends YadeCommand {
-  ///
   RepositoryAddCommand({super.logger}) {
     argParser
       ..addOption(
         'url',
         abbr: 'u',
         help: 'The git repository url',
-        // mandatory: true,
       )
       ..addOption(
         'name',
         abbr: 'n',
         help: 'The git repository name',
-        // mandatory: true,
       )
       ..addOption(
         'path',
         abbr: 'p',
         help: 'The git repository path',
-        // mandatory: true,
       );
   }
 
@@ -38,18 +33,7 @@ class RepositoryAddCommand extends YadeCommand {
 
   @override
   Future<int> run() async {
-    // print(argResults);
-    // print(argResults?.arguments);
-    // print(argResults?.options);
-    //
-    // print(results);
-    // print(results.arguments);
-    // print(results.options);
-
-    print('projectId: $projectId');
-
     final project = await getIt<ProjectService>().getProject(id: projectId);
-    print('project: $project');
 
     final urlArg = results['url'] as String?;
     final url = urlArg ?? logger.prompt('Git Repo URL:');
@@ -62,10 +46,6 @@ class RepositoryAddCommand extends YadeCommand {
 
     final pathArg = results['path'] as String?;
     final path = pathArg ?? logger.prompt('Git Repo path:');
-
-    print('url: $url');
-    print('name: $name');
-    print('path: $path');
 
     project.gitRepositories.add(
       GitRepository(

@@ -6,9 +6,7 @@ import 'package:yade_cli/src/injection/injection.dart';
 import 'package:yade_cli/src/service/project_service.dart';
 import 'package:yade_cli/src/utils/path_util.dart';
 
-///
 class ProjectInitializeCommand extends YadeCommand {
-  ///
   ProjectInitializeCommand({super.logger});
 
   @override
@@ -21,7 +19,6 @@ class ProjectInitializeCommand extends YadeCommand {
   Future<int> run() async {
     final project = await getIt<ProjectService>().getProject(id: projectId);
 
-    // create src directory
     if (!exists(srcDirPath)) {
       createDir(srcDirPath);
     }
@@ -30,7 +27,7 @@ class ProjectInitializeCommand extends YadeCommand {
       final repoPath = gitRepository.repoPath;
 
       if (exists(repoPath)) {
-        print('Repo already exists. Skipp cloning.');
+        logger.info('Repo already exists. Skipp cloning.');
       } else {
         final repoPathParentPath = dirname(repoPath);
 

@@ -1,20 +1,25 @@
-// ignore_for_file: avoid_print
-
 import 'dart:io';
 
 import 'package:mason/mason.dart';
+import 'package:path/path.dart';
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/command/commands.dart';
 import 'package:yade_cli/src/command/grp/create/templates/grp_create_bundle.dart';
+import 'package:yade_cli/src/utils/args_util.dart';
+import 'package:yade_cli/src/utils/log_util.dart';
+import 'package:yade_cli/src/utils/path_util.dart';
 
-///
 class GrpCreateCommand extends YadeCommand {
-  ///
   GrpCreateCommand({
     super.logger,
     GeneratorBuilder? generator,
   }) : _generator = generator ?? MasonGenerator.fromBundle {
     argParser
+      ..addOption(
+        'project_id',
+        help: 'The id of the project this repository belongs to',
+        mandatory: true,
+      )
       ..addOption(
         'organization',
         help: 'The name of the organization',
@@ -40,7 +45,6 @@ class GrpCreateCommand extends YadeCommand {
         'ansible_roles',
         help: 'The ansible roles to use. E.g.: '
             'community.docker:3.12.1,community.general:9.4.0',
-        // mandatory: false,
       );
   }
 
@@ -54,55 +58,43 @@ class GrpCreateCommand extends YadeCommand {
 
   @override
   Future<int> run() async {
-    final applicationName = _applicationName;
-    final organization = _organization;
-    final environment = _environment;
+    final projectId = getProjectIdArg(results);
+    final applicationName = getApplicationNameArg(results);
+    final organization = getOrganizationArg(results);
+    final environment = getEnvironmentArg(results);
     const stages = 'sbox,labor,prod';
-    final hostname = _hostname;
-    final ansibleCollections = _ansibleCollections;
-    final ansibleRoles = _ansibleRoles;
+    final hostname = getHostnameArg(results);
+    final ansibleCollections = getAnsibleCollectionsArg(results);
+    final ansibleRoles = getAnsibleRoles(results);
 
-    // create gitignore wildcard entries for 3rd party collections
-    var collectionsGitignore = <String>[];
-    for (final collection in ansibleCollections) {
-      final collectionName = collection['name']!;
-      final entry =
-          '${collectionName.substring(0, collectionName.lastIndexOf('.'))}*';
+    final collectionsGitignore = getCollectionsGitignore(ansibleCollections);
 
-      collectionsGitignore.add(entry);
-    }
-
-    collectionsGitignore = collectionsGitignore.toSet().toList();
-
-    final outputDirectory =
-        Directory('$organization-$applicationName-$environment');
-
-    // logger
-    //   ..info('Available variables:')
-    //   ..info('  applicationName: $applicationName')
-    //   ..info('  organization: $organization')
-    //   ..info('  environment: $environment')
-    //   ..info('  stages: $stages')
-    //   ..info('  hostname: $hostname')
-    //   ..info('  ansibleCollections: $ansibleCollections')
-    //   ..info('  ansibleRoles: $ansibleRoles')
-    //   ..info('  collectionsGitignore: $collectionsGitignore')
-    //   ..info('  outputDirectory: ${outputDirectory.path}')
-    //   ..info('');
-
-    final generator = await _generator(grpCreateBundle);
+    final outputDirectory = Directory(
+      join(
+        userHome,
+        'projects',
+        '$projectId-yade',
+        'src',
+        '$applicationName-grp-$environment',
+      ),
+    );
 
     final vars = <String, dynamic>{
+      'projectId': projectId,
       'applicationName': applicationName,
       'organization': organization,
       'environment': environment,
       'stages': stages,
       'hostname': hostname,
       'ansibleCollections': ansibleCollections,
-      'collectionsGitignore': collectionsGitignore,
       'ansibleRoles': ansibleRoles,
+      'collectionsGitignore': collectionsGitignore,
       'outputDirectory': outputDirectory.absolute.path,
     };
+
+    logVars(logger: logger, vars: vars);
+
+    final generator = await _generator(grpCreateBundle);
 
     await generator.generate(
       DirectoryGeneratorTarget(outputDirectory),
@@ -110,136 +102,32 @@ class GrpCreateCommand extends YadeCommand {
       logger: logger,
     );
 
-    logger
-      ..info('')
-      ..info('Initialize project:');
+    // logger
+    //   ..info('')
+    //   ..info('Initialize repository:');
 
-    // Install ansible dependencies
-    final progress = logger.progress('Installing ansible dependencies');
-    await Process.run(
-      'task',
-      ['install:deps'],
-      runInShell: true,
-      workingDirectory: outputDirectory.absolute.path,
-    );
-    progress.complete();
-
-    // make doctor.sh executable
-    final chmodProgress = logger.progress('Make ./doctor.sh executable');
-    await Process.run(
-      'chmod',
-      ['+x', 'doctor.sh'],
-      runInShell: true,
-      workingDirectory: outputDirectory.absolute.path,
-    );
-    chmodProgress.complete();
-
-    // Initialize git repository
-    final gitProgress = logger.progress('Initializing git repository');
-    await Process.run(
-      'git',
-      ['init'],
-      runInShell: true,
-      workingDirectory: outputDirectory.absolute.path,
-    );
-    gitProgress.complete();
-
-    // Print user info
-    logger.info('');
-    logger
-        .progress('The IAC Repository for application $applicationName '
-            'has been successfully created\n'
-            '  Path: ${outputDirectory.absolute.path}')
-        .complete();
-
-    logger
-      ..info('')
-      ..info('Important next steps:')
-      ..info(
-        "  1. Open the '.env.private.example' file in the project directory.",
-      )
-      ..info('  2. Adjust the values in the file to match your environment.')
-      ..info("  3. Save the file as '.env.private'.")
-      ..info(
-        '  4. Run the following command to activate the pyenv environment:',
-      )
-      ..info('     source .venv/bin/activate')
-      ..info('')
-      ..info(
-          "Note: The '.env.private' file should contain sensitive information "
-          'such as credentials and should NOT be committed to version control')
-      ..info('')
-      ..info("🚀 You are ready to spin up your vm's.")
-      ..info('')
-      ..info('Tip: You can run the follwing command to start the sbox vm:')
-      ..info('  task $applicationName:install:sbox');
+    // await installAnsibleDependencies(
+    //   logger: logger,
+    //   outputDirectory: outputDirectory.absolute.path,
+    // );
+    //
+    // await makeDoctorShExecutable(
+    //   logger: logger,
+    //   outputDirectory: outputDirectory.absolute.path,
+    // );
+    //
+    // await initializeGitRepository(
+    //   logger: logger,
+    //   outputDirectory: outputDirectory.absolute.path,
+    // );
+    //
+    // printUserInfo(
+    //   logger: logger,
+    //   type: 'VM Group',
+    //   applicationName: applicationName,
+    //   outputDirectory: outputDirectory.absolute.path,
+    // );
 
     return ExitCode.success.code;
-  }
-
-  /// Gets the project name.
-  ///
-  /// Uses the current directory path name
-  /// if the `--project-name` option is not explicitly specified.
-  String get _applicationName {
-    final rest = results.rest;
-
-    return rest.first;
-  }
-
-  String get _organization {
-    final organization = results['organization'] as String;
-
-    return organization;
-  }
-
-  String get _environment {
-    final environment = results['environment'] as String;
-
-    return environment;
-  }
-
-  String get _hostname {
-    final hostname = results['hostname'] as String;
-
-    return hostname;
-  }
-
-  List<Map<String, String>> get _ansibleCollections {
-    final ansibleCollectionsStr = results['ansible_collections'] as String;
-
-    // Split the string by comma and then by colon and create a List of Map
-    final ansibleCollections = ansibleCollectionsStr
-        .split(',')
-        .map((e) => e.split(':'))
-        .map(
-          (e) => {
-            'name': e[0],
-            'version': e[1],
-          },
-        )
-        .toList();
-
-    return ansibleCollections;
-  }
-
-  List<Map<String, String>> get _ansibleRoles {
-    final ansibleRolesStr = results['ansible_roles'] as String?;
-
-    // Split the string by comma and then by colon and create a List of Map
-    final ansibleRoles = ansibleRolesStr != null
-        ? ansibleRolesStr
-            .split(',')
-            .map((e) => e.split(':'))
-            .map(
-              (e) => {
-                'name': e[0],
-                'version': e[1],
-              },
-            )
-            .toList()
-        : <Map<String, String>>[];
-
-    return ansibleRoles;
   }
 }

@@ -7,7 +7,56 @@ env:
   VAULT_PROJECT_NAME: vault
 
 tasks:
+  # === CREATE PROJECT ===
+
+  yade:project:create:example:
+    desc: Create the example project environment using the dart cli tool
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      # - clear
+      # - pwd
+      # - rm -rf ~/projects/example-yade/*
+      - dart packages/yade_cli/bin/yade.dart project create {{.EXAMPLE_PROJECT_NAME}}
+    silent: true
+
+  yade:project:repository:add:example:
+    desc: Add a repository to the example project environment using the dart cli tool
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      # - clear
+      # - pwd
+      #  - rm -rf ~/projects/example-yade/*
+      - dart packages/yade_cli/bin/yade.dart project repository add
+      # - dart packages/yade_cli/bin/yade.dart project repository add
+    silent: true
+
   # === CREATE VM GROUPS ===
+
+  yade:grp:create:example:
+    desc: Create the example vm group repository using the dart cli tool
+    dir: ../
+    deps:
+      - mason:bundle:templates:local
+      - dart:run:build_runner
+    cmds:
+      - pwd
+      # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+      - clear
+      - |
+        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart grp create \
+          --project_id=example \
+          --organization=cas \
+          --environment=mgm \
+          --hostname=viicasmgm004 \
+          --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
+          --ansible_roles=geerlingguy.docker:7.4.1 \
+          {{.EXAMPLE_PROJECT_NAME}}
+      # - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
+    silent: true
 
   yade:grp:create:gitlab:
     desc: Create the gitlab vm group repository using the dart cli tool
@@ -51,27 +100,6 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
     silent: true
 
-  yade:grp:create:example:
-    desc: Create the example vm group repository using the dart cli tool
-    dir: ../
-    deps:
-      - mason:bundle:templates:local
-      - dart:run:build_runner
-    cmds:
-      - pwd
-      # - rm -rf cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
-      - clear
-      - |
-        dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart grp create \
-          --organization=cas \
-          --environment=mgm \
-          --hostname=viicasmgm004 \
-          --ansible_collections=community.docker:3.12.1,community.general:9.4.0 \
-          --ansible_roles=geerlingguy.docker:7.4.1 \
-          {{.EXAMPLE_PROJECT_NAME}}
-      - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
-    silent: true
-
   # === CREATE K82 VMS ===
 
   yade:k8s:create:example:
@@ -107,33 +135,6 @@ tasks:
       - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart grp create --help
       - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart k8s create --help
       - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart project create --help
-    silent: true
-
-  # === CREATE PROJECT ===
-
-  yade:project:create:example:
-    desc: Create the example project environment using the dart cli tool
-    deps:
-      - mason:bundle:templates:local
-      - dart:run:build_runner
-    cmds:
-      # - clear
-      # - pwd
-      # - rm -rf ~/projects/example-yade/*
-      - dart packages/yade_cli/bin/yade.dart project create {{.EXAMPLE_PROJECT_NAME}}
-    silent: true
-
-  yade:project:repository:add:example:
-    desc: Add a repository to the example project environment using the dart cli tool
-    deps:
-      - mason:bundle:templates:local
-      - dart:run:build_runner
-    cmds:
-      # - clear
-      # - pwd
-      #  - rm -rf ~/projects/example-yade/*
-      - dart packages/yade_cli/bin/yade.dart project repository add
-      # - dart packages/yade_cli/bin/yade.dart project repository add
     silent: true
 
   # === COMPILED ===

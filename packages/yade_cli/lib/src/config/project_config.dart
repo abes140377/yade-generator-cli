@@ -31,6 +31,7 @@ class ProjectConfig {
     for (final repository in repositories) {
       final typedRepository = repository as YamlMap;
 
+      // ignore: unnecessary_this
       this.gitRepositories.add(
             GitRepository(
               url: typedRepository['url'] as String,
@@ -41,6 +42,7 @@ class ProjectConfig {
           );
     }
 
+    // ignore: avoid_returning_this
     return this;
   }
 

@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:path/path.dart';
 import 'package:yade_cli/src/utils/path_util.dart';
 
-class GitRepository {
-  GitRepository({
+class GitRepository extends Equatable {
+  const GitRepository({
     required this.url,
     required this.name,
     this.path,
@@ -15,7 +16,8 @@ class GitRepository {
   String get repoPath => join(srcDirPath, path ?? '', name);
 
   @override
-  String toString() {
-    return 'ProjectRepository(url: $url, name: $name, path: $path)';
-  }
+  List<Object?> get props => [url, name, path];
+
+  @override
+  bool get stringify => true;
 }
