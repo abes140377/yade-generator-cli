@@ -4,10 +4,10 @@ import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:cli_completion/cli_completion.dart';
 import 'package:mason/mason.dart' hide packageVersion;
-import 'package:yade_cli/src/command/cluster/cluster_command.dart';
 import 'package:yade_cli/src/command/commands.dart';
+import 'package:yade_cli/src/command/grp/grp_command.dart';
+import 'package:yade_cli/src/command/k8s/k8s_command.dart';
 import 'package:yade_cli/src/command/project/project_command.dart';
-import 'package:yade_cli/src/command/singlevm/singlevm_command.dart';
 import 'package:yade_cli/src/version.dart';
 
 /// Typedef for [io.exit].
@@ -36,9 +36,9 @@ class YadeCommandRunner extends CompletionCommandRunner<int> {
         super(executableName, executableDescription) {
     argParser.addFlags();
     // addCommand(CreateProjectCommand(logger: _logger));
-    addCommand(ClusterCommand(logger: _logger));
     addCommand(ProjectCommand(logger: _logger));
-    addCommand(VmCommand(logger: _logger));
+    addCommand(K8sCommand(logger: _logger));
+    addCommand(GrpCommand(logger: _logger));
     addCommand(UpdateCommand(logger: _logger));
   }
 

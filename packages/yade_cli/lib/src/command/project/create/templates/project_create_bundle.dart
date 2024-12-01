@@ -38,7 +38,7 @@ final projectCreateBundle = MasonBundle.fromJson(<String, dynamic>{
     {
       "path": ".yade/yade.yml",
       "data":
-          "cHJvamVjdDoKICBpZDoge3twcm9qZWN0SWQubG93ZXJDYXNlKCl9fQogIHJlcG9zaXRvcmllczoKICAgIC0gdXJsOiBzc2g6Ly9naXQuZXhhbXBsZS5jb206MjIyMi9ncm91cC9leGFtcGxlLW9uZS5naXQKICAgICAgbmFtZTogZXhhbXBsZS1vbmUtcmVuYW1lZAogICAgICBwYXRoOiBzdWJkaXIKICAgIC0gdXJsOiBzc2g6Ly9naXQuZXhhbXBsZS5jb206MjIyMi9leGFtcGxlLXR3by5naXQKCg==",
+          "cHJvamVjdDoKICBpZDoge3twcm9qZWN0SWQubG93ZXJDYXNlKCl9fQogIHJlcG9zaXRvcmllczogWyBdCiAgIyAtIHVybDogZ2l0QGdpdGh1Yi5jb206dzNzY2hvb2xzLXRlc3QvdzNzY2hvb2xzLXRlc3QuZ2l0aHViLmlvLmdpdAogICMgICBuYW1lOiB3M3NjaG9vbHMtZXhhbXBsZQogICMgICBwYXRoOiBleGFtcGxlcwoK",
       "type": "text"
     },
     {
@@ -67,6 +67,12 @@ final projectCreateBundle = MasonBundle.fromJson(<String, dynamic>{
     },
     {
       "path": "software/.gitignore",
+      "data":
+          "IyBJZ25vcmllcmUgYWxsZSBEYXRlaWVuIHVuZCBWZXJ6ZWljaG5pc3NlCioKCiMgQXVzbmFobWVuIGbDvHIgdmVyc3RlY2t0ZSBWZXJ6ZWljaG5pc3NlICh6LkIuIC5naXRpZ25vcmUgc2VsYnN0KQohLmdpdGlnbm9yZQ==",
+      "type": "text"
+    },
+    {
+      "path": "src/.gitignore",
       "data":
           "IyBJZ25vcmllcmUgYWxsZSBEYXRlaWVuIHVuZCBWZXJ6ZWljaG5pc3NlCioKCiMgQXVzbmFobWVuIGbDvHIgdmVyc3RlY2t0ZSBWZXJ6ZWljaG5pc3NlICh6LkIuIC5naXRpZ25vcmUgc2VsYnN0KQohLmdpdGlnbm9yZQ==",
       "type": "text"

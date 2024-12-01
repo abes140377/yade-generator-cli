@@ -4,13 +4,13 @@ import 'dart:io';
 
 import 'package:mason/mason.dart';
 import 'package:yade_cli/src/command.dart';
-import 'package:yade_cli/src/command/cluster/create/templates/cluster_create_bundle.dart';
 import 'package:yade_cli/src/command/commands.dart';
+import 'package:yade_cli/src/command/k8s/create/templates/k8s_create_bundle.dart';
 
 ///
-class ClusterCreateCommand extends YadeCommand {
+class K8sCreateCommand extends YadeCommand {
   ///
-  ClusterCreateCommand({
+  K8sCreateCommand({
     super.logger,
     GeneratorBuilder? generator,
   }) : _generator = generator ?? MasonGenerator.fromBundle {
@@ -90,7 +90,7 @@ class ClusterCreateCommand extends YadeCommand {
       ..info('  outputDirectory: ${outputDirectory.path}')
       ..info('');
 
-    final generator = await _generator(clusterCreateBundle);
+    final generator = await _generator(k8sCreateBundle);
 
     final vars = <String, dynamic>{
       'applicationName': applicationName,

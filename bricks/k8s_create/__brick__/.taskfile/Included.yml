@@ -1,11 +1,11 @@
 version: 3
 
 silent: true
-{{=<% %>=}}
+  {{=<% %>=}}
 tasks:
   default:
     cmds:
-      - echo "TODO: Implement the cluster_create task"
+      - echo "TODO: Implement the k8s_create task"
 
   # # =================
   # # === TERRAFORM ===
@@ -163,4 +163,4 @@ tasks:
   #   cmds:
   #     - python3 -m venv .venv
 
-<%={{ }}=%>
+  <%={{ }}=%>

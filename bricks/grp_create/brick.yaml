@@ -1,4 +1,4 @@
-name: singlevm_create
+name: grp_create
 description: A YADE Infrastructure As Code template
 version: 0.1.0+1
 

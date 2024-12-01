@@ -1,4 +1,4 @@
-name: cluster_create
+name: k8s_create
 description: A YADE Infrastructure As Code template
 version: 0.1.0+1
 
@@ -8,6 +8,6 @@ environment:
 vars:
   name:
     type: string
-    description: The name of the cluster
+    description: The name of the k8s cluster
     default: example
-    prompt: What is the cluster name?
+    prompt: What is the k8s cluster name?

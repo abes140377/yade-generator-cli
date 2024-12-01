@@ -2,7 +2,7 @@
 
 version: '3'
 
-dotenv: ['.env', '.env.private']
+dotenv: [ '.env', '.env.private' ]
 
 silent: true
 
@@ -27,8 +27,8 @@ includes:
 
 tasks:
   default:
-    cmds: 
-      - echo "TODO Implement the cluster_create task"
+    cmds:
+      - echo "TODO Implement the k8s_create task"
 
   # default:
   #   desc: "Print var's"

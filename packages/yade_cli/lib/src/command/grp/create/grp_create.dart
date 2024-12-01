@@ -5,12 +5,12 @@ import 'dart:io';
 import 'package:mason/mason.dart';
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/command/commands.dart';
-import 'package:yade_cli/src/command/singlevm/create/templates/singlevm_create_bundle.dart';
+import 'package:yade_cli/src/command/grp/create/templates/grp_create_bundle.dart';
 
 ///
-class SinglevmCreateCommand extends YadeCommand {
+class GrpCreateCommand extends YadeCommand {
   ///
-  SinglevmCreateCommand({
+  GrpCreateCommand({
     super.logger,
     GeneratorBuilder? generator,
   }) : _generator = generator ?? MasonGenerator.fromBundle {
@@ -47,7 +47,7 @@ class SinglevmCreateCommand extends YadeCommand {
   final GeneratorBuilder _generator;
 
   @override
-  final String description = 'Creates a new Single VM repository.';
+  final String description = 'Creates a VM Group repository.';
 
   @override
   final String name = 'create';
@@ -90,7 +90,7 @@ class SinglevmCreateCommand extends YadeCommand {
     //   ..info('  outputDirectory: ${outputDirectory.path}')
     //   ..info('');
 
-    final generator = await _generator(singlevmCreateBundle);
+    final generator = await _generator(grpCreateBundle);
 
     final vars = <String, dynamic>{
       'applicationName': applicationName,

@@ -3,7 +3,7 @@
 
 import 'package:mason/mason.dart';
 
-final singlevmCreateBundle = MasonBundle.fromJson(<String, dynamic>{
+final grpCreateBundle = MasonBundle.fromJson(<String, dynamic>{
   "files": [
     {
       "path": ".env.private.example",
@@ -282,7 +282,7 @@ final singlevmCreateBundle = MasonBundle.fromJson(<String, dynamic>{
     }
   ],
   "hooks": [],
-  "name": "singlevm_create",
+  "name": "grp_create",
   "description": "A YADE Infrastructure As Code template",
   "version": "0.1.0+1",
   "environment": {"mason": ">=0.1.0-dev <0.1.0"},
