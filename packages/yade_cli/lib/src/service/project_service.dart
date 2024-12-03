@@ -62,7 +62,6 @@ class ProjectService {
       'wget -q -O ${softwareAsset.name}.${archiveType.extension} $parsedUrl'
           .start(workingDirectory: softwareInstallPath);
 
-      // TODO(freund): Add support for other archive types
       extract(
         join(
           softwareInstallPath,
