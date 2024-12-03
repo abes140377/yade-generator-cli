@@ -32,7 +32,7 @@ class ProjectService {
   }
 
   ///
-  Future<void> initializeProject({required String id}) async {
+  Future<void> projectInitialize({required String id}) async {
     final project = await getProject(id: id);
 
     _initGitRepositories(project);

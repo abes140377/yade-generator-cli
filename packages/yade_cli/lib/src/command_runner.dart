@@ -24,21 +24,19 @@ const executableName = 'yade';
 const executableDescription =
     'The YADE - Yet Another Development Environment CLI.';
 
-/// {@template yade_command_runner}
-/// A [CommandRunner] for the YADE CLI.
-/// {@endtemplate}
 class YadeCommandRunner extends CompletionCommandRunner<int> {
-  /// {@macro yade_command_runner}
   YadeCommandRunner({
     Logger? logger,
     io.Stdin? stdin,
   })  : _logger = logger ?? Logger(),
         stdin = stdin ?? io.stdin,
         super(executableName, executableDescription) {
+    //
     // Initialize the injection
     initInjection(logger);
 
     argParser.addFlags();
+
     addCommand(ProjectCommand(logger: _logger));
     addCommand(K8sCommand(logger: _logger));
     addCommand(GrpCommand(logger: _logger));
