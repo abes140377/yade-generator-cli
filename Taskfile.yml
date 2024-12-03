@@ -6,7 +6,9 @@ env:
   GITLAB_RUNNER_PROJECT_NAME: gitlab-runner
 
 tasks:
+  # ======================
   # === CREATE PROJECT ===
+  # ======================
 
   yade:example:project:create:
     desc: Create the example project environment using the dart cli tool
@@ -46,7 +48,9 @@ tasks:
       # - dart packages/yade_cli/bin/yade.dart project repository add
     silent: true
 
+  # ========================
   # === CREATE VM GROUPS ===
+  # ========================
 
   yade:example:grp:create:
     desc: Create the example vm group repository using the dart cli tool
@@ -112,7 +116,9 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
     silent: true
 
+  # ======================
   # === CREATE K82 VMS ===
+  # ======================
 
   yade:example:k8s:create:
     desc: Create the example k8s cluster repository using the dart cli tool
@@ -134,7 +140,9 @@ tasks:
           {{.EXAMPLE_PROJECT_NAME}}
     silent: true
 
+  # ================
   # === TEST CLI ===
+  # ================
 
   yade:test:cli:
     desc: Test cli
@@ -149,7 +157,9 @@ tasks:
       - dart ./yade-generator-cli/packages/yade_cli/bin/yade.dart project create --help
     silent: true
 
+  # ================
   # === COMPILED ===
+  # ================
 
   yade:example:grp:create:compiled:
     desc: Create the example repository using the compiled dart cli tool
@@ -171,7 +181,9 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
     silent: true
 
+  # ==============
   # === GITHUB ===
+  # ==============
 
   yade:example:grp:create:github:
     desc: Create a test repository using the compiled dart cli tool
@@ -192,7 +204,9 @@ tasks:
       - cp cas-gitlab-mgm/.env.private cas-{{.EXAMPLE_PROJECT_NAME}}-mgm
     silent: true
 
+  # ==============
   # === COMMON ===
+  # ==============
 
   dart:cleanup:
     desc: Remove dart cache files like .dart_tool and pubspec.lock recursively

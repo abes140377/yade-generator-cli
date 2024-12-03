@@ -4,4 +4,12 @@ project:
   # - url: git@github.com:w3schools-test/w3schools-test.github.io.git
   #   name: w3schools-example
   #   path: examples
-
+  software: [ ]
+  # - type: github
+  #   name: terraform-docs
+  #   version: v0.19.0
+  #   url: "https://github.com/terraform-docs/terraform-docs/releases/download/v0.19.0/terraform-docs-v0.19.0-{uname}-amd64.tar.gz"
+  # - type: github
+  #   name: tflint
+  #   version: v0.54.0
+  #   url: "https://github.com/terraform-linters/tflint/releases/download/v0.54.0/tflint_{uname}_arm64.zip"

@@ -8,6 +8,7 @@ import 'package:yade_cli/src/command/commands.dart';
 import 'package:yade_cli/src/command/grp/grp_command.dart';
 import 'package:yade_cli/src/command/k8s/k8s_command.dart';
 import 'package:yade_cli/src/command/project/project_command.dart';
+import 'package:yade_cli/src/injection/injection.dart';
 import 'package:yade_cli/src/version.dart';
 
 /// Typedef for [io.exit].
@@ -34,8 +35,10 @@ class YadeCommandRunner extends CompletionCommandRunner<int> {
   })  : _logger = logger ?? Logger(),
         stdin = stdin ?? io.stdin,
         super(executableName, executableDescription) {
+    // Initialize the injection
+    initInjection(logger);
+
     argParser.addFlags();
-    // addCommand(CreateProjectCommand(logger: _logger));
     addCommand(ProjectCommand(logger: _logger));
     addCommand(K8sCommand(logger: _logger));
     addCommand(GrpCommand(logger: _logger));
@@ -50,6 +53,7 @@ class YadeCommandRunner extends CompletionCommandRunner<int> {
   @override
   Future<int> run(Iterable<String> args) async {
     late final ArgResults argResults;
+
     try {
       argResults = parse(args);
     } on UsageException catch (error) {

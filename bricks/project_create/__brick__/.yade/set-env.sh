@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 clear
 
-PROJECT_ID=$(yq '.project.name' .yade/yade.yml)
+PROJECT_ID=$(yq '.project.id' .yade/yade.yml)
 
 export YADE_PROJECT_ID=$PROJECT_ID
 export YADE_PROJECT_HOME=${HOME}/projects/${YADE_PROJECT_ID}-yade

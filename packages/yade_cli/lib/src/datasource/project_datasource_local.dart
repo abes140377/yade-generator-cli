@@ -10,6 +10,7 @@ class ProjectDatasourceLocal extends ProjectDatasource {
     return Project(
       id: projectConfig.id,
       gitRepositories: projectConfig.gitRepositories,
+      softwareAssets: projectConfig.softwareAssets,
     );
   }
 

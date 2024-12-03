@@ -36,3 +36,7 @@ String get projectId {
 String get srcDirPath {
   return join(pwd, 'src');
 }
+
+String get softwareDirPath {
+  return join(pwd, 'software');
+}

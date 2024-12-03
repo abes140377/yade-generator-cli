@@ -1,6 +1,4 @@
-import 'package:dcli/dcli.dart';
 import 'package:mason/mason.dart';
-import 'package:path/path.dart';
 import 'package:yade_cli/src/command.dart';
 import 'package:yade_cli/src/injection/injection.dart';
 import 'package:yade_cli/src/service/project_service.dart';
@@ -17,27 +15,12 @@ class ProjectInitializeCommand extends YadeCommand {
 
   @override
   Future<int> run() async {
-    final project = await getIt<ProjectService>().getProject(id: projectId);
+    try {
+      await getIt<ProjectService>().initializeProject(id: projectId);
+    } on Exception catch (e) {
+      logger.err(e.toString());
 
-    if (!exists(srcDirPath)) {
-      createDir(srcDirPath);
-    }
-
-    for (final gitRepository in project.gitRepositories) {
-      final repoPath = gitRepository.repoPath;
-
-      if (exists(repoPath)) {
-        logger.info('Repo already exists. Skipp cloning.');
-      } else {
-        final repoPathParentPath = dirname(repoPath);
-
-        if (!exists(repoPathParentPath)) {
-          createDir(repoPathParentPath);
-        }
-
-        'git clone ${gitRepository.url} ${gitRepository.name}'
-            .start(workingDirectory: repoPathParentPath);
-      }
+      return ExitCode.software.code;
     }
 
     return ExitCode.success.code;

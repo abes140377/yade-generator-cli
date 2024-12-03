@@ -1,5 +1,6 @@
 import 'package:settings_yaml/settings_yaml.dart';
 import 'package:yade_cli/src/domain/git_repository.dart';
+import 'package:yade_cli/src/domain/software_asset.dart';
 import 'package:yade_cli/src/utils/path_util.dart';
 import 'package:yaml/yaml.dart';
 
@@ -16,6 +17,7 @@ class ProjectConfig {
   // Properties
   late final String id;
   late List<GitRepository> gitRepositories = [];
+  late List<SoftwareAsset> softwareAssets = [];
 
   ///
   ProjectConfig read({required String id}) {
@@ -38,6 +40,26 @@ class ProjectConfig {
               name: typedRepository['name'] as String? ??
                   gitRepoName(repository['url'] as String),
               path: typedRepository['path'] as String?,
+            ),
+          );
+    }
+
+    final softwares = project['software'] as List<dynamic>;
+
+    for (final software in softwares) {
+      final typedSoftware = software as YamlMap;
+
+      // ignore: unnecessary_this
+      this.softwareAssets.add(
+            SoftwareAsset(
+              type: SoftwareAssetType.values.firstWhere(
+                (e) =>
+                    e.toString() ==
+                    'SoftwareAssetType.${typedSoftware['type']}',
+              ),
+              name: typedSoftware['name'] as String,
+              version: typedSoftware['version'] as String,
+              url: typedSoftware['url'] as String,
             ),
           );
     }
