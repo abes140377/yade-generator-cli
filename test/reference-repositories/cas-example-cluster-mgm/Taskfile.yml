@@ -1,0 +1,261 @@
+# https://taskfile.dev
+
+version: "3"
+
+dotenv: [".env", ".env.private"]
+
+silent: true
+
+# vars:
+#   EXAMPLE_VM_NAME_SBOX: viicasmgm004s
+#   EXAMPLE_VM_FQDN_SBOX: viicasmgm004s.vm.cas.kvnbw.net
+#   VAULT_MOUNT_PATH_SBOX: cas/vms/mgm/sbox/
+
+#   EXAMPLE_VM_NAME_LABOR: viicasmgm004l
+#   EXAMPLE_VM_FQDN_LABOR: viicasmgm004l.vm.cas.kvnbw.net
+#   VAULT_MOUNT_PATH_LABOR: cas/vms/mgm/labor/
+
+#   EXAMPLE_VM_NAME_PROD: viicasmgm004p
+#   EXAMPLE_VM_FQDN_PROD: viicasmgm004p.vm.cas.kvnbw.net
+#   VAULT_MOUNT_PATH_PROD: cas/vms/mgm/prod/
+
+includes:
+  libs:
+    taskfile: .taskfile/Included.yml
+    flatten: true
+    internal: true
+
+tasks:
+  default:
+    desc: "Print var's"
+    cmds:
+      - echo ""
+      - echo "Environment:"
+      - echo "  VAULT_ADDR - $VAULT_ADDR"
+      - echo "  VAULT_TOKEN - $VAULT_TOKEN"
+      - echo "  VAULT_SKIP_VERIFY - $VAULT_SKIP_VERIFY"
+      - echo ""
+      - echo "  TF_VAR_vault_provider_token - $TF_VAR_vault_provider_token"
+      - echo ""
+      # - echo "Variables:"
+      # - echo "  EXAMPLE_VM_NAME_SBOX - {{.EXAMPLE_VM_NAME_SBOX}}"
+      # - echo "  EXAMPLE_VM_FQDN_SBOX - {{.EXAMPLE_VM_FQDN_SBOX}}"
+      # - echo "  VAULT_MOUNT_PATH_SBOX - {{.VAULT_MOUNT_PATH_SBOX}}"
+      # - echo ""
+      # - echo "  EXAMPLE_VM_NAME_LABOR - {{.EXAMPLE_VM_NAME_LABOR}}"
+      # - echo "  EXAMPLE_VM_FQDN_LABOR - {{.EXAMPLE_VM_FQDN_LABOR}}"
+      # - echo "  VAULT_MOUNT_PATH_LABOR - {{.VAULT_MOUNT_PATH_LABOR}}"
+      # - echo ""
+      # - echo "  EXAMPLE_VM_NAME_PROD - {{.EXAMPLE_VM_NAME_PROD}}"
+      # - echo "  EXAMPLE_VM_FQDN_PROD - {{.EXAMPLE_VM_FQDN_PROD}}"
+      # - echo "  VAULT_MOUNT_PATH_PROD - {{.VAULT_MOUNT_PATH_PROD}}"
+
+  git:pull:all:
+    desc: "Pull all git repositories"
+    cmds:
+      - task: git:pull
+        vars:
+          REPO_PATH: "cas-example-cluster-mgm"
+      - task: git:pull
+        vars:
+          REPO_PATH: "terraform/module-cluster-control-plane"
+      - task: git:pull
+        vars:
+          REPO_PATH: "terraform/module-cluster-worker-group"
+
+  install:deps:
+    desc: "Install python and ansible dependencies"
+    deps:
+      - task: pyvenv:create:venv
+    cmds:
+      - .venv/bin/pip install -r requirements.txt
+      - .venv/bin/ansible-galaxy install -r 2-ansible/requirements.yml --force
+
+  terraform:test:all:
+    desc: Run terraform tests for all stages
+    cmds:
+      - task: terraform:test
+        vars:
+          STAGE: sbox
+      - task: terraform:test
+        vars:
+          STAGE: labor
+      - task: terraform:test
+        vars:
+          STAGE: prod
+
+  # ===============
+  # === SBOX ===
+  # ===============
+  example:install:sbox:
+    desc: "Install example k8s cluster in the Sbox Environment"
+    cmds:
+      - task: terraform:init
+        vars:
+          STAGE: sbox
+      - task: terraform:plan
+        vars:
+          STAGE: sbox
+      - task: terraform:apply
+        vars:
+          STAGE: sbox
+
+  #     - task: vault:get:private_key
+  #       vars:
+  #         VM_NAME: '{{.EXAMPLE_VM_NAME_SBOX}}'
+  #         VM_FQDN: '{{.EXAMPLE_VM_FQDN_SBOX}}'
+  #         MOUNT_PATH: '{{.VAULT_MOUNT_PATH_SBOX}}'
+
+  #     - task: ansible:inventory:print
+  #       vars:
+  #         STAGE: sbox
+
+  #     - task: ansible:test:connectivity
+  #       vars:
+  #         HOST: '{{.EXAMPLE_VM_FQDN_SBOX}}'
+  #         STAGE: sbox
+
+  #     - task: ansible:playbook:site
+  #       vars:
+  #         STAGE: sbox
+
+  example:uninstall:sbox:
+    desc: "Uninstall example in the Sandbox Environment"
+    cmds:
+      - task: terraform:destroy
+        vars:
+          STAGE: sbox
+
+  # example:reinstall:sbox:
+  #   desc: "Re-Install example in the Sandbox Environment"
+  #   cmds:
+  #     - task: example:uninstall:sbox
+  #     - task: example:install:sbox
+  #   silent: true
+
+  # example:connect:sbox:
+  #   desc: "Connect to the Sandbox VM via SSH"
+  #   cmds:
+  #     - task: ssh:connect
+  #       vars:
+  #         VM_FQDN: '{{.EXAMPLE_VM_FQDN_SBOX}}'
+  #         KEY: './ssh/{{.EXAMPLE_VM_NAME_SBOX}}_ansible_ed25519'
+
+  # =============
+  # === LABOR ===
+  # =============
+  example:install:labor:
+    desc: "Install example in the Labor Environment"
+    cmds:
+      - task: terraform:init
+        vars:
+          STAGE: labor
+      - task: terraform:plan
+        vars:
+          STAGE: labor
+      - task: terraform:apply
+        vars:
+          STAGE: labor
+
+      # - task: vault:get:private_key
+      #   vars:
+      #     VM_NAME: '{{.EXAMPLE_VM_NAME_LABOR}}'
+      #     VM_FQDN: '{{.EXAMPLE_VM_FQDN_LABOR}}'
+      #     MOUNT_PATH: '{{.VAULT_MOUNT_PATH_LABOR}}'
+
+      # - task: ansible:inventory:print
+      #   vars:
+      #     STAGE: labor
+
+      # - task: ssh:test:connectivity
+      #   vars:
+      #     VM_FQDN: '{{.EXAMPLE_VM_FQDN_LABOR}}'
+      #     KEY: ./ssh/{{.EXAMPLE_VM_NAME_LABOR}}_ansible_ed25519
+
+      # - task: ansible:test:connectivity
+      #   vars:
+      #     HOST: '{{.EXAMPLE_VM_FQDN_LABOR}}'
+      #     STAGE: labor
+
+      # - task: ansible:playbook:site
+      #   vars:
+      #     STAGE: labor
+
+  example:uninstall:labor:
+    desc: "Uninstall example in the Labor Environment"
+    cmds:
+      - task: terraform:destroy
+        vars:
+          STAGE: labor
+
+  # example:reinstall:labor:
+  #   desc: "Re-Install example in the Labor Environment"
+  #   cmds:
+  #     - task: example:uninstall:labor
+  #     - task: example:install:labor
+  #   silent: true
+
+  # example:connect:labor:
+  #   desc: "Connect to the Labor VM via SSH"
+  #   cmds:
+  #     - task: ssh:connect
+  #       vars:
+  #         VM_FQDN: '{{.EXAMPLE_VM_FQDN_LABOR}}'
+  #         KEY: './ssh/{{.EXAMPLE_VM_NAME_LABOR}}_ansible_ed25519'
+
+  # ============
+  # === PROD ===
+  # ============
+  example:install:prod:
+    desc: "Install example in the Prod Environment"
+    cmds:
+      - task: terraform:init
+        vars:
+          STAGE: prod
+      - task: terraform:plan
+        vars:
+          STAGE: prod
+      - task: terraform:apply
+        vars:
+          STAGE: prod
+
+      # - task: vault:get:private_key
+      #   vars:
+      #     VM_NAME: '{{.EXAMPLE_VM_NAME_PROD}}'
+      #     VM_FQDN: '{{.EXAMPLE_VM_FQDN_PROD}}'
+      #     MOUNT_PATH: '{{.VAULT_MOUNT_PATH_PROD}}'
+
+      # - task: ansible:inventory:print
+      #   vars:
+      #     STAGE: prod
+
+      # - task: ansible:test:connectivity
+      #   vars:
+      #     HOST: '{{.EXAMPLE_VM_FQDN_PROD}}'
+      #     STAGE: prod
+
+      # - task: ansible:playbook:site
+      #   vars:
+      #     STAGE: prod
+
+  example:uninstall:prod:
+    desc: "Uninstall example in the Prod Environment"
+    cmds:
+      - task: terraform:destroy
+        vars:
+          STAGE: prod
+
+  # example:reinstall:prod:
+  #   desc: "Re-Install example in the Prod Environment"
+  #   cmds:
+  #     - task: example:uninstall:prod
+  #     - task: example:install:prod
+  #   silent: true
+
+  # example:connect:prod:
+  #   desc: "Connect to the Prod VM via SSH"
+  #   cmds:
+  #     - task: ssh:connect
+  #       vars:
+  #         VM_FQDN: '{{.EXAMPLE_VM_FQDN_PROD}}'
+  #         KEY: './ssh/{{.EXAMPLE_VM_NAME_PROD}}_ansible_ed25519'

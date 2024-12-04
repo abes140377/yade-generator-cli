@@ -1,0 +1,5 @@
+- name: Debug multiple variables
+  ansible.builtin.debug:
+    msg: "Variable {{ item.name }}: {{ item.value }}"
+  with_items:
+    - { name: "stage", value: "{{ stage }}" } # check var from inventory/host_vars/example-mgm-<stage>.yml

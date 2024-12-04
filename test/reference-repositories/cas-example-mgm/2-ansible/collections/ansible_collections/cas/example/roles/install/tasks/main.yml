@@ -1,0 +1,4 @@
+---
+- name: Print execution of the task
+  ansible.builtin.debug:
+    msg: Hello from cas.example.install

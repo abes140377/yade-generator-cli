@@ -1,0 +1,12 @@
+---
+- name: Example mgm site playbook
+  hosts: example_servers
+  become: true
+  environment: "{{ proxy_env }}"
+  tasks:
+    - name: Include tasks from file tasks/debug.yml
+      ansible.builtin.include_tasks: tasks/debug.yml
+
+    - name: Import role cas.example.install
+      ansible.builtin.import_role:
+        name: cas.example.install

@@ -1,0 +1,98 @@
+include:
+  - project: cas/modules/gitlab-components/terraform
+    ref: main
+    file: /templates/gitlab-ci-terraform.yml
+
+# include:
+#   - project: cas/modules/cas-cicd-pipelines
+#     ref: develop
+#     file: /pipelines/terraform_ansible.yml
+
+# variables:
+#   TF_ENV: labor
+
+# mybe not required if default stages are good enough
+# stages:
+#   - validate
+#   - test
+#   - build
+
+# variables:
+#   # Define the Terraform root module directory
+#   TF_ROOT: ${CI_PROJECT_DIR}/1-terraform/environment/sbox
+#   ANSIBLE_ROOT: ${CI_PROJECT_DIR}/2-ansible/environment/sbox
+
+#   # auslagern in gruppen variablen in der cas gruppe
+#   http_proxy: http://webproxy.kvnbw.de:3128
+#   https_proxy: http://webproxy.kvnbw.de:3128
+#   no_proxy: localhost,127.0.0.1,.mgm.cas.kvnbw.net,.intinf.dvvbw.net,10.242.78.75,10.242.0.99
+#   HTTP_PROXY: http://webproxy.kvnbw.de:3128
+#   HTTPS_PROXY: http://webproxy.kvnbw.de:3128
+#   NO_PROXY: localhost,127.0.0.1,.mgm.cas.kvnbw.net,.intinf.dvvbw.net,10.242.78.75,10.242.0.99
+
+# workflow:
+#   # Die Pipeline wird nur ausgelöst, wenn Änderungen auf den develop branch gepusht werden
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == "feature/test_ci" && $CI_PIPELINE_SOURCE == "push"'
+#   # Die Pipeline wird nur ausgelöst, wenn Änderungen auf dem main branch durch Merge Requests vorgenommen werden
+#   # rules:
+#   #   - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_BRANCH == "main"'
+
+# # fmt:
+# #   extends: .terraform:fmt
+# #   needs: []
+
+# # validate:
+# #   extends: [".setup_ssh", ".terraform:validate"]
+# #   needs: []
+
+# # build:
+# #   extends: .terraform:build
+# #   needs: []
+
+# .init_ssh:
+#   before_script:
+#     - eval $(ssh-agent -s)
+#     - mkdir -p ~/.ssh
+#     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#     - ssh-keyscan -H viicasapp003t.intinf.dvvbw.net >> ~/.ssh/known_hosts
+#     - echo "HOST *" > ~/.ssh/config
+#     - echo "    StrictHostKeyChecking no" >> ~/.ssh/config
+#     - echo "SSH initialized"
+
+# # Terraform-Stage
+# terraform:
+#   stage: build
+#   image: 
+#     name: hashicorp/terraform:1.9
+#     entrypoint: [""]
+#   extends:
+#     - .init_ssh
+#   script:
+#     - cd $TF_ROOT
+#     - terraform init -upgrade
+#     - terraform validate
+#     - terraform plan
+#     # - terraform apply -auto-approve
+
+# download_keys:
+#   stage: build
+#   image: alpine:latest
+#   extends:
+#     - .init_ssh
+#   needs: 
+#     - terraform
+#   script:
+#     - echo "Downloading ssh keys from vault"
+
+# # Ansible-Stage
+# ansible:
+#   stage: build
+#   image: ansible/ansible:latest
+#   extends:
+#     - .init_ssh
+#   needs: 
+#     - download_keys
+#   script:
+#     - cd $ANSIBLE_ROOT
+#     - ansible-playbook -i inventory/hosts playbook.yml

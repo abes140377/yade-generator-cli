@@ -1,0 +1,19 @@
+# exclude all collections except the example
+collections/ansible_collections/cloud*
+
+collections/ansible_collections/community*
+
+collections/ansible_collections/cas/*
+
+!collections/ansible_collections/cas/example
+!collections/ansible_collections/cas/example/**
+
+# Created by https://www.toptal.com/developers/gitignore/api/ansible
+# Edit at https://www.toptal.com/developers/gitignore?templates=ansible
+
+### Ansible ###
+*.retry
+
+# End of https://www.toptal.com/developers/gitignore/api/ansible
+
+__pycache__
